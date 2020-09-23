@@ -26,29 +26,18 @@ $last_match = mysqli_fetch_assoc( query($query_last_match) );
 ?>
 
 <script>
-if (screen.width <= 576) {
-    document.location = "monitor_mobile.php";
+if (screen.width > 576) {
+    document.location = "monitor.php";
 }
 </script>
 
 <style>
 body{
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
     width: 100%;
     text-align: center;
 }
 
-.athird{
-    height: 30%;
-    margin: 1.5% !important;
-    width: 97%;
-    padding: 0.1%;
-}
-
-.anhalf{
-    height: 47%;
+.full-width{
     margin: 1.5% !important;
     width: 97%;
     padding: 0.1%;
@@ -64,39 +53,33 @@ h2{
 
 <body class="w3-light-grey" onload="setTimeout(function() { location.reload(); }, 60000)">
 
-<img src="/img/logoConSub.png" class="w3-padding" style="height: 30%"  />
+<img src="/img/logoConSub.png" class="w3-padding" style="width: 100%"  />
 
-<table style="height: 70%;width: 100%;">
-    <tr style="height: 100%">
-        <td style="width: 50%">
-        <div class="w3-card w3-blue athird">
-            <h2>Miglior Giocatore</h2>
-            <h1><?php echo $best_total ?></h1>
-        </div>
-        <div class="w3-card w3-red athird">
-            <h2>Miglior Attaccante</h2>
-            <h1><?php echo $best_attacco ?></h1>
-        </div>
-        <div class="w3-card w3-blue athird">
-            <h2>Miglior Difensore</h2>
-            <h1><?php echo $best_difesa ?></h1>
-        </div>
-        </td>
-        <td style="width: 50%">
-        <div class="w3-card w3-red anhalf">
-            <h2><span class="w3-xxlarge fa fa-trophy"/> Coppa dei Campioni <span class="w3-xxlarge fa fa-trophy"/></h2>
-            <h1><?php echo $campioni["AttName"] ?></h1>
-            <h1><?php echo $campioni["DifName"] ?></h1>
-        </div>
-        <div class="w3-card w3-blue anhalf" >
-            <h2>Ultima Partita Giocata</h2>
-            <h3><?php echo $last_match["a1Name"] . " - " . $last_match["d1Name"] ?></h3>
-            vincono <?php echo $last_match["Pt1"] . " - " . $last_match["Pt2"] . " in data ". $last_match["Timestamp"] ?> contro
-            <h3><?php echo $last_match["a2Name"] . " - " . $last_match["d2Name"]  ?></h3>
-        </div>
-        </td>
-    </tr>
-</table>
+<div class="w3-card w3-blue full-width">
+    <h2>Miglior Giocatore</h2>
+    <h1><?php echo $best_total ?></h1>
+</div>
+<div class="w3-card w3-red full-width">
+    <h2>Miglior Attaccante</h2>
+    <h1><?php echo $best_attacco ?></h1>
+</div>
+<div class="w3-card w3-blue full-width">
+    <h2>Miglior Difensore</h2>
+    <h1><?php echo $best_difesa ?></h1>
+</div>
+
+
+<div class="w3-card w3-red full-width">
+    <h2><span class="w3-xxlarge fa fa-trophy"/> Coppa dei Campioni <span class="w3-xxlarge fa fa-trophy"/></h2>
+    <h1><?php echo $campioni["AttName"] ?></h1>
+    <h1><?php echo $campioni["DifName"] ?></h1>
+</div>
+<div class="w3-card w3-blue full-width" >
+    <h2>Ultima Partita Giocata</h2>
+    <h3><?php echo $last_match["a1Name"] . " - " . $last_match["d1Name"] ?></h3>
+    vincono <?php echo $last_match["Pt1"] . " - " . $last_match["Pt2"] . " in data ". $last_match["Timestamp"] ?> contro
+    <h3><?php echo $last_match["a2Name"] . " - " . $last_match["d2Name"]  ?></h3>
+</div>
 
 </body>
 </html>
