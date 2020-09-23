@@ -37,6 +37,9 @@ Sono disponibili i seguenti badge:<br/>
 <li>Una spiegazione del metodo di assegnazione dei punti si trova <a href="texspiegazione/document.pdf">cliccando qui.</a> I punti totali sono calcolati dalla media dei punti in attacco e di quelli in difesa</li>
 <li class="w3-blue">Coppia dei campioni</li>
 <li>Vengono nominati vincitori della <b>Coppia dei campioni</b> coloro che riescono a battere al meglio delle tre partite la Coppia precedente (ovvero, devono aver sconfitto la precedente Coppia due volte subendo al massimo una sconfitta in mezzo).</li>
-</ul></div>
+</ul>
+<a href="https://github.com/lzampieri/galielo"><img src="img/github.png" width=200px class="w3-margin" /></a>
+</div>
+
 </body>
 </html>
