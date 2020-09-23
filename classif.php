@@ -28,6 +28,11 @@ $resultAttMese = query("SELECT Gioc, COUNT(ID) AS cc FROM (SELECT ID, Att1 AS Gi
 while( ($row = mysqli_fetch_assoc($resultAttMese) ) != NULL) $giocattmese[$row["Gioc"]] = $row["cc"];
 $resultDifMese = query("SELECT Gioc, COUNT(ID) AS cc FROM (SELECT ID, Dif1 AS Gioc, Timestamp FROM partite UNION SELECT ID, Dif2, Timestamp AS Gioc FROM partite) AS t1  WHERE TIMESTAMPDIFF(DAY,Timestamp,CURRENT_TIMESTAMP)<31 GROUP BY Gioc");
 while( ($row = mysqli_fetch_assoc($resultDifMese) ) != NULL) $giocdifmese[$row["Gioc"]] = $row["cc"];
+
+function get_or_zero($array, $key) {
+    if( array_key_exists($key,$array)) return $array[$key];
+    else return 0;
+}
 ?>
     <div align="center">
         <div class="width60 w3-bar" align="right">
@@ -55,7 +60,7 @@ while( ($row = mysqli_fetch_assoc($resultDifMese) ) != NULL) $giocdifmese[$row["
     </thead>
     <?php
 	while( $row = mysqli_fetch_assoc($result) ) {
-		if($giocattmese[$row["ID"]]+$giocdifmese[$row["ID"]] >= 10 or isset($completa)) {
+		if( get_or_zero($giocattmese,$row["ID"])+ get_or_zero($giocdifmese,$row["ID"]) >= 10 or isset($completa)) {
 	?>
     <tr>
     	<td><?php 
@@ -90,7 +95,7 @@ while( ($row = mysqli_fetch_assoc($resultDifMese) ) != NULL) $giocdifmese[$row["
     </thead>
     <?php
 	while( $row = mysqli_fetch_assoc($result) ) {
-	if($giocattmese[$row["ID"]] >= 10 or isset($completa)) {
+	if( get_or_zero($giocattmese,$row["ID"]) >= 10 or isset($completa)) {
 	?>
     <tr>
     	<td><?php 
@@ -125,7 +130,7 @@ while( ($row = mysqli_fetch_assoc($resultDifMese) ) != NULL) $giocdifmese[$row["
     </thead>
     <?php
 	while( $row = mysqli_fetch_assoc($result) ) {
-	if($giocdifmese[$row["ID"]] >= 10 or isset($completa)) {
+	if( get_or_zero($giocdifmese,$row["ID"]) >= 10 or isset($completa)) {
 	?>
     <tr>
     	<td><?php 
