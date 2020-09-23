@@ -70,7 +70,8 @@ h2{
 
 
 <div class="w3-card w3-red full-width">
-    <h2><span class="w3-xxlarge fa fa-trophy"/> Coppa dei Campioni <span class="w3-xxlarge fa fa-trophy"/></h2>
+    <h2>Coppa dei Campioni</h2>
+    <span class="w3-xxlarge fa fa-trophy" style="opacity: 50%"/>
     <h1><?php echo $campioni["AttName"] ?></h1>
     <h1><?php echo $campioni["DifName"] ?></h1>
 </div>
