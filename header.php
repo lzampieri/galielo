@@ -10,6 +10,7 @@
         <a href="/signup.php"><button class="w3-bar-item w3-button" id="btnsignup">Iscrizioni</button></a>
         <a href="/tornei/"><button class="w3-bar-item w3-button" id="btntornei">Tornei</button></a>
         <a href="/12h/12h.php"><button class="w3-bar-item w3-button" id="btn12h">12h</button></a>
+        <a href="/monitor.php"><button class="w3-bar-item w3-button" id="monitor">Monitor</button></a>
         <a href="/about.php"><button class="w3-bar-item w3-button" id="btnabout">About</button></a>
         <a href="/private/admin.php"><button class="w3-bar-item w3-button" id="btnadmin">Amministrazione</button></a>
     </div>
