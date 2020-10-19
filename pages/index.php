@@ -1,4 +1,5 @@
 <?php require('templates/top.php'); ?>
+<?php require('../scripts/loadparams.php'); ?>
     <script type="text/javascript">
         var chart;
         window.onload = async function() {
@@ -68,11 +69,11 @@
                     partitemese = row.PartiteMeseAttacco + row.PartiteMeseDifesa;
                 }
                 
-                if( partitemese <= 0 ) icon += iconBed;
-                if( valore > 1600) icon+= iconCrown;
-                if( valore < 1300) icon+= iconBlender;
+                if( partitemese <= <?php echo $params['PartiteLetto']; ?> ) icon += iconBed;
+                if( valore > <?php echo $params['PuntiCorona']; ?>) icon+= iconCrown;
+                if( valore < <?php echo $params['PuntiFrullat']; ?>) icon+= iconBlender;
 
-                if ( tutti || partitemese > 0 ) {
+                if ( tutti || partitemese > <?php echo $params['PartiteLetto']; ?> ) {
                     content += `
                     <tr>
                         <td>${icon}${row.Nome}</td>
