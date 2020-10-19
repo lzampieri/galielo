@@ -4,7 +4,7 @@ $db_handle = NULL;
 function dbconnect() {
 	if($GLOBALS['db_handle'] != NULL) return $GLOBALS['db_handle'];
     $server = "localhost";
-    $username = "galielo";
+    $username = "root"; // It's "root" for locale, it's "galielo" for altervista
     $password = "";
     $database = "my_galielo";
  
@@ -12,7 +12,7 @@ function dbconnect() {
 	echo mysqli_error($GLOBALS['db_handle']);
     mysqli_select_db($GLOBALS['db_handle'], $database);
 	echo mysqli_error($GLOBALS['db_handle']);
-	return $GLOBALS['db_handle'];
+    return $GLOBALS['db_handle'];
 }
 
 function query($sql) {
@@ -20,9 +20,6 @@ function query($sql) {
 	return mysqli_query($GLOBALS['db_handle'],$sql);
 }
 
-function swap(&$x,&$y) {
-    $tmp=$x;
-    $x=$y;
-    $y=$tmp;
-}
+$db_handle = dbconnect();
+
 ?>
