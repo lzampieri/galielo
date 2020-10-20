@@ -87,10 +87,6 @@
 
             $('#chart')[0].innerHTML = content;
         }
-        
-        $('#switchDormienti').on('change.bootstrapSwitch', function(event) {
-            console.log("Stuff");
-        })
         </script>
 
 
