@@ -4,7 +4,7 @@ $db_handle = NULL;
 function dbconnect() {
 	if($GLOBALS['db_handle'] != NULL) return $GLOBALS['db_handle'];
     $server = "localhost";
-    $username = "root";
+    $username = "galielo";
     $password = "";
     $database = "my_galielo";
  
@@ -24,5 +24,14 @@ function swap(&$x,&$y) {
     $tmp=$x;
     $x=$y;
     $y=$tmp;
+}
+
+function array_from_query($query_results) {
+    $emparray = array();
+    while($row =mysqli_fetch_assoc($query_results))
+    {
+        $emparray[] = $row;
+    }
+    return $emparray;
 }
 ?>

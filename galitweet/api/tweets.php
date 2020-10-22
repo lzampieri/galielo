@@ -25,5 +25,10 @@ if( array_key_exists('addnew',$_POST) ) {
     }
 }
 
-
+$result = array_from_query(query("SELECT * FROM galitweet WHERE Visible = 1"));
+foreach($result as &$item) {
+    $item['Timestamp'] = (new DateTime($item['Timestamp']))->getTimestamp();
+}
+echo json_encode($result, JSON_NUMERIC_CHECK);
+exit();
 ?>

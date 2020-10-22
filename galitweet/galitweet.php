@@ -13,10 +13,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+    iconHourglass = '<i class="w3-text-blue w3-xxlarge fa fa-hourglass-half"></i>';
     $(document).ready( function() {
+        $('#post_list')[0].innerHTML = iconHourglass;
         $('#fail_banner').hide();
         $('#success_banner').hide();
         $('#new_post_form').submit( submit_form );
+        load_tweets();
     });
 
     function submit_form(event) {
@@ -33,12 +36,43 @@
                 $('#success_banner').show();
                 $('#name')[0].value="";
                 $('#post')[0].value="";
+                load_tweets();
             } else {
                 $('#fail_banner').show();
                 $('#fail_banner')[0].innerHTML = result['error'];
                 $('#success_banner').hide();
             }
             $('#submit_button').prop("disabled",false);
+        })
+    }
+
+    function compareTimestamp(a, b) {    
+            if (a.Timestamp < b.Timestamp) return 1;
+            if (a.Timestamp > b.Timestamp) return -1;
+            return 0;    
+    }
+
+    async function load_tweets() {
+        $('#post_list')[0].innerHTML = iconHourglass;
+        $.get( 'api/tweets.php', function(data) {
+            result = $.parseJSON(data).sort(compareTimestamp);
+            content = "";
+            result.forEach( function(row) {
+                var data = new Date(row.Timestamp*1000).toLocaleDateString("it-IT") + " " + new Date(row.Timestamp*1000).toLocaleTimeString("it-IT");
+                content += `
+                    <div class="w3-card-4 w3-light-grey w3-margin w3-padding width60">
+                        <div class="w3-row w3-padding w3-border-bottom">
+                            <div class="w3-half w3-left-align"><i class="fa fa-user"></i>  ${row.Author}</div>
+                            <div class="w3-half w3-right-align">${data}  <i class="fa fa-clock"></i></div>
+                        </div>
+                        <div class="w3-row w3-padding">
+                            ${row.Text}
+                        </div>
+                    </div>
+                `
+            })
+            if( content == "" ) content = "Ancora nessun tweet :(";
+            $('#post_list')[0].innerHTML = content;
         })
     }
 </script>
@@ -72,7 +106,10 @@ require_once("../script/utilities.php");
         </div>    
     </form>
 </div>
-
+<br/>
+<div align="center" id="post_list">
+    In caricamento...
+</div>
 </div>
 </body>
 </html>
