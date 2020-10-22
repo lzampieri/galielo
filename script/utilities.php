@@ -16,7 +16,7 @@ function dbconnect() {
 }
 
 function query($sql) {
-	if($GLOBALS['db_handle'] == NULL) dbconnect();
+    if($GLOBALS['db_handle'] == NULL) dbconnect();
 	return mysqli_query($GLOBALS['db_handle'],$sql);
 }
 
