@@ -20,9 +20,7 @@ require_once("script/utilities.php");
 
 <?php
 require("header.php");
-require("allerrors.php");
-require("message.php");
-require("classif.php");
+require("ccuplist.php");
 ?>
 <br /><br />
 </body>

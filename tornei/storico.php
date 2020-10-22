@@ -3,13 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>GaliElo</title>
-<link rel="stylesheet" type="text/css" href="css/w3.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="../css/w3.css" />
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
 
 
 
 <?php
-require_once("script/utilities.php");
+require_once("../script/utilities.php");
 ?>
 
 
@@ -18,12 +18,9 @@ require_once("script/utilities.php");
 
 <body class="w3-light-grey">
 
-<?php
+<?php 
 require("header.php");
-require("allerrors.php");
-require("message.php");
-require("classif.php");
-?>
+require("workers/tornlist.php"); ?>
 <br /><br />
 </body>
 </html>

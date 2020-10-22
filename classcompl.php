@@ -19,9 +19,8 @@ require_once("script/utilities.php");
 <body class="w3-light-grey">
 
 <?php
+$completa = 1;
 require("header.php");
-require("allerrors.php");
-require("message.php");
 require("classif.php");
 ?>
 <br /><br />

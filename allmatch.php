@@ -8,22 +8,28 @@
 
 
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php
 require_once("script/utilities.php");
 ?>
 
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body class="w3-light-grey">
-
 <?php
 require("header.php");
-require("allerrors.php");
-require("message.php");
-require("classif.php");
 ?>
+
+<div align="center">
+<div class="width60 w3-right-align">
+<a href="newmatch.php"><button class="w3-button w3-blue">Aggiungi »</button></a><br /><br />
+</div>
+</div>
+
+<?php
+require("matchlist.php");
+?>
+
 <br /><br />
 </body>
 </html>
