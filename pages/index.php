@@ -4,7 +4,7 @@
         var chart;
         window.onload = async function() {
             $('button').hide();
-            chart = await (await fetch("/api/chart.php")).json();
+            chart = await (await fetch("/api/players.php")).json();
             populateTable();
             $('button').show();
         }

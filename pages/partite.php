@@ -4,7 +4,7 @@
         var chart;
         window.onload = async function() {
             $('button').hide();
-            chart = await (await fetch("/api/matches.php")).json();
+            chart = await (await fetch("/api/oka.php")).json();
             populateTable();
             $('button').show();
         }
