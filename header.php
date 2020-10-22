@@ -5,14 +5,14 @@
     <div class="width60 w3-bar w3-dark-grey">
         <a href="/index.php"><button class="w3-bar-item w3-button" id="btnhome">Home</button></a>
         <a href="/ccup.php"><button class="w3-bar-item w3-button" id="btnccup">CdC</button></a>
-        <!--a href="/classcompl.php"><button class="w3-bar-item w3-button" id="btnsleep">Dormienti</button></a-->
         <a href="/allmatch.php"><button class="w3-bar-item w3-button" id="btnallmatch">Partite</button></a>
         <a href="/signup.php"><button class="w3-bar-item w3-button" id="btnsignup">Iscrizioni</button></a>
-        <a href="/tornei/"><button class="w3-bar-item w3-button" id="btntornei">Tornei</button></a>
+        <!--a href="/tornei/"><button class="w3-bar-item w3-button" id="btntornei">Tornei</button></a-->
+        <a href="/galitweet/galitweet.php"><button class="w3-bar-item w3-button" id="btngalitweet">GaliTweet</button></a>
         <a href="/12h/12h.php"><button class="w3-bar-item w3-button" id="btn12h">12h</button></a>
         <a href="/monitor.php"><button class="w3-bar-item w3-button" id="monitor">Monitor</button></a>
         <a href="/about.php"><button class="w3-bar-item w3-button" id="btnabout">About</button></a>
-        <a href="/private/admin.php"><button class="w3-bar-item w3-button" id="btnadmin">Amministrazione</button></a>
+        <a href="/private/admin.php"><button class="w3-bar-item w3-button" id="btnadmin">Admin</button></a>
     </div>
     <br /><br />
     
@@ -30,7 +30,9 @@ if(window.location.pathname.indexOf("index") !== -1 || window.location.pathname.
 	document.getElementById("btnadmin").className += sel;
 }  else if(window.location.pathname.indexOf("12h") !== -1) {
 	document.getElementById("btn12h").className += sel;
-} else if(window.location.pathname.indexOf("tornei") !== -1) {
+} else if(window.location.pathname.indexOf("galitweet") !== -1) {
+	document.getElementById("btngalitweet").className += sel;
+}/* else if(window.location.pathname.indexOf("tornei") !== -1) {
 	document.getElementById("btntornei").className += sel;
 } /* else if(window.location.pathname.indexOf("classcompl") !== -1) {
 	document.getElementById("btnsleep").className += sel;

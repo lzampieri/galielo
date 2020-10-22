@@ -4,7 +4,7 @@ $db_handle = NULL;
 function dbconnect() {
 	if($GLOBALS['db_handle'] != NULL) return $GLOBALS['db_handle'];
     $server = "localhost";
-    $username = "galielo";
+    $username = "root";
     $password = "";
     $database = "my_galielo";
  
