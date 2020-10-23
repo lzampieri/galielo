@@ -2,6 +2,7 @@
 require_once("../script/utilities.php");
 if( !check_if_admin() ) {
     header("location: ../private/login.php");
+    exit();
 }
 ?>
 
