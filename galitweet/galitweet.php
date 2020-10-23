@@ -30,7 +30,13 @@
             author: $('#name')[0].value,
             post: $('#post')[0].value
         }).done( function(data) {
-            result = $.parseJSON(data);
+            try {
+                result = $.parseJSON(data);
+            }
+            catch(e) {
+                result['success'] = false;
+                result['error'] = data;
+            }
             if( result['success'] ) {
                 $('#fail_banner').hide();
                 $('#success_banner').show();

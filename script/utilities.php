@@ -20,6 +20,11 @@ function query($sql) {
 	return mysqli_query($GLOBALS['db_handle'],$sql);
 }
 
+function php_to_db_escape($string) {
+    if($GLOBALS['db_handle'] == NULL) dbconnect();
+	return mysqli_real_escape_string($GLOBALS['db_handle'],$string);
+}
+
 function swap(&$x,&$y) {
     $tmp=$x;
     $x=$y;

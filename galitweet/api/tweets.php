@@ -1,12 +1,14 @@
 <?php
 require_once("../../script/utilities.php");
+dbconnect();
 if( array_key_exists('addnew',$_POST) ) {
     if( !array_key_exists('author',$_POST) || !array_key_exists('post',$_POST) ) {
         echo json_encode(['success'=> false, 'error'=> 'Errore di trasmissione: riprova.']);
         exit();
     }
-    $author = $_POST['author'];
-    $post = $_POST['post'];
+    $author = php_to_db_escape($_POST['author']);
+    $post = php_to_db_escape($_POST['post']);
+
     if( strlen($author) < 3 ) {
         echo json_encode(['success'=> false, 'error'=> 'Nome autore troppo corto.']);
         exit();
