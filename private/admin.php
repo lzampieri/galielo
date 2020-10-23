@@ -84,6 +84,8 @@ $pointshit = trim(file_get_contents("../conf/pointshit.txt"));
 <button class="w3-button w3-blue">Gestione Tornei</button></a><br/><br/>
 <a href="mod12h.php">
 <button class="w3-button w3-blue">Gestione 12h</button></a><br/><br/>
+<a href="../galitweet/manage.php">
+<button class="w3-button w3-blue">Gestione GaliTweet</button></a><br/><br/>
 </div>
 <br /><br />
 <?php

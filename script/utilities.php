@@ -39,4 +39,15 @@ function array_from_query($query_results) {
     }
     return $emparray;
 }
+
+function check_if_admin() {
+    session_start();
+    if(isset($_SESSION["code"])) {
+        $userkey = trim(file_get_contents($_SERVER['DOCUMENT_ROOT']."/conf/userkey.txt"));
+        if($_SESSION["code"] == $userkey) {
+            return true;
+        }
+    }
+    return false;
+}
 ?>
