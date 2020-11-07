@@ -84,13 +84,15 @@
             const compare = (a, b) => b.y - a.y;
             winwith = _.countBy(winwith)
             totwith = _.countBy(totwith)
-            cutoff = Math.min( 8, Object.keys(totwith).length, Object.keys(winwith).length)
 
-            winwith = Object.keys(winwith).map( key => ({ label: players[key].Nome, y: winwith[key] })).sort(compare).slice(0,cutoff)
-            totwith = Object.keys(totwith).map( key => ({ label: players[key].Nome, y: totwith[key] })).sort(compare).slice(0,cutoff)
-            
-            winwith[cutoff] = { label: "Altri", y: winA + winD - sumOf(winwith)}
-            totwith[cutoff] = { label: "Altri", y: winA + winD + losA + losD - sumOf(totwith)}
+            allwith = Object.keys(totwith).map( key => ({ name: players[key].Nome, tot: totwith[key], win: ( key in winwith ? winwith[key] : 0)}))
+
+            cutoff = Math.min( 8, Object.keys(totwith).length, Object.keys(winwith).length)
+            winwith_cut = Object.keys(winwith).map( key => ({ label: players[key].Nome, y: winwith[key] })).sort(compare).slice(0,cutoff)
+            totwith_cut = Object.keys(totwith).map( key => ({ label: players[key].Nome, y: totwith[key] })).sort(compare).slice(0,cutoff)
+
+            winwith_cut[cutoff] = { label: "Altri", y: winA + winD - sumOf(winwith_cut)}
+            totwith_cut[cutoff] = { label: "Altri", y: winA + winD + losA + losD - sumOf(totwith_cut)}
 
             // Friend chart
             new CanvasJS.Chart("friends_chart", {
@@ -108,11 +110,10 @@
                     legendText: "{label}",
                     indexLabelFontSize: 16,
                     indexLabel: "{label} - {y}",
-                    dataPoints: totwith
+                    dataPoints: totwith_cut
                 }]
             }).render();
 
-            console.log(winwith)
             // Friend chart win
             new CanvasJS.Chart("friends_chart_win", {
                 theme: "light2",
@@ -129,10 +130,24 @@
                     legendText: "{label}",
                     indexLabelFontSize: 16,
                     indexLabel: "{label} - {y}",
-                    dataPoints: winwith
+                    dataPoints: winwith_cut
                 }]
             }).render();
 
+            // Friend chart list
+            $('#friend_chart_list').DataTable({
+                data: allwith,
+                columns: [
+                    { data: 'name' },
+                    { data: 'tot' },
+                    { data: 'win' }
+                ],
+                paging:   false,
+                ordering: true,
+                info:     false,
+                order: [[ 1, "desc" ]],
+                searching: false
+            })
             
             // Points chart
             new CanvasJS.Chart("points_trend", {
@@ -248,6 +263,26 @@
 
 <div class="row justify-content-center mb-3">
     <div class="col-md-8" id="friends_chart_win" style="height: 370px;"></div>
+</div>
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-primary" data-toggle="collapse" href="#friend_chart_collapse" role="button" aria-expanded="false" aria-controls="friend_chart_collapse">
+        Mostra dati
+    </a>
+</div>
+<div class="row justify-content-center mb-3">
+    <div class="justify-content-center collapse" id="friend_chart_collapse">
+        <table class="table table-striped table-hover" id="friend_chart_list">
+            <thead>
+                <tr>
+                    <th scope="col">Compagno</th>
+                    <th scope="col">Partite</th>
+                    <th scope="col">Vittorie</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="row justify-content-center mb-3">
