@@ -12,6 +12,16 @@
         })
     }
 
+    function toggleDataSeries(e){
+        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+        }
+        else{
+            e.dataSeries.visible = true;
+        }
+        e.chart.render();
+    }
+
     function load_player_data() {
         $.get("../api/player.php?id="+id, function(data) {
 
@@ -29,21 +39,33 @@
             losD = 0
             winwith = []
             totwith = []
+            pointsD = []
+            pointsA = []
+            pointsT = []
+            countPointsA = player_details["PuntiA"]
+            countPointsD = player_details["PuntiD"]
             player_details.matches.forEach(function(match) {
+                pointsD.push( {x: new Date(match.Timestamp), y: countPointsD })
+                pointsA.push( {x: new Date(match.Timestamp), y: countPointsA })
+                pointsT.push( {x: new Date(match.Timestamp), y: 0.5*(countPointsA+countPointsD) })
                 if( match.Att1 == id ) {
                     winA += 1
                     winwith.push(match.Dif1)
                     totwith.push(match.Dif1)
+                    countPointsA -= match.VarA1
                 } else if( match.Dif1 == id ) {
                     winD += 1
                     winwith.push(match.Att1)
                     totwith.push(match.Att1)
+                    countPointsD -= match.VarD1
                 } else if( match.Att2 == id ) {
                     losA += 1
                     totwith.push(match.Dif2)
+                    countPointsA -= match.VarA2
                 } else if( match.Dif2 == id ) {
                     losD += 1
                     totwith.push(match.Att2)
+                    countPointsD -= match.VarA2
                 }
             })
             
@@ -102,6 +124,43 @@
                 }]
             }).render();
 
+            
+            // Points chart
+            new CanvasJS.Chart("points_trend", {
+                theme: "light2",
+                exportEnabled: false,
+                animationEnabled: true,
+                zoomEnabled: true,
+                zoomType: "x",
+                title: {
+                    text: "Compagno di gioco preferito"
+                },
+                axisX: {
+                    valueFormatString: "MMM YY",
+		            labelAngle: -30
+                },
+                legend:{
+                    cursor: "pointer",
+                    itemclick: toggleDataSeries
+                },
+                data: [{
+                    name: "Attacco",
+                    type: "spline",
+                    showInLegend: true,
+                    dataPoints: pointsA
+                }, {
+                    name: "Difesa",
+                    type: "spline",
+                    showInLegend: true,
+                    dataPoints: pointsD
+                }, {
+                    name: "Totale",
+                    type: "spline",
+                    showInLegend: true,
+                    dataPoints: pointsT
+                } ]
+            }).render();
+
         })
     }
 
@@ -138,5 +197,9 @@
 
 <div class="row justify-content-center mb-3">
     <div class="col-md-8" id="friends_chart_win" style="height: 370px;"></div>
+</div>
+
+<div class="row justify-content-center mb-3">
+    <div class="col-md-8" id="points_trend" style="height: 370px;"></div>
 </div>
 <?php require("../template/footer.php"); ?>
