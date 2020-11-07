@@ -50,4 +50,8 @@ function check_if_admin() {
     }
     return false;
 }
+
+if(!$db_handle) {
+    dbconnect();
+}
 ?>

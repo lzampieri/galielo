@@ -89,6 +89,7 @@ if(round(($gioc["PuntiA"]+$gioc["PuntiD"])/2) >= $pointbadge) echo "<i class=\"f
 	
 	<div class="w3-margin-top width40 w3-large">Andamento del punteggio</div>
 	<?php require("matchgraph.php"); ?>
+	<div class="w3-margin-top width40 w3-large">Andamento del punteggio</div>
     <br/>
 	<?php require("matchlist.php"); ?>
     
