@@ -4,7 +4,8 @@ $db_handle = NULL;
 function dbconnect() {
 	if($GLOBALS['db_handle'] != NULL) return $GLOBALS['db_handle'];
     $server = "localhost";
-    $username = "root";
+    if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') $username = "root";
+    else $username = "galielo";
     $password = "";
     $database = "my_galielo";
  
