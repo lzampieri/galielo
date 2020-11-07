@@ -80,14 +80,16 @@
             $("#ratioT").html( `${winA+winD} vinte su ${winA+losA+winD+losD} <span class="badge badge-secondary">${((winA+winD)/(winD+losD+winA+losA)*100).toFixed(0)}%</span>` )
 
             // Sort and select first _cutoff_ players, adding "other" field
-            cutoff = 8
             const sumOf = (array) => { sum=0; array.forEach( x => sum+= x.y ); return sum; };
             const compare = (a, b) => b.y - a.y;
             winwith = _.countBy(winwith)
-            winwith = Object.keys(winwith).map( key => ({ label: players[key].Nome, y: winwith[key] })).sort(compare).slice(0,cutoff)
-            winwith[cutoff] = { label: "Altri", y: winA + winD - sumOf(winwith)}
             totwith = _.countBy(totwith)
+            cutoff = Math.min( 8, Object.keys(totwith).length, Object.keys(winwith).length)
+
+            winwith = Object.keys(winwith).map( key => ({ label: players[key].Nome, y: winwith[key] })).sort(compare).slice(0,cutoff)
             totwith = Object.keys(totwith).map( key => ({ label: players[key].Nome, y: totwith[key] })).sort(compare).slice(0,cutoff)
+            
+            winwith[cutoff] = { label: "Altri", y: winA + winD - sumOf(winwith)}
             totwith[cutoff] = { label: "Altri", y: winA + winD + losA + losD - sumOf(totwith)}
 
             // Friend chart
@@ -110,6 +112,7 @@
                 }]
             }).render();
 
+            console.log(winwith)
             // Friend chart win
             new CanvasJS.Chart("friends_chart_win", {
                 theme: "light2",
@@ -152,16 +155,19 @@
                 data: [{
                     name: "Attacco",
                     type: "spline",
+		            markerType: "none",
                     showInLegend: true,
                     dataPoints: pointsA
                 }, {
                     name: "Difesa",
                     type: "spline",
+		            markerType: "none",
                     showInLegend: true,
                     dataPoints: pointsD
                 }, {
                     name: "Totale",
                     type: "spline",
+		            markerType: "none",
                     showInLegend: true,
                     dataPoints: pointsT
                 } ]
