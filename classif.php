@@ -67,7 +67,7 @@ function get_or_zero($array, $key) {
 		if($row["PuntiT"] >= $pointbadge) echo "<i class=\"fas fa-crown\"></i> ";
 		if($row["PuntiT"] <= $pointshit) echo "<i class=\"fas fa-blender\"></i> ";
 		if($giocattmese[$row["ID"]]+$giocdifmese[$row["ID"]] < 10) echo " <i class=\"fas fa-bed\"></i> ";
-		echo "<a href=\"playerstats.php?id=".$row["ID"]."\">".$row["Nome"]."</a>"; 
+		echo "<a href=\"/elo/player_stats.php?id=".$row["ID"]."\">".$row["Nome"]."</a>"; 
 		?></td>
         <td><?php echo ceil($row["PuntiT"]); ?></td>
         <td><?php echo $giocatt[$row["ID"]]+$giocdif[$row["ID"]]; ?></td>

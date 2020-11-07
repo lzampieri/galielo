@@ -8,10 +8,16 @@
         $.get("../api/player.php", function(data) {
             // Convert in array details
             JSON.parse(data).forEach( e => { players[e.ID] = e; })
+            
+            // Selected player always in bold
+            players[id].Nome = "<b>"+players[id].Nome+"</b>"
+
+            // Load details for selected players
             load_player_data()
         })
     }
 
+    // For hidding series on points graph
     function toggleDataSeries(e){
         if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
             e.dataSeries.visible = false;
@@ -104,7 +110,7 @@
                 }]
             }).render();
 
-            // Friend chart
+            // Friend chart win
             new CanvasJS.Chart("friends_chart_win", {
                 theme: "light2",
                 exportEnabled: false,
@@ -133,7 +139,7 @@
                 zoomEnabled: true,
                 zoomType: "x",
                 title: {
-                    text: "Compagno di gioco preferito"
+                    text: "Andamento del punteggio"
                 },
                 axisX: {
                     valueFormatString: "MMM YY",
@@ -160,6 +166,45 @@
                     dataPoints: pointsT
                 } ]
             }).render();
+
+            // Match list
+            $('#match_list').DataTable({
+                data: player_details.matches.map( m => ( {
+                    date: new Date(m.Timestamp),
+                    winners: players[m.Att1].Nome + " (" + m.VarA1 + ") - " + players[m.Dif1].Nome + " (" + m.VarD1 + ")",
+                    losers: players[m.Att2].Nome + " (" + m.VarA2 + ") - " + players[m.Dif2].Nome + " (" + m.VarD2 + ")",
+                    points: m.Pt1.toString() + " - " + m.Pt2
+                })),
+                columns: [
+                    { data: 'date' },
+                    { data: 'winners' },
+                    { data: 'losers' },
+                    { data: 'points' }
+                ],
+                columnDefs: [ {
+                    targets: 0,
+                    render: $.fn.dataTable.render.moment( 'DD/MM/Y, HH:mm' )
+                } ],        
+                paging:   true,
+                ordering: true,
+                info:     true,
+                order: [[ 0, "desc" ]],
+                bLengthChange: false,
+                pageLength: 25,
+                oLanguage: {
+                    sSearch: "Cerca: ",
+                    oPaginate: {
+                        sPrevious: "Indietro",
+                        sNext: "Avanti"
+                    },
+                    sInfo: "Da _START_ a _END_ di _TOTAL_ partite",
+                    sInfoFiltered: "(filtrate da _MAX_ totali)",
+                    sInfoEmpty: "",
+                    sZeroRecords: "Nessun risultato",
+                    sEmptyTable: "Nessuna partita",
+                    sInfoThousands: "'"
+                }
+            })
 
         })
     }
@@ -201,5 +246,20 @@
 
 <div class="row justify-content-center mb-3">
     <div class="col-md-8" id="points_trend" style="height: 370px;"></div>
+</div>
+
+<div class="row justify-content-center mb-b">
+    <table class="table table-striped table-hover" id="match_list">
+        <thead>
+            <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Vincitori</th>
+                <th scope="col">Perdenti</th>
+                <th scope="col">Punteggio</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 </div>
 <?php require("../template/footer.php"); ?>
