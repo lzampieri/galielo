@@ -7,4 +7,5 @@ Si riporta qui l'elenco di pagine aggiornate e cartelle che contengono solo cose
 api/
 elo/
 template/
+libs/
 ```

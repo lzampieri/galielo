@@ -33,7 +33,7 @@
 
             // Base details
             var player_details = JSON.parse(data);
-            $('#name').html(player_details["Nome"]);
+            $('#name').html(`${player_details["Nome"]} <span class="badge badge-info">${id}</span>`);
             $('#points').html(0.5 * (player_details["PuntiA"] + player_details["PuntiD"]));
             $('#pointsA').html(player_details["PuntiA"]);
             $('#pointsD').html(player_details["PuntiD"]);
