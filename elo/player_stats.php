@@ -71,7 +71,7 @@
                 } else if( match.Dif2 == id ) {
                     losD += 1
                     totwith.push(match.Att2)
-                    countPointsD -= match.VarA2
+                    countPointsD -= match.VarD2
                 }
             })
             
