@@ -11,12 +11,6 @@ if(isset($_POST["id"])) {
 	require_once("../script/utilities.php");
 	query("UPDATE giocatori SET Nome = \"".$_POST["nome"]."\", PuntiA = \"".$_POST["puntiA"]."\", PuntiD = ".$_POST["puntiD"]." WHERE ID = ".$_POST["id"]);
 }
-if(isset($_GET["del"])) {
-	require_once("../script/utilities.php");
-	query("DELETE FROM giocatori WHERE ID = ".$_GET["id"]);
-	query("DELETE FROM partite WHERE Att1 = ".$_GET["id"]." OR Att2 = ".$_GET["id"]." OR Dif1 = ".$_GET["id"]." OR Dif2 = ".$_GET["id"]);
-	header("location: admin.php");
-}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
