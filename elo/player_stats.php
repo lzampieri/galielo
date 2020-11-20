@@ -7,7 +7,7 @@
     function load_players() {
         $.get("../api/player.php", function(data) {
             // Convert in array details
-            JSON.parse(data).forEach( e => { players[e.ID] = e; })
+            JSON.parse(data).forEach( function(e) { players[e.ID] = e; })
             
             // Selected player always in bold
             players[id].Nome = "<b>"+players[id].Nome+"</b>"
@@ -80,16 +80,16 @@
             $("#ratioT").html( `${winA+winD} vinte su ${winA+losA+winD+losD} <span class="badge badge-secondary">${((winA+winD)/(winD+losD+winA+losA)*100).toFixed(0)}%</span>` )
 
             // Sort and select first _cutoff_ players, adding "other" field
-            const sumOf = (array) => { sum=0; array.forEach( x => sum+= x.y ); return sum; };
-            const compare = (a, b) => b.y - a.y;
+            const sumOf = function (array) { sum=0; array.forEach( function(x) { sum+= x.y } ); return sum; };
+            const compare = function (a, b) { return b.y - a.y };
             winwith = _.countBy(winwith)
             totwith = _.countBy(totwith)
 
-            allwith = Object.keys(totwith).map( key => ({ name: players[key].Nome, tot: totwith[key], win: ( key in winwith ? winwith[key] : 0)}))
+            allwith = Object.keys(totwith).map( function (key) { return ({ name: players[key].Nome, tot: totwith[key], win: ( key in winwith ? winwith[key] : 0) }) })
 
             cutoff = Math.min( 8, Object.keys(totwith).length, Object.keys(winwith).length)
-            winwith_cut = Object.keys(winwith).map( key => ({ label: players[key].Nome, y: winwith[key] })).sort(compare).slice(0,cutoff)
-            totwith_cut = Object.keys(totwith).map( key => ({ label: players[key].Nome, y: totwith[key] })).sort(compare).slice(0,cutoff)
+            winwith_cut = Object.keys(winwith).map( function(key) {return ({ label: players[key].Nome, y: winwith[key] }) }).sort(compare).slice(0,cutoff)
+            totwith_cut = Object.keys(totwith).map( function(key) {return ({ label: players[key].Nome, y: totwith[key] }) }).sort(compare).slice(0,cutoff)
 
             winwith_cut[cutoff] = { label: "Altri", y: winA + winD - sumOf(winwith_cut)}
             totwith_cut[cutoff] = { label: "Altri", y: winA + winD + losA + losD - sumOf(totwith_cut)}
@@ -190,12 +190,12 @@
 
             // Match list
             $('#match_list').DataTable({
-                data: player_details.matches.map( m => ( {
+                data: player_details.matches.map( function(m) {return ( {
                     date: new Date(m.Timestamp),
                     winners: players[m.Att1].Nome + " (" + m.VarA1 + ") - " + players[m.Dif1].Nome + " (" + m.VarD1 + ")",
                     losers: players[m.Att2].Nome + " (" + m.VarA2 + ") - " + players[m.Dif2].Nome + " (" + m.VarD2 + ")",
                     points: m.Pt1.toString() + " - " + m.Pt2
-                })),
+                })}),
                 columns: [
                     { data: 'date' },
                     { data: 'winners' },
