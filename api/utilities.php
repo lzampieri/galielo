@@ -52,6 +52,10 @@ function check_if_admin() {
     return false;
 }
 
+function get_last_id() {
+    return $GLOBALS['db_handle']->insert_id;
+}
+
 if(!$db_handle) {
     dbconnect();
 }
