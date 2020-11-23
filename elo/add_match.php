@@ -103,7 +103,6 @@
     
     function send() {
         if( sending ) return;
-        console.log("sending");
         sending = true;
 
         // Make spinner spinning
@@ -124,7 +123,6 @@
     function received(data) {
         sending = false;
         info = JSON.parse(data);
-        console.log(data);
 
         if( info["success"] ) {
             $('#successModalText').html(`${playersnames[info["Att1"]]} (${info["VarA1"]}), ${playersnames[info["Dif1"]]} (${info["VarD1"]}) vincono per ${info["Pt1"]} - ${info["Pt2"]} contro ${playersnames[info["Att2"]]} (${info["VarA2"]}), ${playersnames[info["Dif2"]]} (${info["VarD2"]})`);
