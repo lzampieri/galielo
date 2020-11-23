@@ -4,6 +4,7 @@
     var activeplayers = [];
     var inactiveplayers = [];
     var playersnames = [];
+    var sending = false;
 
     function load_players() {
         $.get("../api/player.php", function(data) {
@@ -45,7 +46,9 @@
     function hide_alerts() {
         $('#pleaseselect').hide()
         $('#pleasepoints').hide()
-        $('#please10points').hide()
+        $('#genericalert').hide()
+        $('#savespinner').hide()
+        $('#ccup').hide()
     }
 
     function check() {
@@ -82,14 +85,58 @@
 
         pt2 = parseInt(pt2)
 
-        $('#modalText').html(`${playersnames[att1]}, ${playersnames[dif1]} (10) vincono contro ${playersnames[att2]}, ${playersnames[dif2]} (${pt2})`)
+        $('#modalText').html(`${playersnames[att1]}, ${playersnames[dif1]} vincono 10 - ${pt2} contro ${playersnames[att2]}, ${playersnames[dif2]}`)
 
         $('#confirmModal').modal('show')
+
+        // Prevent modal closing when saving stuff
+        $('#confirmModal').on('hide.bs.modal', function(e){
+            if( sending ) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        });
+        
         $('#submitButton')[0].disabled = false
     }
     
     function send() {
-        alert("Inserimento tramite questa interfaccia ancora non disponibile!")
+        if( sending ) return;
+        console.log("sending");
+        sending = true;
+
+        // Make spinner spinning
+        $('#savespinner').show()
+
+        // Make the request
+        $.post("/api/match.php", {
+            add: true,
+            att1: parseInt($('#att1')[0].value),
+            att2: parseInt($('#att2')[0].value),
+            dif1: parseInt($('#dif1')[0].value),
+            dif2: parseInt($('#dif2')[0].value),
+            pt1: 10,
+            pt2: parseInt($('#pt2')[0].value)
+            }, received)
+    }
+
+    function received(data) {
+        sending = false;
+        info = JSON.parse(data);
+        console.log(data);
+
+        if( info["success"] ) {
+            $('#successModalText').html(`${playersnames[info["Att1"]]} (${info["VarA1"]}), ${playersnames[info["Dif1"]]} (${info["VarD1"]}) vincono per ${info["Pt1"]} - ${info["Pt2"]} contro ${playersnames[info["Att2"]]} (${info["VarA2"]}), ${playersnames[info["Dif2"]]} (${info["VarD2"]})`);
+            $('#confirmModal').modal('hide');
+            $('#successModal').modal('show');
+            if( info["ccup"] )
+                $('#ccup').show();
+        } else {
+            $('#genericalert').show();
+            $('#genericalert').html( info["error_message"]);
+            $('#confirmModal').modal('hide')
+        }
     }
 
     $( document ).ready(function () {
@@ -103,6 +150,9 @@
 </div>
 <div class="alert alert-danger" role="alert" id="pleasepoints">
     Inserisci i punteggi.
+</div>
+<div class="alert alert-danger" role="alert" id="genericalert">
+    Errore di inserimento.
 </div>
 <div class="row justify-content-around mb-3">
     <div class="card text-center col-md-4">
@@ -162,6 +212,9 @@
         <p id="modalText"></p>
       </div>
       <div class="modal-footer">
+        <div class="spinner-border text-primary" role="status" id="savespinner">
+            <span class="sr-only">Loading...</span>
+        </div>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
         <button type="button" class="btn btn-primary" onclick="send()">Conferma</button>
       </div>
@@ -169,5 +222,27 @@
   </div>
 </div>
 
+<div class="modal" tabindex="-1" id="successModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Partita salvata!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="successModalText"></p>
+        <div class="alert alert-success" role="alert" id="ccup">
+            È stata anche riassegnata la coppa dei campioni!
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Inserisci ancora</button>
+        <a href="/"><button type="button" class="btn btn-primary">Classifica</button></a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php require("../template/footer.php"); ?>

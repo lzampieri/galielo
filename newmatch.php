@@ -30,7 +30,7 @@ while( $row = mysqli_fetch_assoc($result) ) {
 
 <form method="post" action="confirm.php">
 <div align="right">
-    <a href="elo/add_match.php"><button class="w3-button w3-blue w3-small" type="button">Spoiler</button></a>
+    <a href="elo/add_match.php"><button class="w3-button w3-blue w3-small" type="button">Spoiler che ora funziona</button></a>
 </div>
 <div align="center">
 

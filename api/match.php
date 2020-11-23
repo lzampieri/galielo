@@ -6,7 +6,8 @@
 2) player.php|POST["add","att1":idAtt1,"att2":idAtt2,"dif1":idDif1,"dif2":idDif2,"pt1":10,"pt2":pt2]
                         Add a match
                         Return the match item with the same properties as above,
-                        plus a "success":true item, plus a "ccup":true|false if the ccup have been updated
+                        plus a "success":true and a "ccup":true|false if the ccup have been updated
+                        or a "success":false and a "error_message":"..."
 e) If error return nothing
 */
 
