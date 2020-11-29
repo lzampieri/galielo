@@ -28,6 +28,9 @@
 <script src="/libs/moment.min.js"></script>
 <script src="/libs/datetime.js"></script>
 
+<!-- Font awersome -->
+<script src="/libs/fontawesome-all.js"></script>
+
 </head>
 <body class="container">
 

@@ -194,7 +194,7 @@
 </div>
 
 <div class="row justify-content-center mb-3">
-    <button type="button" class="btn btn-primary" onClick="check()" id="submitButton">Salva</button>
+    <button type="button" class="btn btn-primary" onClick="check()" id="submitButton"><i class="fas fa-save"></i> Salva</button>
 </div>
 
 <div class="modal" tabindex="-1" id="confirmModal">
@@ -214,7 +214,7 @@
             <span class="sr-only">Loading...</span>
         </div>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-        <button type="button" class="btn btn-primary" onclick="send()">Conferma</button>
+        <button type="button" class="btn btn-primary" onclick="send()"><i class="fas fa-save"></i> Conferma</button>
       </div>
     </div>
   </div>
@@ -236,7 +236,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Inserisci ancora</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-plus-circle"></i> Inserisci ancora</button>
         <a href="/"><button type="button" class="btn btn-primary">Classifica</button></a>
       </div>
     </div>

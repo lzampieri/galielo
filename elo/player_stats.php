@@ -204,11 +204,13 @@
                 ],
                 columnDefs: [ {
                     targets: 0,
-                    render: $.fn.dataTable.render.moment( 'DD/MM/Y, HH:mm' )
+                    render: $.fn.dataTable.render.moment( 'DD/MM/Y, HH:mm' ),
+                    responsivePriority: 15000
                 } ],        
                 paging:   true,
                 ordering: true,
                 info:     true,
+                responsive: true,
                 order: [[ 0, "desc" ]],
                 bLengthChange: false,
                 pageLength: 25,
@@ -289,7 +291,7 @@
     <div class="col-md-8" id="points_trend" style="height: 370px;"></div>
 </div>
 
-<div class="row justify-content-center mb-b">
+<div class="row justify-content-center mb-3">
     <table class="table table-striped table-hover" id="match_list">
         <thead>
             <tr>
