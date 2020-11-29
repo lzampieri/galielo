@@ -9,9 +9,8 @@
 <script src="/libs/jquery-3.4.1.min.js"></script>
 
 <!-- Datatable -->
-<link rel="stylesheet" href="/libs/dataTables.bootstrap4.min.css">
-<script src="/libs/jquery.dataTables.min.js"></script>
-<script src="/libs/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/libs/DataTables/datatables.min.css"/> 
+<script type="text/javascript" src="/libs/DataTables/datatables.min.js"></script>
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="/libs/bootstrap.min.css">

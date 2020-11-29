@@ -189,12 +189,13 @@
             }).render();
 
             // Match list
+            var skull = "  <i class=\"fas fa-skull\"></i>"
             $('#match_list').DataTable({
                 data: player_details.matches.map( function(m) {return ( {
                     date: new Date(m.Timestamp),
-                    winners: players[m.Att1].Nome + " (" + m.VarA1 + ") - " + players[m.Dif1].Nome + " (" + m.VarD1 + ")",
-                    losers: players[m.Att2].Nome + " (" + m.VarA2 + ") - " + players[m.Dif2].Nome + " (" + m.VarD2 + ")",
-                    points: m.Pt1.toString() + " - " + m.Pt2
+                    winners: "<a href=\"player_stats.php?id=" + m.Att1 + "\">" + players[m.Att1].Nome + "</a> (" + m.VarA1 + ") - <a href=\"player_stats.php?id=" + m.Dif1 + "\">" + players[m.Dif1].Nome + "</a> (" + m.VarD1 + ")",
+                    losers:  "<a href=\"player_stats.php?id=" + m.Att2 + "\">" + players[m.Att2].Nome + "</a> (" + m.VarA2 + ") - <a href=\"player_stats.php?id=" + m.Dif2 + "\">" + players[m.Dif2].Nome + "</a> (" + m.VarD2 + ")",
+                    points: m.Pt1.toString() + " - " + m.Pt2 + ( m.Pt2 == 0 ? skull : "")
                 })}),
                 columns: [
                     { data: 'date' },
@@ -205,12 +206,23 @@
                 columnDefs: [ {
                     targets: 0,
                     render: $.fn.dataTable.render.moment( 'DD/MM/Y, HH:mm' ),
-                    responsivePriority: 15000
+                },{
+                    targets: [0,3],
+                    className: 'not-mobile'
+                },{
+                    targets: [1,2],
+                    className: 'all'
                 } ],        
                 paging:   true,
                 ordering: true,
                 info:     true,
-                responsive: true,
+                fixedHeader: true,
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                        type: 'none',
+                    }
+                },
                 order: [[ 0, "desc" ]],
                 bLengthChange: false,
                 pageLength: 25,
@@ -291,8 +303,8 @@
     <div class="col-md-8" id="points_trend" style="height: 370px;"></div>
 </div>
 
-<div class="row justify-content-center mb-3">
-    <table class="table table-striped table-hover" id="match_list">
+<div class="row justify-content-md-center mb-3">
+    <table class="table table-striped table-hover" id="match_list" style="width:100%">
         <thead>
             <tr>
                 <th scope="col">Data</th>
