@@ -6,7 +6,7 @@
                         with ID, Timestamp, Att1, Att2, Dif1, Dif2, VarA1, VarA2, VarD1, VarD2, Pt1, Pt2,
                         reverse ordered by Timestamp (most recent first)
 2) player.php           List of all players
-                        A json object with ID, Nome, PuntiA, PuntiD, CountRecent, CountAll
+                        A json object with ID, Nome, PuntiA, PuntiD, CountRecentA, CountRecentD, CountA, CountD
 e) If error return nothing
 */
 
@@ -27,7 +27,7 @@ if( array_key_exists("id", $_GET)) {
     echo json_encode($player_details,JSON_NUMERIC_CHECK);
 } else {
     // Get players details
-    $query_players = query("SELECT ID, Nome, PuntiA, PuntiD, COALESCE(CountRecent,0) AS CountRecent, COALESCE(CountAll,0) AS CountAll FROM giocatori LEFT JOIN (SELECT Att1, Count(*) AS CountRecent FROM (SELECT Att1, Timestamp FROM partite UNION ALL SELECT Att2, Timestamp FROM partite UNION ALL SELECT Dif1, Timestamp FROM partite UNION ALL SELECT Dif2, Timestamp FROM partite) AS t WHERE TIMESTAMPDIFF(DAY,Timestamp,CURRENT_TIMESTAMP)<100 GROUP BY Att1) AS recent ON giocatori.ID = recent.Att1 LEFT JOIN (SELECT Att1, Count(*) AS CountAll FROM (SELECT Att1, Timestamp FROM partite UNION ALL SELECT Att2, Timestamp FROM partite UNION ALL SELECT Dif1, Timestamp FROM partite UNION ALL SELECT Dif2, Timestamp FROM partite) AS t GROUP BY Att1) AS allmatches ON giocatori.ID = allmatches.Att1 ORDER BY ID");
+    $query_players = query("SELECT ID, Nome, PuntiA, PuntiD, COALESCE(CountRecentA,0) AS CountRecentA, COALESCE(CountRecentD,0) AS CountRecentD, COALESCE(CountA,0) AS CountA, COALESCE(CountD,0) AS CountD FROM giocatori LEFT JOIN (SELECT Att1, Count(*) AS CountRecentA FROM (SELECT Att1, Timestamp FROM partite UNION ALL SELECT Att2, Timestamp FROM partite) AS t WHERE TIMESTAMPDIFF(DAY,Timestamp,CURRENT_TIMESTAMP)<30 GROUP BY Att1) AS recentA ON giocatori.ID = recentA.Att1 LEFT JOIN (SELECT Dif1, Count(*) AS CountRecentD FROM (SELECT Dif1, Timestamp FROM partite UNION ALL SELECT Dif2, Timestamp FROM partite) AS t WHERE TIMESTAMPDIFF(DAY,Timestamp,CURRENT_TIMESTAMP)<30 GROUP BY Dif1) AS recentD ON giocatori.ID = recentD.Dif1 LEFT JOIN (SELECT Att1, Count(*) AS CountA FROM (SELECT Att1, Timestamp FROM partite UNION ALL SELECT Att2, Timestamp FROM partite) AS t GROUP BY Att1) AS allmatchesA ON giocatori.ID = allmatchesA.Att1 LEFT JOIN (SELECT Dif1, Count(*) AS CountD FROM (SELECT Dif1, Timestamp FROM partite UNION ALL SELECT Dif2, Timestamp FROM partite) AS t GROUP BY Dif1) AS allmatchesD ON giocatori.ID = allmatchesD.Dif1 ORDER BY ID");
     echo json_encode(array_from_query($query_players),JSON_NUMERIC_CHECK);
 }
 ?>

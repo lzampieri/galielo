@@ -10,7 +10,7 @@
         $.get("../api/player.php", function(data) {
             // Convert in array details
             JSON.parse(data).forEach( function(e) {
-                if( e.CountRecent > 10 )
+                if( (e.CountRecentA + e.CountRecentD) > 10 )
                     activeplayers.push(e)
                 else
                     inactiveplayers.push(e)
