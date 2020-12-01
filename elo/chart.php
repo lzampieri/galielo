@@ -89,8 +89,8 @@
                         sPrevious: "Indietro",
                         sNext: "Avanti"
                     },
-                    sInfo: "Da _START_ a _END_ di _TOTAL_ partite",
-                    sInfoFiltered: "(filtrate da _MAX_ totali)",
+                    sInfo: "_TOTAL_ giocatori",
+                    sInfoFiltered: "(filtrati da _MAX_ totali)",
                     sInfoEmpty: "",
                     sZeroRecords: "Nessun risultato",
                     sEmptyTable: "Nessuna partita",
