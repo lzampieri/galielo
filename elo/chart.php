@@ -101,6 +101,7 @@
                     $.fn.dataTable.ext.search.push(search_filter)
                 }
             })
+            
             select_rows(false)
             select_columns('T')
         })
