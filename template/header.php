@@ -33,6 +33,36 @@
 </head>
 <body class="container">
 
+<?php
+function navbar_item($url, $name) {
+  $active = ( strpos($_SERVER['REQUEST_URI'], $url) === false ? "" : "active");
+  echo <<<HTML
+  <li class="nav-item {$active}">
+    <a class="nav-link" href="{$url}">{$name}</a>
+  </li>
+HTML;
+}
+?>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="/template/logo_inline.png" height="30" alt="GaliElo">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <?php
+      navbar_item("/elo/chart.php","Classifica");
+      navbar_item("/elo/matches.php","Partite");
+      ?>
+    </ul>
+  </div>
+</nav>
+
+
 <div class="alert alert-success" role="alert">
   Ciao! Se leggi questo messaggio, sei finito in una delle pagine del sito rinnovato. Spero che ti piaccia, mea culpa che devo ancora inserire il menù di navigazione. Ora le pagine sono più veloci a caricare, ma una volta caricato devi attendere un attimo che si "riempia". Buona giornata, Leo.
 </div>
