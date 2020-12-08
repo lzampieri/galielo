@@ -1,0 +1,3 @@
+[submodule "easy_cms"]
+	path = easy_cms
+	url = https://github.com/lzampieri/easy_cms.git
