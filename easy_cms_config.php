@@ -4,7 +4,8 @@
 $access_password = "15e559ae3df4f3d8cce60e4324880aa84a0325969686a2b42325f722acdbbb9a";
 // Database connection parameters
 $db_server = "localhost";
-$db_username = "root";
+if($_SERVER['REMOTE_ADDR'] == '127.0.0.1') $db_username = "root";
+else $db_username = "galielo";
 $db_password = "";
 $db_name = "my_galielo";
 // Editable fields. An associative array, in which each key is the name of a table.
@@ -21,9 +22,19 @@ $tables = array(
         "PuntiA" => "PuntiA*",
         "PuntiD" => "PuntiD*"
     ),
+    "galitweet" => array(
+        "__name" => "GaliTweet",
+        "__unique" => "ID",
+        "Timestamp" => "Data e ora*",
+        "Author" => "Autore",
+        "Text" => "Contenuto",
+        "Visible" => "Visibile?"
+    ),
     "ccup" => array(
         "__name" => "Coppe dei Campioni",
         "__unique" => "ID",
+        "Att" => "Attaccante*",
+        "Dif" => "Difensore*",
         "Hidden" => "Nascosto?"
     )
 );
