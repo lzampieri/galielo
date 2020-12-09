@@ -57,6 +57,7 @@ HTML;
       <?php
       navbar_item("/elo/chart.php","Classifica");
       navbar_item("/elo/matches.php","Partite");
+      navbar_item("/easy_cms/","Admin");
       ?>
     </ul>
   </div>
