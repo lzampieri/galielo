@@ -109,7 +109,7 @@ if( array_key_exists("add", $_POST)) {
     // Champions cup
     $output["ccup"] = false;
     // Get actual champions
-    $champions = mysqli_fetch_assoc(query("SELECT ccup.Att AS Att, ccup.Dif as Dif, partite.Timestamp AS time FROM ccup LEFT JOIN partite ON ccup.Match1 = partite.ID ORDER BY ccup.ID DESC LIMIT 1"));
+    $champions = mysqli_fetch_assoc(query("SELECT ccup.Att AS Att, ccup.Dif as Dif, partite.Timestamp AS time FROM ccup LEFT JOIN partite ON ccup.Match1 = partite.ID WHERE Hidden = 0 ORDER BY ccup.ID DESC LIMIT 1"));
     if($champions["time"] == NULL) $champions["time"]=0;
 
     // Check if they're defeated

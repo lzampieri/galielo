@@ -45,7 +45,7 @@ HTML;
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="/">
     <img src="/template/logo_inline.png" height="30" alt="GaliElo">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,6 +57,7 @@ HTML;
       <?php
       navbar_item("/elo/chart.php","Classifica");
       navbar_item("/elo/matches.php","Partite");
+      navbar_item("/elo/ccup.php","CCup");
       navbar_item("/easy_cms/","Admin");
       ?>
     </ul>
