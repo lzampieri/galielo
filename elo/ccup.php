@@ -94,7 +94,7 @@
 
             const timeOrdered = function (a, b) { return b.y - a.y };
             console.log(count_time);
-            count_time_cut = count_time.sort(timeOrdered).slice(0,6);
+            count_time_cut = count_time.sort(timeOrdered).slice(0,10);
             new CanvasJS.Chart("hours_of_possession", {
                 theme: "light1",
                 animationEnabled: true,
