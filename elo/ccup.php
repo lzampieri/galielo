@@ -86,7 +86,7 @@
             for( i = 1; i < ccups.length; i++ ) {
                 timediff = moment( ccups[i - 1].TimeP1 ).diff( moment( ccups[i].TimeP1 ), 'hours' );
                 count_time[ ccups[i].Att ].y += timediff;
-                count_time[ ccups[i].Dif ].tottime += timediff; 
+                count_time[ ccups[i].Dif ].y += timediff; 
             }
             timediff = moment().diff( moment( ccups[0].TimeP1 ), 'hours' );
             count_time[ ccups[0].Att ].y += timediff;
