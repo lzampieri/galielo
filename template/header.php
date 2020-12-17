@@ -66,5 +66,5 @@ HTML;
 
 
 <div class="alert alert-success" role="alert">
-  Ciao! Se leggi questo messaggio, sei finito in una delle pagine del sito rinnovato. Spero che ti piaccia, mea culpa che devo ancora inserire il menù di navigazione. Ora le pagine sono più veloci a caricare, ma una volta caricato devi attendere un attimo che si "riempia". Buona giornata, Leo.
+  Ciao! Se leggi questo messaggio, sei finito in una delle pagine del sito rinnovato. Spero che ti piaccia. Ora le pagine sono più veloci a caricare, ma una volta caricato devi attendere un attimo che si "riempia". Buona giornata, Leo.
 </div>

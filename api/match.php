@@ -1,6 +1,6 @@
 <?php
 /*
-1) player.php           List of all matches
+1) player.php           List of all visible matches
                         A json object with ID, Timestamp, Att1, Att2, Dif1, Dif2, VarA1, VarA2, VarD1, VarD2, Pt1, Pt2,
                         reverse ordered by Timestamp (most recent first)
 2) player.php|POST["add","att1":idAtt1,"att2":idAtt2,"dif1":idDif1,"dif2":idDif2,"pt1":10,"pt2":pt2]
@@ -8,6 +8,10 @@
                         Return the match item with the same properties as above,
                         plus a "success":true and a "ccup":true|false if the ccup have been updated
                         or a "success":false and a "error_message":"..."
+3) player.php|POST["delete"]
+                        Set "hidden" to 1 in the last match
+                        If a CCup match, set "hidden" to 1 in the last CCup recordo
+                        Restore points to players
 e) If error return nothing
 */
 
@@ -109,20 +113,20 @@ if( array_key_exists("add", $_POST)) {
     // Champions cup
     $output["ccup"] = false;
     // Get actual champions
-    $champions = mysqli_fetch_assoc(query("SELECT ccup.Att AS Att, ccup.Dif as Dif, partite.Timestamp AS time FROM ccup LEFT JOIN partite ON ccup.Match1 = partite.ID WHERE Hidden = 0 ORDER BY ccup.ID DESC LIMIT 1"));
+    $champions = mysqli_fetch_assoc(query("SELECT ccup.Att AS Att, ccup.Dif as Dif, partite.Timestamp AS time FROM ccup LEFT JOIN partite ON ccup.Match1 = partite.ID WHERE ccup.Hidden = 0 ORDER BY ccup.ID DESC LIMIT 1"));
     if($champions["time"] == NULL) $champions["time"]=0;
 
     // Check if they're defeated
     if( ($champions["Att"] == $att2 and $champions["Dif"] == $dif2) or ($champions["Att"] == $dif2 and $champions["Dif"] == $att2)) {
 
         // Check if they've already been defeated in correct time intervals
-        $result = query("SELECT ID, Timestamp FROM partite WHERE (( Att2 = ".$champions["Att"]." AND Dif2 = ".$champions["Dif"]." ) OR ( Att2 = ".$champions["Dif"]." AND Dif2 = ".$champions["Att"]." )) AND (( Att1 = ".$att1." AND Dif1 = ".$dif1." ) OR ( Att1 = ".$dif1." AND Dif1 = ".$att1.")) AND Timestamp > \"".$champions["time"]."\" ORDER BY ID DESC LIMIT 2");
+        $result = query("SELECT ID, Timestamp FROM partite WHERE (( Att2 = ".$champions["Att"]." AND Dif2 = ".$champions["Dif"]." ) OR ( Att2 = ".$champions["Dif"]." AND Dif2 = ".$champions["Att"]." )) AND (( Att1 = ".$att1." AND Dif1 = ".$dif1." ) OR ( Att1 = ".$dif1." AND Dif1 = ".$att1.")) AND Timestamp > \"".$champions["time"]."\" AND Hidden = 0 ORDER BY ID DESC LIMIT 2");
         if(mysqli_num_rows($result) > 1) {
             $match1 = mysqli_fetch_assoc($result);
             $match2 = mysqli_fetch_assoc($result);
             
             $timeok = true;
-            $result = query("SELECT ID, Timestamp FROM partite WHERE (( Att1 = ".$champions["Att"]." AND Dif1 = ".$champions["Dif"]." ) OR ( Att1 = ".$champions["Dif"]." AND Dif1 = ".$champions["Att"]." )) AND (( Att2 = ".$att1." AND Dif2 = ".$dif1." ) OR ( Att2 = ".$dif1." AND Dif2 = ".$att1.")) ORDER BY ID DESC LIMIT 2");
+            $result = query("SELECT ID, Timestamp FROM partite WHERE (( Att1 = ".$champions["Att"]." AND Dif1 = ".$champions["Dif"]." ) OR ( Att1 = ".$champions["Dif"]." AND Dif1 = ".$champions["Att"]." )) AND (( Att2 = ".$att1." AND Dif2 = ".$dif1." ) OR ( Att2 = ".$dif1." AND Dif2 = ".$att1.")) AND Hidden = 0 ORDER BY ID DESC LIMIT 2");
             if(mysqli_num_rows($result) > 1) {
                 $match3 = mysqli_fetch_assoc($result);
                 $match3 = mysqli_fetch_assoc($result);
@@ -140,9 +144,33 @@ if( array_key_exists("add", $_POST)) {
 
     echo json_encode( $output, JSON_NUMERIC_CHECK);
     exit;
+} else if( array_key_exists("delete", $_POST) ) {
+    $match = mysqli_fetch_assoc( query("SELECT * FROM partite WHERE Hidden = 0 ORDER BY ID DESC LIMIT 1") );
+    
+    // Get players points
+    $att1 = mysqli_fetch_assoc( query("SELECT * FROM giocatori WHERE id = " . $match["Att1"]) );
+    $dif1 = mysqli_fetch_assoc( query("SELECT * FROM giocatori WHERE id = " . $match["Dif1"]) );
+    $att2 = mysqli_fetch_assoc( query("SELECT * FROM giocatori WHERE id = " . $match["Att2"]) );
+    $dif2 = mysqli_fetch_assoc( query("SELECT * FROM giocatori WHERE id = " . $match["Dif2"]) );
+
+    // Compute new players points
+    $new_att1 = $att1["PuntiA"] - $match["VarA1"];
+    $new_dif1 = $dif1["PuntiD"] - $match["VarD1"];
+    $new_att2 = $att2["PuntiA"] - $match["VarA2"];
+    $new_dif2 = $dif2["PuntiD"] - $match["VarD2"];
+
+    // Update
+    query("UPDATE giocatori SET PuntiA = ". $new_att1 ." WHERE ID = ".$att1["ID"]);
+    query("UPDATE giocatori SET PuntiD = ". $new_dif1 ." WHERE ID = ".$dif1["ID"]);
+    query("UPDATE giocatori SET PuntiA = ". $new_att2 ." WHERE ID = ".$att2["ID"]);
+    query("UPDATE giocatori SET PuntiD = ". $new_dif2 ." WHERE ID = ".$dif2["ID"]);
+    query("UPDATE partite SET Hidden = 1 WHERE ID = ". $match["ID"] );
+    query("UPDATE ccup SET Hidden = 1 WHERE Match1 = ". $match["ID"] ." OR Match2 = ". $match["ID"]);
+
+    exit;
 } else {
     // Get matches details
-    $query_matches = query("SELECT * FROM partite");
+    $query_matches = query("SELECT * FROM partite WHERE Hidden = 0");
     echo json_encode(array_from_query($query_matches),JSON_NUMERIC_CHECK);
 }
 ?>
