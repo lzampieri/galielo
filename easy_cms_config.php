@@ -36,6 +36,12 @@ $tables = array(
         "Att" => "Attaccante*",
         "Dif" => "Difensore*",
         "Hidden" => "Nascosto?"
+    ),
+    "params" => array(
+        "__name" => "Parametri di Gioco",
+        "__unique" => "Name",
+        "Name" => "Chiave*",
+        "Value" => "Valore"
     )
 );
 ?>

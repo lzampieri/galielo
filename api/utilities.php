@@ -1,5 +1,6 @@
 <?php
 $db_handle = NULL;
+$params = [];
 
 function dbconnect() {
 	if($GLOBALS['db_handle'] != NULL) return $GLOBALS['db_handle'];
@@ -36,6 +37,16 @@ function log_to_database($message) {
 function php_to_db_escape($string) {
     if($GLOBALS['db_handle'] == NULL) dbconnect();
 	return mysqli_real_escape_string($GLOBALS['db_handle'],$string);
+}
+
+function get_game_param($name) {
+    if( count($GLOBALS['params']) == 0 ) {
+        $result = query("SELECT * FROM params");
+        while( $row = mysqli_fetch_assoc($result) ) {
+            $GLOBALS['params'][ $row['Name'] ] = $row['Value'];
+        }
+    }
+    return $GLOBALS['params'][$name];
 }
 
 function swap(&$x,&$y) {
