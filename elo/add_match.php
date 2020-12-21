@@ -237,7 +237,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-plus-circle"></i> Inserisci ancora</button>
-        <a href="/"><button type="button" class="btn btn-primary">Classifica</button></a>
+        <a href="/"><button type="button" class="btn btn-primary">Home</button></a>
       </div>
     </div>
   </div>

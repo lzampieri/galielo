@@ -58,6 +58,7 @@ HTML;
       navbar_item("/elo/chart.php","Classifica");
       navbar_item("/elo/matches.php","Partite");
       navbar_item("/elo/ccup.php","CCup");
+      navbar_item("/elo/add_player.php","Iscrizioni");
       navbar_item("/easy_cms/","Admin");
       ?>
     </ul>

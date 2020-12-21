@@ -1,16 +1,16 @@
 <?php
 /*
-1) player.php           List of all visible matches
+1) match.php           List of all visible matches
                         A json object with ID, Timestamp, Att1, Att2, Dif1, Dif2, VarA1, VarA2, VarD1, VarD2, Pt1, Pt2,
                         reverse ordered by Timestamp (most recent first)
-2) player.php|POST["add","att1":idAtt1,"att2":idAtt2,"dif1":idDif1,"dif2":idDif2,"pt1":10,"pt2":pt2]
+2) match.php|POST["add","att1":idAtt1,"att2":idAtt2,"dif1":idDif1,"dif2":idDif2,"pt1":10,"pt2":pt2]
                         Add a match
                         Return the match item with the same properties as above,
                         plus a "success":true and a "ccup":true|false if the ccup have been updated
                         or a "success":false and a "error_message":"..."
-3) player.php|POST["delete"]
+3) match.php|POST["delete"]
                         Set "hidden" to 1 in the last match
-                        If a CCup match, set "hidden" to 1 in the last CCup recordo
+                        If a CCup match, set "hidden" to 1 in the last CCup record
                         Restore points to players
 e) If error return nothing
 */
