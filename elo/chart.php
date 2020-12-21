@@ -141,6 +141,10 @@
 </script>
 
 <div class="row justify-content-end mb-3">
+    <a href="add_player.php"><button class="btn btn-success"><i class="fas fa-plus-circle"></i> Iscriviti</button></a>
+</div>
+
+<div class="row justify-content-end mb-3">
     <button class="btn btn-success sel selT" onClick="select_columns('T')">Tutto</button>
     <button class="btn btn-success sel selA" onClick="select_columns('A')">Attacco</button>
     <button class="btn btn-success sel selD" onClick="select_columns('D')">Difesa</button>
