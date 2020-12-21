@@ -21,6 +21,18 @@ function query($sql) {
 	return mysqli_query($GLOBALS['db_handle'],$sql);
 }
 
+function affected_rows() {
+    if($GLOBALS['db_handle'] == NULL) return 0;
+    else return mysqli_affected_rows($GLOBALS['db_handle']);
+}
+
+function log_to_database($message) {
+    if($GLOBALS['db_handle'] == NULL) dbconnect();
+    $escaped_message = mysqli_real_escape_string($GLOBALS['db_handle'],$message);
+    $ip = $_SERVER['REMOTE_ADDR'];
+    mysqli_query($GLOBALS['db_handle'],"INSERT INTO log(IP,Query) VALUES (\"" .$ip. "\", \"" .$escaped_message. "\")");
+}
+
 function php_to_db_escape($string) {
     if($GLOBALS['db_handle'] == NULL) dbconnect();
 	return mysqli_real_escape_string($GLOBALS['db_handle'],$string);

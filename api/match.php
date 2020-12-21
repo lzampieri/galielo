@@ -98,11 +98,16 @@ if( array_key_exists("add", $_POST)) {
 
     // Save update data
     query("UPDATE giocatori SET PuntiA = ". $eloa1 + $va1 ." WHERE ID = ".$att1);
+    log_to_database("Player $att1 PuntiA FROM $eloa1 TO ". ($eloa1 + $va1));
     query("UPDATE giocatori SET PuntiA = ". $eloa2 + $va2 ." WHERE ID = ".$att2);
+    log_to_database("Player $att2 PuntiA FROM $eloa2 TO ". ($eloa2 + $va2));
     query("UPDATE giocatori SET PuntiD = ". $elod1 + $vd1 ." WHERE ID = ".$dif1);
+    log_to_database("Player $dif1 PuntiD FROM $elod1 TO ". ($elod1 + $vd1));
     query("UPDATE giocatori SET PuntiD = ". $elod2 + $vd2 ." WHERE ID = ".$dif2);
+    log_to_database("Player $dif2 PuntiD FROM $elod2 TO ". ($elod2 + $vd2));
 
     // Save match
+    log_to_database("New partita (Att1, Att2, Dif1, Dif2, VarA1, VarA2, VarD1, VarD2, Pt1, Pt2) =  ($att1, $att2, $dif1, $dif2, $va1, $va2, $vd1, $vd2, $pt1, $pt2)");
     query("INSERT INTO partite (Att1, Att2, Dif1, Dif2, VarA1, VarA2, VarD1, VarD2, Pt1, Pt2) VALUES ($att1, $att2, $dif1, $dif2, $va1, $va2, $vd1, $vd2, $pt1, $pt2)");
 
     // Get saved match
@@ -137,6 +142,7 @@ if( array_key_exists("add", $_POST)) {
             
             if($timeok) {
                 query("INSERT INTO ccup(Att, Dif, Match1, Match2) VALUES (".$att1.",".$dif1.",".$match1["ID"].",".$match2["ID"].")");
+                log_to_database("New ccup (Att, Dif, Match1, Match2) = (".$att1.",".$dif1.",".$match1["ID"].",".$match2["ID"].")");
                 $output["ccup"] = true;
             }
         }
@@ -161,11 +167,19 @@ if( array_key_exists("add", $_POST)) {
 
     // Update
     query("UPDATE giocatori SET PuntiA = ". $new_att1 ." WHERE ID = ".$att1["ID"]);
+    log_to_database("Player " .$att1["ID"]." PuntiA return to $new_att1");
     query("UPDATE giocatori SET PuntiD = ". $new_dif1 ." WHERE ID = ".$dif1["ID"]);
+    log_to_database("Player " .$dif1["ID"]." PuntiD return to $new_dif1");
     query("UPDATE giocatori SET PuntiA = ". $new_att2 ." WHERE ID = ".$att2["ID"]);
+    log_to_database("Player " .$att2["ID"]." PuntiA return to $new_att2");
     query("UPDATE giocatori SET PuntiD = ". $new_dif2 ." WHERE ID = ".$dif2["ID"]);
+    log_to_database("Player " .$dif2["ID"]." PuntiD return to $new_dif2");
     query("UPDATE partite SET Hidden = 1 WHERE ID = ". $match["ID"] );
+    log_to_database("Partita " .$match["ID"]. " hidden");
     query("UPDATE ccup SET Hidden = 1 WHERE Match1 = ". $match["ID"] ." OR Match2 = ". $match["ID"]);
+    if( affected_rows() > 0 ) {
+        log_to_database("Ccup containing partita " .$match["ID"]. " hidden");
+    }
 
     exit;
 } else {
