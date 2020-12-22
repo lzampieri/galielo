@@ -31,8 +31,8 @@
             $('#match_list').DataTable({
                 data: matches.map( function(m) {return ( {
                     date: new Date(m.Timestamp),
-                    winners: "<a href=\"player_stats.php?id=" + m.Att1 + "\">" + players[m.Att1].Nome + "</a> (" + m.VarA1 + ") - <a href=\"player_stats.php?id=" + m.Dif1 + "\">" + players[m.Dif1].Nome + "</a> (" + m.VarD1 + ")",
-                    losers:  "<a href=\"player_stats.php?id=" + m.Att2 + "\">" + players[m.Att2].Nome + "</a> (" + m.VarA2 + ") - <a href=\"player_stats.php?id=" + m.Dif2 + "\">" + players[m.Dif2].Nome + "</a> (" + m.VarD2 + ")",
+                    winners: "<a href=\"couple_stats.php?id1=" + m.Att1 + "&id2=" + m.Dif1 + "\">" + players[m.Att1].Nome + "(" + m.VarA1 + ") - " + players[m.Dif1].Nome + " (" + m.VarD1 + ")</a>",
+                    losers:  "<a href=\"couple_stats.php?id1=" + m.Att2 + "&id2=" + m.Dif2 + "\">" + players[m.Att2].Nome + " (" + m.VarA2 + ") - " + players[m.Dif2].Nome + " (" + m.VarD2 + ")</a>",
                     points: m.Pt1.toString() + " - " + m.Pt2 + ( m.Pt2 == 0 ? skull : "") + ( m.thefirst ? delbutton : "" )
                 })}),
                 columns: [
