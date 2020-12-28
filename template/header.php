@@ -30,6 +30,15 @@
 <!-- Font awersome -->
 <script src="/libs/fontawesome-all.js"></script>
 
+<!-- Cookies -->
+<script src="/libs/js.cookie.min.js"></script>
+
+<!-- Crypto -->
+<script src="/libs/crypto-js.min.js"></script>
+
+<!-- Utilities -->
+<script src="/libs/utilities.js"></script>
+
 </head>
 <body class="container">
 
