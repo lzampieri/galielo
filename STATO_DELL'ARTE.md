@@ -12,4 +12,5 @@ base/
 easy_cms/
 easy_cms_config.php
 texspiegazione/
+tweet/
 ```
