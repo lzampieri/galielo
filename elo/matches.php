@@ -30,27 +30,32 @@
             // Match list
             $('#match_list').DataTable({
                 data: matches.map( function(m) {return ( {
-                    date: new Date(m.Timestamp),
+                    date: m.Timestamp,
+                    dateid: moment(m.Timestamp).format('DD/MM/Y HH:mm') + `  <span class="badge badge-info">${m.ID}</span>`,
                     winners: "<a href=\"couple_stats.php?id1=" + m.Att1 + "&id2=" + m.Dif1 + "\">" + players[m.Att1].Nome + "(" + m.VarA1 + ") - " + players[m.Dif1].Nome + " (" + m.VarD1 + ")</a>",
                     losers:  "<a href=\"couple_stats.php?id1=" + m.Att2 + "&id2=" + m.Dif2 + "\">" + players[m.Att2].Nome + " (" + m.VarA2 + ") - " + players[m.Dif2].Nome + " (" + m.VarD2 + ")</a>",
                     points: m.Pt1.toString() + " - " + m.Pt2 + ( m.Pt2 == 0 ? skull : "") + ( m.thefirst ? delbutton : "" )
                 })}),
                 columns: [
-                    { data: 'date' },
+                    { data: 'dateid'},
                     { data: 'winners' },
                     { data: 'losers' },
-                    { data: 'points' }
+                    { data: 'points' },
+                    { data: 'date'}
                 ],
                 columnDefs: [ {
                     targets: 0,
-                    render: $.fn.dataTable.render.moment( 'DD/MM/Y, HH:mm' )
+                    orderData: 4
                 },{
                     targets: [0,3],
                     className: 'not-mobile'
                 },{
                     targets: [1,2],
                     className: 'all'
-                } ],        
+                },{
+                    targets: 4,
+                    visible: false
+                }  ],        
                 paging:   true,
                 ordering: true,
                 info:     true,
@@ -129,6 +134,7 @@
                 <th scope="col">Vincitori</th>
                 <th scope="col">Perdenti</th>
                 <th scope="col">Punteggio</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
