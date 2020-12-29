@@ -19,7 +19,14 @@ function dbconnect() {
 
 function query($sql) {
     if($GLOBALS['db_handle'] == NULL) dbconnect();
-	return mysqli_query($GLOBALS['db_handle'],$sql);
+    $result = mysqli_query($GLOBALS['db_handle'],$sql);
+    if( !$result ) {
+        $error = mysqli_error($GLOBALS['db_handle']);
+        log_to_database("Query error!");
+        log_to_database($sql);
+        log_to_database($error);
+    }
+    return $result;
 }
 
 function affected_rows() {

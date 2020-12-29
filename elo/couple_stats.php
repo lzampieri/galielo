@@ -11,8 +11,8 @@
             JSON.parse(data).forEach( function(e) { players[e.ID] = e; })
 
             // Base details
-            $('#name1').html(`${players[id1].Nome} <span class="badge badge-info">${id1}</span>`);
-            $('#name2').html(`${players[id2].Nome} <span class="badge badge-info">${id2}</span>`);
+            $('#name1').html(`<a href="player_stats.php?id=${id1}">${players[id1].Nome} <span class="badge badge-info">${id1}</span></a>`);
+            $('#name2').html(`<a href="player_stats.php?id=${id2}">${players[id2].Nome} <span class="badge badge-info">${id2}</span></a>`);
             
             // Selected players always in bold
             players[id1].Nome = "<b>"+players[id1].Nome+"</b>"
