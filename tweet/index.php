@@ -32,6 +32,10 @@
     }
 
     function parse_tweet(t, extra_info="") {
+        // Check strings nature
+        t.Author = t.Author.toString();
+        t.Text = t.Text.toString();
+
         // Parse author rif to players
         t.Author = t.Author.replace(/(@\d+)/g, function(match) {
             id = parseInt( match.substr(1));
@@ -171,6 +175,8 @@
             $('form').after( parse_tweet(res,"<span class=\"alert alert-success\">NEW!</span>") );
             prepare_tweets();
             $(`#tweet_card_${res.ID}`)[0].classList.add("show");
+            $('#author_input')[0].value = "",
+            $('#tweet_input')[0].value = ""
         }
     }
 
@@ -190,11 +196,11 @@
         Puoi usare <i>@id</i> per nominare una persona, sostituendo <i>id</i> con l'ID visibile nella pagina personale della persona, oppure <i>#id</i> per collegare una partita. Usando <i>@id</i>, puoi anche firmarti nel campo <i>autore</i>.
     </div>
     <div class="card-footer">
-        <button class="btn btn-success float-right" id="btn_save">
+        <button class="btn btn-info float-right" id="btn_save">
             <div class="spinner-border spinner-border-sm spinner_save" role="status" id="spinner_save">
                 <span class="sr-only">Loading...</span>
             </div>
-            <i class="fas fa-trash"></i>
+            <i class="fas fa-paper-plane"></i>
         </button>
     </div>
 </div>
