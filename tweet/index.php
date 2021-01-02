@@ -1,4 +1,5 @@
 <?php require("../template/header.php"); ?>
+<?php require_once("../api/utilities.php"); ?>
 
 <script>
     var tweets = [];
@@ -11,10 +12,41 @@
         $('#more_button').hide();
         $('#spinner').show();
         $('.spinner_save').hide();
+        if( Cookies.get('last_author') )
+            $('#author_input')[0].value = Cookies.get('last_author');
 
         $.get('../api/player.php', function(data) {
+            // Convert in array details    
             res = JSON.parse(data);
-            res.forEach( r => { players[r.ID] = r });
+            res.forEach( r => { 
+                r['active'] = ( r.CountRecentA + r.CountRecentD > <?php echo get_game_param("active_threshold"); ?> );
+                players[r.ID] = r;
+            });
+
+            // Sort
+            const compare = function(a, b) { textA = a.Nome.toUpperCase(); textB = b.Nome.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0; }
+            res.sort(compare);
+
+            // Append items
+            tag_modal_list = $('#tag_modal_list');
+            active = $( '<div>' ).append( $('<h4>', { text: "Attivi" }) );
+            inactive = $( '<div> ' ).append( $('<h4>', { text: "Altri" }) );
+
+            res.forEach( function(p) {
+                if( p.active )
+                    active.append(`
+                        <button class="btn btn-light btn-block text-left"
+                            onclick="insert_tag(${p.ID})">${p.Nome}</button>
+                    `);
+                else inactive.append(`
+                        <button class="btn btn-light btn-block text-left"
+                            onclick="insert_tag(${p.ID})">${p.Nome}</button>
+                    `);
+            });
+            
+            tag_modal_list.append( active );
+            tag_modal_list.append( inactive );
+
             load_matches();
         })
     }
@@ -40,8 +72,9 @@
         t.Author = t.Author.replace(/(@\d+)/g, function(match) {
             id = parseInt( match.substr(1));
             if( players[id] ) return `
-            <a href="/elo/player_stats.php?id=${id}" class="text-info" data-toggle="tooltip" title="${id}">
+            <a href="/elo/player_stats.php?id=${id}" class="text-info">
                 ${ players[id].Nome }
+                <span class="badge badge-info">@${id}</span>
             </a>
             `;
             else return `
@@ -54,8 +87,9 @@
         t.Text = t.Text.replace(/(@\d+)/g, function(match) {
             id = parseInt( match.substr(1));
             if( players[id] ) return `
-            <a href="/elo/player_stats.php?id=${id}" class="text-info" data-toggle="tooltip" title="${id}">
+            <a href="/elo/player_stats.php?id=${id}" class="text-info">
                 ${ players[id].Nome }
+                <span class="badge badge-info">@${id}</span>
             </a>
             `;
             else return `
@@ -68,8 +102,9 @@
         t.Text = t.Text.replace(/(#\d+)/g, function(match) {
             id = parseInt( match.substr(1));
             if( matches[id] ) return `
-                <a  class="text-success" data-toggle="tooltip" title="${match_to_string(matches[id])}">
-                    ${id}
+                <a  class="text-info">
+                    ${match_to_string(matches[id])}
+                <span class="badge badge-info">#${id}</span>
                 </a>
             `;
             else return  `
@@ -124,16 +159,16 @@
     }
 
     function prepare_tweets() {
-            // Activate tooltips
-            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        // Activate tooltips
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 
-            // Hide spinners
-            $('.spinner_remove').hide();
-            // Hiding loading spinner
-            $('#spinner').hide();
-            // Showing more_button
-            if( tweets.length == 50 )
-                $('#more_button').show();
+        // Hide spinners
+        $('.spinner_remove').hide();
+        // Hiding loading spinner
+        $('#spinner').hide();
+        // Showing more_button
+        if( tweets.length == 50 )
+            $('#more_button').show();
     }
 
     function remove_tweet(tweet_id) {
@@ -175,9 +210,14 @@
             $('form').after( parse_tweet(res,"<span class=\"alert alert-success\">NEW!</span>") );
             prepare_tweets();
             $(`#tweet_card_${res.ID}`)[0].classList.add("show");
-            $('#author_input')[0].value = "",
-            $('#tweet_input')[0].value = ""
+            Cookies.set('last_author',$('#author_input')[0].value, { expires: 365 });
+            $('#tweet_input')[0].value = "";
         }
+    }
+
+    function insert_tag(theid) {
+        $('#tag_modal').modal('hide');
+        $('#tweet_input')[0].value += "@" + theid;
     }
 
     $( document ).ready(load_players)
@@ -188,15 +228,19 @@
 <form onsubmit="post_tweet(event)" novalidate>
 <div class="card mb-3" id="tweet_card_new">
     <div class="card-header form-inline">
-        <i class="fa fa-user"></i> <input type="text" class="form-control flex-fill mx-2" placeholder="Autore" id="author_input" minlength="3" required/>
+        <i class="fa fa-user"></i>
+            <input type="text" class="form-control flex-fill mx-2" placeholder="Autore" id="author_input" minlength="3" required/>
         <span class="float-right"><script>document.write(moment().format('DD/MM/Y, HH:mm'));</script>  <i class="fa fa-clock"></i></span>
     </div>
     <div class="card-body">
         <textarea class="form-control" id="tweet_input" rows="5" placeholder="Tweet..." minlength="5" required></textarea>
-        Puoi usare <i>@id</i> per nominare una persona, sostituendo <i>id</i> con l'ID visibile nella pagina personale della persona, oppure <i>#id</i> per collegare una partita. Usando <i>@id</i>, puoi anche firmarti nel campo <i>autore</i>.
+        <!-- Puoi usare <i>@id</i> per nominare una persona, sostituendo <i>id</i> con l'ID visibile nella pagina personale della persona, oppure <i>#id</i> per collegare una partita. Usando <i>@id</i>, puoi anche firmarti nel campo <i>autore</i>. -->
     </div>
     <div class="card-footer">
-        <button class="btn btn-info float-right" id="btn_save">
+        <button class="btn btn-info" id="btn_tag" type="button" onclick="$('#tag_modal').modal('show');">
+            <i class="fas fa-at"></i>
+        </button>
+        <button class="btn btn-info float-right" id="btn_save" type="submit">
             <div class="spinner-border spinner-border-sm spinner_save" role="status" id="spinner_save">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -214,6 +258,21 @@
 </div>
 <div class="row justify-content-center" id="more_button">
     <button class="btn btn-success" onclick="load_tweets()"><i class="fas fa-plus-circle"></i> Carica altro</button>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="tag_modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nomina un giocatore</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="tag_modal_list">
+      </div>
+    </div>
+  </div>
 </div>
 
 <?php require("../template/footer.php"); ?>
