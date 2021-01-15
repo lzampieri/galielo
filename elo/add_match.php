@@ -1,4 +1,5 @@
 <?php require("../template/header.php"); ?>
+<?php require_once("../api/utilities.php"); ?>
 
 <script>
     var activeplayers = [];
@@ -10,7 +11,7 @@
         $.get("../api/player.php", function(data) {
             // Convert in array details
             JSON.parse(data).forEach( function(e) {
-                if( (e.CountRecentA + e.CountRecentD) > 10 )
+                if( (e.CountRecentA + e.CountRecentD) > <?php echo get_game_param("active_threshold"); ?> )
                     activeplayers.push(e)
                 else
                     inactiveplayers.push(e)
@@ -237,7 +238,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-plus-circle"></i> Inserisci ancora</button>
-        <a href="/"><button type="button" class="btn btn-primary">Classifica</button></a>
+        <a href="/"><button type="button" class="btn btn-primary">Home</button></a>
       </div>
     </div>
   </div>

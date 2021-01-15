@@ -26,14 +26,6 @@ require("header.php");
 </div>
 </div>
 
-
-<div align="center">
-<div class="width60 w3-right-align">
-<a href="elo/matches.php"><button class="w3-button w3-blue w3-tiny" type="button">Spoiler</button></a>
-</div>
-</div>
-
-
 <?php
 require("matchlist.php");
 ?>

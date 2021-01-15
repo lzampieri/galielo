@@ -1,14 +1,14 @@
 <?php require("../template/header.php"); ?>
-
 <script>
     var datatable = 0
     var state = 'T'
     var sleepers = false
 
-    // To save somewhere
-    var active_threshold = 10
-    var crown_threshold = 1650
-    var blender_threshold = 1300
+    // Get params
+    <?php require_once("../api/utilities.php"); ?>
+    var active_threshold = <?php echo get_game_param("active_threshold"); ?>;
+    var crown_threshold = <?php echo get_game_param("crown_threshold"); ?>;
+    var blender_threshold = <?php echo get_game_param("blender_threshold"); ?>;
 
     function load_players() {
         $.get("../api/player.php", function(data) {
@@ -101,6 +101,7 @@
                     $.fn.dataTable.ext.search.push(search_filter)
                 }
             })
+            
             select_rows(false)
             select_columns('T')
         })
@@ -129,7 +130,7 @@
 
     function search_filter(settings, data, dataIndex) {
         index = { 'T': 3, 'A': 6, 'D': 9 }
-        if( data[ index[ state ] ] > 10 || sleepers ) {
+        if( data[ index[ state ] ] > <?php echo get_game_param("active_threshold"); ?> || sleepers ) {
             return true;
         }
         return false;
@@ -138,6 +139,10 @@
     $( document ).ready(load_players)
 
 </script>
+
+<div class="row justify-content-end mb-3">
+    <a href="add_player.php"><button class="btn btn-success"><i class="fas fa-plus-circle"></i> Iscriviti</button></a>
+</div>
 
 <div class="row justify-content-end mb-3">
     <button class="btn btn-success sel selT" onClick="select_columns('T')">Tutto</button>

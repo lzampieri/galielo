@@ -1,5 +1,6 @@
 <?php
 $db_handle = NULL;
+$params = [];
 
 function dbconnect() {
 	if($GLOBALS['db_handle'] != NULL) return $GLOBALS['db_handle'];
@@ -18,12 +19,41 @@ function dbconnect() {
 
 function query($sql) {
     if($GLOBALS['db_handle'] == NULL) dbconnect();
-	return mysqli_query($GLOBALS['db_handle'],$sql);
+    $result = mysqli_query($GLOBALS['db_handle'],$sql);
+    if( !$result ) {
+        $error = mysqli_error($GLOBALS['db_handle']);
+        log_to_database("Query error!");
+        log_to_database($sql);
+        log_to_database($error);
+    }
+    return $result;
+}
+
+function affected_rows() {
+    if($GLOBALS['db_handle'] == NULL) return 0;
+    else return mysqli_affected_rows($GLOBALS['db_handle']);
+}
+
+function log_to_database($message) {
+    if($GLOBALS['db_handle'] == NULL) dbconnect();
+    $escaped_message = mysqli_real_escape_string($GLOBALS['db_handle'],$message);
+    $ip = $_SERVER['REMOTE_ADDR'];
+    mysqli_query($GLOBALS['db_handle'],"INSERT INTO log(IP,Query) VALUES (\"" .$ip. "\", \"" .$escaped_message. "\")");
 }
 
 function php_to_db_escape($string) {
     if($GLOBALS['db_handle'] == NULL) dbconnect();
 	return mysqli_real_escape_string($GLOBALS['db_handle'],$string);
+}
+
+function get_game_param($name) {
+    if( count($GLOBALS['params']) == 0 ) {
+        $result = query("SELECT * FROM params");
+        while( $row = mysqli_fetch_assoc($result) ) {
+            $GLOBALS['params'][ $row['Name'] ] = $row['Value'];
+        }
+    }
+    return $GLOBALS['params'][$name];
 }
 
 function swap(&$x,&$y) {

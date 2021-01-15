@@ -2,8 +2,10 @@
 
 <script>
     var players = [];
+    var deleting = false;
 
     function load_players() {
+        $('#deletespinner').hide()
         $.get("../api/player.php", function(data) {
             // Convert in array details
             JSON.parse(data).forEach( function(e) { players[e.ID] = e; })
@@ -21,30 +23,39 @@
             // Funny icons
             var skull = "  <i class=\"fas fa-skull\"></i>"
 
+            // Removing button
+            matches[matches.length - 1].thefirst = true
+            var delbutton = "  <button class=\"btn btn-danger\" onclick=\"removematch()\"><i class=\"fas fa-trash\"></i></button>"
+
             // Match list
             $('#match_list').DataTable({
                 data: matches.map( function(m) {return ( {
-                    date: new Date(m.Timestamp),
-                    winners: "<a href=\"player_stats.php?id=" + m.Att1 + "\">" + players[m.Att1].Nome + "</a> (" + m.VarA1 + ") - <a href=\"player_stats.php?id=" + m.Dif1 + "\">" + players[m.Dif1].Nome + "</a> (" + m.VarD1 + ")",
-                    losers:  "<a href=\"player_stats.php?id=" + m.Att2 + "\">" + players[m.Att2].Nome + "</a> (" + m.VarA2 + ") - <a href=\"player_stats.php?id=" + m.Dif2 + "\">" + players[m.Dif2].Nome + "</a> (" + m.VarD2 + ")",
-                    points: m.Pt1.toString() + " - " + m.Pt2 + ( m.Pt2 == 0 ? skull : "")
+                    date: m.Timestamp,
+                    dateid: moment(m.Timestamp).format('DD/MM/Y HH:mm') + `  <span class="badge badge-info">${m.ID}</span>`,
+                    winners: "<a href=\"couple_stats.php?id1=" + m.Att1 + "&id2=" + m.Dif1 + "\">" + players[m.Att1].Nome + "(" + m.VarA1 + ") - " + players[m.Dif1].Nome + " (" + m.VarD1 + ")</a>",
+                    losers:  "<a href=\"couple_stats.php?id1=" + m.Att2 + "&id2=" + m.Dif2 + "\">" + players[m.Att2].Nome + " (" + m.VarA2 + ") - " + players[m.Dif2].Nome + " (" + m.VarD2 + ")</a>",
+                    points: m.Pt1.toString() + " - " + m.Pt2 + ( m.Pt2 == 0 ? skull : "") + ( m.thefirst ? delbutton : "" )
                 })}),
                 columns: [
-                    { data: 'date' },
+                    { data: 'dateid'},
                     { data: 'winners' },
                     { data: 'losers' },
-                    { data: 'points' }
+                    { data: 'points' },
+                    { data: 'date'}
                 ],
                 columnDefs: [ {
                     targets: 0,
-                    render: $.fn.dataTable.render.moment( 'DD/MM/Y, HH:mm' )
+                    orderData: 4
                 },{
                     targets: [0,3],
                     className: 'not-mobile'
                 },{
                     targets: [1,2],
                     className: 'all'
-                } ],        
+                },{
+                    targets: 4,
+                    visible: false
+                }  ],        
                 paging:   true,
                 ordering: true,
                 info:     true,
@@ -77,6 +88,36 @@
         })
     }
 
+    function removematch() {
+        $('#confirmModal').modal('show')
+
+        // Prevent modal closing when saving stuff
+        $('#confirmModal').on('hide.bs.modal', function(e){
+            if( deleting ) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        });
+    }
+
+    function confirmedremoval() {
+        if( deleting ) return;
+        deleting = true;
+
+        // Make spinner spinning
+        $('#deletespinner').show()
+
+        // Make the request
+        $.post("/api/match.php", {
+            delete: true
+            }, doneremoval)
+    }
+
+    function doneremoval(data) {
+        location.reload();
+    }
+
     $( document ).ready(load_players)
 
 </script>
@@ -93,6 +134,7 @@
                 <th scope="col">Vincitori</th>
                 <th scope="col">Perdenti</th>
                 <th scope="col">Punteggio</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -102,4 +144,28 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+<div class="modal" tabindex="-1" id="confirmModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminazione</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Sei sicuro di voler eliminare l'ultima partita?
+      </div>
+      <div class="modal-footer">
+        <div class="spinner-border text-primary" role="status" id="deletespinner">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+        <button type="button" class="btn btn-danger" onclick="confirmedremoval()">Elimina</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php require("../template/footer.php"); ?>

@@ -1,20 +1,32 @@
 <?php
 /*
-1) player.php?id=$id    Details of the single player
+1) player.php|POST["add","name":name]
+                        Add a player
+                        Return the player item with the name, the ID and the points
+2) player.php?id=$id    Details of the single player
                         A json object with ID, Name, PuntiA, PuntiD, matches
                         where matches is an array, in which each object represent a match,
                         with ID, Timestamp, Att1, Att2, Dif1, Dif2, VarA1, VarA2, VarD1, VarD2, Pt1, Pt2,
                         reverse ordered by Timestamp (most recent first)
-2) player.php           List of all players
+3) player.php           List of all players
                         A json object with ID, Nome, PuntiA, PuntiD, CountRecentA, CountRecentD, CountA, CountD
+
 e) If error return nothing
 */
 
 // Connecting to database
 require_once("utilities.php");
 
-// (1)
-if( array_key_exists("id", $_GET)) {
+if( array_key_exists("add", $_POST) ) {
+    $points = get_game_param("starting_points");
+    if ( ! array_key_exists("name", $_POST) ) exit;
+    $name = php_to_db_escape( $_POST['name'] );
+    query("INSERT INTO giocatori(Nome,PuntiA,PuntiD) VALUES( \"$name\", $points, $points )");
+    $id = get_last_id();
+    log_to_database("New player $name with ID $id and points $points, $points");
+    $player = [ "ID" => $id, "Nome" => $name, "PuntiA" => $points, "PuntiD" => $points];
+    echo json_encode($player,JSON_NUMERIC_CHECK);
+} else if( array_key_exists("id", $_GET)) {
     $id = $_GET["id"];
     // Get player details
     $query_details = query("SELECT * FROM giocatori WHERE id = $id");
