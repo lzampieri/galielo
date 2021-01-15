@@ -24,6 +24,21 @@
         </div>
     </div>
 </div>
+
+<div class="row justify-content-center mb-3">
+    <div class="card text-center col-md-8">
+        <div class="card-header">
+            <h3>Privacy</h3>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title"><a href="https://www.iubenda.com/privacy-policy/57212528" rel="noreferrer nofollow" target="_blank">Privacy Policy</a></h4>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title"><a href="#" role="button" class="iubenda-advertising-preferences-link">Imposta preferenze pubblicitarie</a></h4>
+        </div>
+    </div>
+</div>
+
 <div class="row justify-content-center mb-3">
     <a href="https://github.com/lzampieri/galielo"><img src="github.png" width=200px/></a>
 </div>
