@@ -39,6 +39,43 @@
 <!-- Utilities -->
 <script src="/libs/utilities.js"></script>
 
+<!-- Privacy policy -->
+<link rel="preload" as="script" href="https://cdn.iubenda.com/cs/iubenda_cs.js"/>
+<link rel="preconnect" href="https://www.iubenda.com"/>
+<link rel="preconnect" href="https://iubenda.mgr.consensu.org"/>
+<link rel="preconnect" href="https://hits-i.iubenda.com"/>
+<link rel="preload" as="script" href="https://cdn.iubenda.com/cs/tcf/stub-v2.js"/>
+<script src="https://cdn.iubenda.com/cs/tcf/stub-v2.js"></script>
+<script>
+(_iub=self._iub||[]).csConfiguration={
+	cookiePolicyId: 57212528,
+	siteId: 2124918,
+	localConsentDomain: 'galielo.altervista.org',
+	timeoutLoadConfiguration: 30000,
+	lang: 'it',
+	enableTcf: true,
+	tcfVersion: 2,
+	googleAdditionalConsentMode: true,
+	consentOnContinuedBrowsing: false,
+	banner: {
+		position: "bottom",
+		acceptButtonDisplay: true,
+		customizeButtonDisplay: true,
+		closeButtonDisplay: false,
+		fontSizeBody: "14px",
+	},
+}
+</script>
+<script async src="//cdn.iubenda.com/cs/iubenda_cs.js"></script>
+<style>
+@media (max-width: 639px) {
+	#iubenda-cs-banner.iubenda-cs-default .iubenda-cs-rationale {
+		height: 55vh !important;
+		min-height: 320px !important;
+	}
+}
+</style>
+
 </head>
 <body class="container">
 
