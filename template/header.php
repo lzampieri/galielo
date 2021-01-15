@@ -39,6 +39,11 @@
 <!-- Utilities -->
 <script src="/libs/utilities.js"></script>
 
+<?php
+# Stuff disabled in locale
+if( !($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ) {
+?>
+
 <!-- Privacy policy -->
 <link rel="preload" as="script" href="https://cdn.iubenda.com/cs/iubenda_cs.js"/>
 <link rel="preconnect" href="https://www.iubenda.com"/>
@@ -75,6 +80,8 @@
 	}
 }
 </style>
+
+<?php }; ?>
 
 </head>
 <body class="container">
