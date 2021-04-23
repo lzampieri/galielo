@@ -15,15 +15,7 @@
 
     </head>
     <body >
-        @isset( $admin )
-        <div id="admin_page"></div>
-        @else
-            @auth
-            <div id="home"></div>
-            @else
-            <div id="welcome_page"></div>
-            @endauth
-        @endisset
+        <div id="thecontent"></div>
 
         <script src="{{ url(mix('js/app.js')) }}"> </script>
         
