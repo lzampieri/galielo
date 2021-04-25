@@ -16,8 +16,6 @@ mix.js('resources/js/app.js', 'public/js')
     .react()
     .sass('resources/sass/app.scss', 'public/css');
 
-if (mix.inProduction()) {
-    pass;
-} else {
+if ( !mix.inProduction()) {
     mix.disableNotifications();
 }

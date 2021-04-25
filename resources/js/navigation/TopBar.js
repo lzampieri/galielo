@@ -1,6 +1,8 @@
 import { AppBar, Button, Drawer, IconButton, makeStyles, Toolbar, Typography, withStyles, List, ListItem, ListItemText } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import theme from '../theme';
 
 const styles = {
@@ -28,11 +30,11 @@ class TopBar extends React.Component {
             drawerOpen: false
         }
         this.links = [
-            [ 'Classifica', 'url'],
-            [ 'Partite', 'url'],
-            [ 'Ccup', 'url'],
-            [ 'Tweets', 'url'],
-            [ 'Login', 'url']
+            [ 'Classifica', 'chart'],
+            [ 'Partite', 'match'],
+            [ 'Ccup', 'ccup'],
+            [ 'Tweets', 'tweets'],
+            [ 'Login', 'login']
         ]
     }
 
@@ -47,16 +49,34 @@ class TopBar extends React.Component {
         this.setState( { drawerOpen: false } );
     }
 
+    isActive( url ) {
+        return this.props.location.pathname.search( url ) >= 0;
+    }
+
+    getFullUrl( url ) {
+        return '/' + this.props.basePath + '/' + url;
+    }
+
     getItems ( mobile = false ) {
-        if( mobile )
-            return this.links.map( item => (
-                <ListItem button component="a" key={ item[0] } href={ item[1] }>
+        return this.links.map( item => { return ( mobile ? (
+                <ListItem
+                    button
+                    to={ item[1] }
+                    key={ item[0] }
+                    component={ Link }
+                    selected={ this.isActive(item[1]) } >
                     <ListItemText primary={ item[0] } />
                 </ListItem>
-            ));
-        else return this.links.map( item => (
-            <Button href={ item[1] } key={ item[0] }>{ item[0] }</Button>
-        ));
+            ) : (
+                <Button
+                    to={ item[1] }
+                    key={ item[0] }
+                    component={ Link }
+                    variant={ this.isActive(item[1]) ? 'contained' : 'text' } >
+                    { item[0] }
+                </Button>
+            ) ) }
+        );
     } 
 
     render() {
@@ -90,4 +110,4 @@ class TopBar extends React.Component {
     
 }
 
-export default withStyles(styles)(TopBar);
+export default withRouter(withStyles(styles)(TopBar));
