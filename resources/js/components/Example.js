@@ -1,27 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TopBar from '../navigation/TopBar';
+import { withRouter } from 'react-router';
 
-function Example() {
-    return (
-        <div>
-            <TopBar />
+class Example extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            location: props.match.params.thepar
+        }
+    }
+
+    render() {
+        return(
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div className="card">
                             <div className="card-header">Example Component</div>
-                            <div className="card-body">I'm an example component!</div>
+                            <div className="card-body">{ this.state.location }</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        )
+    }
 }
 
-export default Example;
-
-if (document.getElementById('thecontent')) {
-    ReactDOM.render(<Example />, document.getElementById('thecontent'));
-}
+export default withRouter(Example);

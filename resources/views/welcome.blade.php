@@ -13,6 +13,10 @@
         <!-- Material icons -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
+        <!-- Data for react -->
+        <script>
+            let base_url = '{{ url('/') }}';
+        </script>
     </head>
     <body >
         <div id="thecontent"></div>
