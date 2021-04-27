@@ -2,7 +2,7 @@ import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch, IndexRoute, NavLink } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, IndexRoute, NavLink, Redirect } from 'react-router-dom';
 import Example from './components/Example';
 import TopBar from './navigation/TopBar';
 import theme from './theme';
@@ -16,6 +16,7 @@ function MainPage() {
             <TopBar basePath = {base_path} />
             <Switch>
                 <Route path="/" component={Example} />
+                <Route path="/login" component={Redirect} to="/auth/login_google" />
                 <Route path="/:thepar" component={Example} />
             </Switch>
         </BrowserRouter>
