@@ -4,6 +4,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import theme from '../theme';
+import LoginButton from './LoginButton';
 
 const styles = {
     title: {
@@ -33,8 +34,7 @@ class TopBar extends React.Component {
             [ 'Classifica', 'chart'],
             [ 'Partite', 'match'],
             [ 'Ccup', 'ccup'],
-            [ 'Tweets', 'tweets'],
-            [ 'Login', 'login']
+            [ 'Tweets', 'tweets']
         ]
     }
 
@@ -51,10 +51,6 @@ class TopBar extends React.Component {
 
     isActive( url ) {
         return this.props.location.pathname.search( url ) >= 0;
-    }
-
-    getFullUrl( url ) {
-        return '/' + this.props.basePath + '/' + url;
     }
 
     getItems ( mobile = false ) {
@@ -90,6 +86,9 @@ class TopBar extends React.Component {
                         </Typography>
                         <div className={classes.notformobile}>
                             { this.getItems() }
+                            <LoginButton
+                                user = { this.props.user }
+                                mobile = { false } />
                         </div>
                         <IconButton edge="start" aria-label="menu" onClick={ this.openDrawer.bind(this) } className={classes.onlymobile}>
                             <MenuIcon />
@@ -100,6 +99,9 @@ class TopBar extends React.Component {
                             onClose={ this.closeDrawer.bind(this) } >
                             <List style={ {width: 250} }>
                                 { this.getItems( true ) }
+                                <LoginButton
+                                    user = { this.props.user }
+                                    mobile = { true } />
                             </List>
                         </Drawer>
                     </Toolbar>

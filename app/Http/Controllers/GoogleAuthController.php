@@ -23,8 +23,7 @@ class GoogleAuthController extends Controller
         $user = Socialite::driver('google')->user();
         $theUser = User::firstOrCreate( ['email' => $user->getEmail() ] );
         Auth::login($theUser);
-        return new UserResource( Auth::user() );
-        //return redirect( '/api/user/me' );
+        return redirect( route( 'react' ) );
     }
 
     public function logout(Request $request) {
