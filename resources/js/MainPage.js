@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, IndexRoute, NavLink, Redirect } from 'react-router-dom';
 import Example from './components/Example';
 import TopBar from './navigation/TopBar';
+import Chart from './pages/Chart';
 import theme from './theme';
 
 class MainPage extends Component {
@@ -30,14 +31,13 @@ class MainPage extends Component {
                 <CssBaseline />
                 <TopBar basePath = {base_path} user = {this.state.user} />
                 <Switch>
-                    <Route path="/" component={Example} />
                     <Route path="/login" component={Redirect} to="/auth/login_google" />
-                    <Route path="/:thepar" component={Example} />
+                    <Route path="/chart" component={Chart} />
+                    <Route exact path="/"><Redirect to="/chart" /></Route>
                 </Switch>
                 <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading }>
                     <CircularProgress />
                 </Backdrop>
-                <div> User: {this.state.user} </div>
             </BrowserRouter>
             </ThemeProvider>
         );

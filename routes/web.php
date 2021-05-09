@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 // Routing is managed by React
 Route::get('/{path?}', function () {
     return view('welcome');
-})->where('path','(?!auth).*')->name('react');
+})->where('path','(?!auth)(?!storage).*')->name('react');
 
 // Only auth routing (via Google through Socialite) is managed by Laravel
 Route::get('/auth/login_google', [ GoogleAuthController::class, 'redirect' ] )->name('login-google');
