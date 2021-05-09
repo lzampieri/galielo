@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch, IndexRoute, NavLink, Redirect } from 'rea
 import Example from './components/Example';
 import TopBar from './navigation/TopBar';
 import Chart from './pages/Chart';
+import SignIn from './pages/SignIn';
 import theme from './theme';
 
 class MainPage extends Component {
@@ -33,6 +34,7 @@ class MainPage extends Component {
                 <Switch>
                     <Route path="/login" component={Redirect} to="/auth/login_google" />
                     <Route path="/chart" component={Chart} />
+                    <Route path="/sign-in" component={SignIn} />
                     <Route exact path="/"><Redirect to="/chart" /></Route>
                 </Switch>
                 <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading }>

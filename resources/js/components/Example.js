@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
-class Example extends React.Component {
+class SignInForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,4 +26,4 @@ class Example extends React.Component {
     }
 }
 
-export default withRouter(Example);
+export default withRouter(SignInForm);

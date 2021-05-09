@@ -16,6 +16,7 @@
         <!-- Data for react -->
         <script>
             let base_url = '{{ url('/') }}';
+            let csrfmiddlewaretoken = '<?php echo csrf_token(); ?>';
         </script>
     </head>
     <body >

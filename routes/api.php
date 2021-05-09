@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlayerController;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -15,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Users
 Route::get('/user/me', function() {
     if( Auth::check() ) return new UserResource( Auth::user() );
     else return "{}";
 });
+
+// Players
+Route::post('/player', [PlayerController::class, 'create'] );
 

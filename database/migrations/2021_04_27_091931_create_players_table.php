@@ -16,10 +16,10 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name', 50);
+            $table->string('name', 50)->unique();
             $table->integer('apoints');
             $table->integer('dpoints');
-            $table->foreignId('user_id')->constrained()->nullable();
+            $table->foreignId('user_id')->nullable()->constrained();
         });
     }
 
