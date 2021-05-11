@@ -36,6 +36,6 @@ class User extends Authenticatable
     ];
 
     public function player() {
-        return $this->belongsTo( Player::class );
+        return $this->hasOne( Player::class );
     }
 }

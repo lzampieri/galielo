@@ -25,6 +25,7 @@ class LoginButton extends React.Component {
             <Menu
                 anchorEl={ this.state.anchorEl }
                 open={ this.state.menuOpen }
+                onClose={ this.switchMenu.bind(this) }
                 >
                 <MenuItem 
                     button
@@ -53,7 +54,7 @@ class LoginButton extends React.Component {
                         button
                         onClick={ this.switchMenu.bind(this) }
                         key={ "login" } >
-                        <ListItemText primary={ this.props.user } />
+                        <ListItemText primary={ this.props.user.email } />
                     </ListItem>
                     { this.menu() }
                 </span>

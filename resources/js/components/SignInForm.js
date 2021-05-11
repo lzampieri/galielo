@@ -1,16 +1,15 @@
-import { Backdrop, Button, CircularProgress, Grid } from '@material-ui/core';
+import { Backdrop, Box, Button, CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import React from 'react';
-import { Redirect, withRouter } from 'react-router';
+import { Redirect } from 'react-router';
 
 class SignInForm extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isSubmitting: false,
             redirectHome: false
         }
     }
@@ -45,8 +44,8 @@ class SignInForm extends React.Component {
                 onSubmit = { (values, {setStatus}) => this.save(values, setStatus) }
             >
                 { ({submitForm, isSubmitting, status, errors}) => (
-                <Form style={{ width: "100%" }} p={2} >
-                    <Grid container justify="center" direction="column" spacing={3} alignItems="center">
+                <Form style={{ width: "100%" }} >
+                    <Box display="flex" flexDirection="column" justify="center" alignItems="center">
                         { status && (<Alert severity="error">{status.error}</Alert>) }
                         <Field
                             component={TextField}
@@ -64,7 +63,7 @@ class SignInForm extends React.Component {
                             disabled={isSubmitting}
                             onClick={submitForm}
                         > Registrati! </Button>
-                    </Grid>
+                    </Box>
                     <Backdrop open={isSubmitting} style={{ zIndex: 1500 }}>
                         <CircularProgress color="inherit" />
                     </Backdrop>

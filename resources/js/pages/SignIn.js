@@ -1,7 +1,6 @@
-import { Box, Container, Grid, Typography, Button } from '@material-ui/core';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import SignInForm from '../components/SignInForm';
+import CenteredCard from './CenteredCard';
 
 class SignIn extends React.Component {
 
@@ -10,17 +9,13 @@ class SignIn extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
         return(
-            <Container>
-                <Box py={3}>
-                    <Grid container justify="center">
-                        <Grid item xs={12} sm={6}>
-                            <SignInForm />
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Container>
+            <CenteredCard
+                title="Registrazioni"
+                subtitle="Registrati per poter entrare in classifica"
+                >
+                <SignInForm />
+            </CenteredCard>
         )
     }
 }
