@@ -1,6 +1,7 @@
 import { Box, Container, Grid, Typography, Button } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CenteredCard from './CenteredCard';
 
 class Chart extends React.Component {
 
@@ -31,6 +32,9 @@ class Chart extends React.Component {
                         </Grid>
                     </Grid>
                 </Box>
+                <CenteredCard>
+                    ChartList
+                </CenteredCard>
             </Container>
         )
     }

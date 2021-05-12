@@ -16,18 +16,29 @@ class MainPage extends Component {
         super(props);
         this.state = {
             user: undefined,
-            loading: true,
+            loading: 0,
+            params: undefined
         }
     }
 
     componentDidMount() {
         this.load_user();
+        this.load_params();
     }
 
     async load_user() {
-        this.setState( { loading: true } );
+        this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/user/me' )
-        this.setState( { user: u.data, loading: false } );
+        this.setState( { user: u.data, loading: this.state.loading-1 } );
+    }
+
+    async load_params() {
+        this.setState( { loading: this.state.loading+1 } );
+        let u = await $.get( base_url + '/api/param/all' );
+        let params = {};
+        u.forEach( item => params[ item.key ] = ( isNaN(item.value) ? item.value : parseFloat(item.value) ) );
+        this.setState( { params: params, loading: this.state.loading-1 } );
+        console.log( this.state.params );
     }
 
     main_routing() {
@@ -65,7 +76,7 @@ class MainPage extends Component {
                     this.force_association() :
                     this.main_routing()
                 }
-                <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading }>
+                <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading > 0 }>
                     <CircularProgress />
                 </Backdrop>
             </BrowserRouter>

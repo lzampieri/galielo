@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Resources\UserResource;
+use App\Models\Param;
 use Illuminate\Support\Facades\Auth;
 
 // Routing is managed by React
@@ -14,3 +15,8 @@ Route::get('/{path?}', function () {
 Route::get('/auth/login_google', [ GoogleAuthController::class, 'redirect' ] )->name('login-google');
 Route::get('/auth/callback_google', [ GoogleAuthController::class, 'callback' ] )->name('callback-google');
 Route::get('/auth/logout_google', [ GoogleAuthController::class, 'logout' ] )->name('logout-google');
+
+// todo Remove
+Route::get('/auth/add_param/{key}/{value}', function ($key, $value) {
+    return Param::firstOrCreate( [ 'key' => $key, 'value' => $value ] );
+});
