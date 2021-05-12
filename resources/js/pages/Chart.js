@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography, Button } from '@material-ui/core';
+import { Box, Container, Grid, Typography, Button, CircularProgress, Backdrop } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CenteredCard from './CenteredCard';
@@ -7,6 +7,20 @@ class Chart extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            loading: false,
+            players: []
+        }
+    }
+
+    componentDidMount() {
+        this.loadPlayers();
+    }
+
+    async loadPlayers() {
+        this.setState( { loading: true } );
+        let u = await $.get( base_url + '/api/player/all' )
+        this.setState( { players: u, loading: false } );
     }
 
     render() {
@@ -33,8 +47,11 @@ class Chart extends React.Component {
                     </Grid>
                 </Box>
                 <CenteredCard>
-                    ChartList
+                    { this.state.players.map( p => p.name ) }
                 </CenteredCard>
+                <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading }>
+                    <CircularProgress />
+                </Backdrop>
             </Container>
         )
     }

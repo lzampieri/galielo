@@ -38,7 +38,6 @@ class MainPage extends Component {
         let params = {};
         u.forEach( item => params[ item.key ] = ( isNaN(item.value) ? item.value : parseFloat(item.value) ) );
         this.setState( { params: params, loading: this.state.loading-1 } );
-        console.log( this.state.params );
     }
 
     main_routing() {

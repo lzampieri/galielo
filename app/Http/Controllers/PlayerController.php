@@ -46,4 +46,8 @@ class PlayerController extends Controller
             ]);
         }
     }
+
+    public function all() {
+        return Player::with( 'user' )->get();
+    }
 }

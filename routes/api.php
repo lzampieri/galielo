@@ -33,4 +33,5 @@ Route::get('/user/me', function() {
 Route::post('/player', [PlayerController::class, 'create'] );
 Route::get('/player/unassociated', [PlayerController::class, 'unassociated'] );
 Route::post('/player/associate', [PlayerController::class, 'associate'] );
+Route::get('/player/all', [PlayerController::class, 'all'] );
 
