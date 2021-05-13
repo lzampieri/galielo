@@ -79,7 +79,7 @@ class TopBar extends React.Component {
         const { classes } = this.props;
         return (
             <header>
-                <AppBar position="static">
+                <AppBar position="fixed">
                     <Toolbar>
                         <Typography variant="h6" className={classes.title} >
                             GaliElo
@@ -106,6 +106,7 @@ class TopBar extends React.Component {
                         </Drawer>
                     </Toolbar>
                 </AppBar>
+                <Toolbar /> {/* To leaving the space beyond appbar */}
             </header>
         );
     }

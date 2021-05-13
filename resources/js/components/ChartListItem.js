@@ -8,7 +8,7 @@ class ChartListItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapse_open : true // Todo
+            collapse_open : false
         }
     }
 
