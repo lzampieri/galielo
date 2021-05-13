@@ -1,5 +1,5 @@
 import { Box, Card, CardActions, CardContent, CardHeader, Typography, Button, ListItem, ListItemIcon, List, ListItemText } from '@material-ui/core';
-import { AccountCircle, VerifiedUser } from '@material-ui/icons';
+import { AccountCircle, Hotel, VerifiedUser } from '@material-ui/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 

@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography, Button, CircularProgress, Backdrop, Tabs, Tab, Collapse } from '@material-ui/core';
+import { Box, Container, Grid, Typography, Button, CircularProgress, Backdrop, Tabs, Tab, Collapse, Switch } from '@material-ui/core';
 import { TabContext, TabPanel } from '@material-ui/lab';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,8 @@ class Chart extends React.Component {
         this.state = {
             loading: false,
             players: [],
-            selected_tab: 2
+            selected_tab: 2,
+            sleepers: false
         }
     }
 
@@ -22,7 +23,7 @@ class Chart extends React.Component {
 
     async loadPlayers() {
         this.setState( { loading: true } );
-        let u = await $.get( base_url + '/api/player/all' )
+        let u = await $.get( base_url + '/api/player/all' );
         this.setState( { players: u, loading: false } );
     }
 
@@ -35,7 +36,6 @@ class Chart extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
         return(
             <Container>
                 <Box py={3}>
@@ -58,6 +58,11 @@ class Chart extends React.Component {
                     </Grid>
                 </Box>
                 <CenteredCard title="Classifica" >
+                        <Box display="flex" justifyContent="flex-end" alignItems="center">
+                            <Typography variant="button">Inattivi</Typography>
+                            <Switch checked={ this.state.sleepers }
+                                    onChange={ (event) => this.setState({ sleepers: !this.state.sleepers}) } />
+                        </Box>
                         <Tabs
                             value={ this.state.selected_tab }
                             onChange={ this.swipe_tab.bind(this) }
@@ -68,13 +73,13 @@ class Chart extends React.Component {
                             <Tab label="Totale" value={2} />
                         </Tabs>
                         <Collapse in={ this.state.selected_tab == 0 }>
-                            <ChartList players={ [] } />
+                            <ChartList players={ this.state.players } sleepers={ this.state.sleepers } type='A' />
                         </Collapse>
                         <Collapse in={ this.state.selected_tab == 1 }>
-                            <ChartList players={ this.state.players } />
+                            <ChartList players={ this.state.players } sleepers={ this.state.sleepers } type='D' />
                         </Collapse>
-                        <Collapse in={ this.state.selected_tab == 2 }>
-                            <ChartList players={ [] } />
+                        <Collapse in={ this.state.selected_tab == 2 } >
+                            <ChartList players={ this.state.players } sleepers={ this.state.sleepers } type='T' />
                         </Collapse>
                 </CenteredCard>
                 <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading }>

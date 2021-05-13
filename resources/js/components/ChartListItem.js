@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemIcon, ListItemText, Collapse, Card, CardHeader, Grid } from '@material-ui/core';
-import { AccountCircle } from '@material-ui/icons';
+import { AccountCircle, Hotel } from '@material-ui/icons';
 import React from 'react';
 import ChartListCard from './ChartListCard';
 
@@ -22,7 +22,7 @@ class ChartListItem extends React.Component {
                 <ListItem button
                     onClick={ () => { this.setState( { collapse_open : !this.state.collapse_open} ) } }>
                     <ListItemIcon>
-                        <AccountCircle />
+                        { this.props.sleeper ? <Hotel /> : <AccountCircle />}
                     </ListItemIcon>
                     <ListItemText primary={ this.props.p.name } />
                     { points }
