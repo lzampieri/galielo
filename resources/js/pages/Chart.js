@@ -1,6 +1,7 @@
 import { Box, Container, Grid, Typography, Button, CircularProgress, Backdrop } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ChartList from '../components/ChartList';
 import CenteredCard from './CenteredCard';
 
 class Chart extends React.Component {
@@ -46,8 +47,8 @@ class Chart extends React.Component {
                         </Grid>
                     </Grid>
                 </Box>
-                <CenteredCard>
-                    { this.state.players.map( p => p.name ) }
+                <CenteredCard title="Classifica" >
+                    <ChartList players={ this.state.players } />
                 </CenteredCard>
                 <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading }>
                     <CircularProgress />
