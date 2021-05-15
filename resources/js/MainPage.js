@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, IndexRoute, NavLink, Redirect } from 'react-router-dom';
 import Example from './components/Example';
 import TopBar from './navigation/TopBar';
+import AddMatch from './pages/AddMatch';
 import Association from './pages/Association';
 import Chart from './pages/Chart';
 import SignIn from './pages/SignIn';
@@ -17,35 +18,44 @@ class MainPage extends Component {
         this.state = {
             user: undefined,
             loading: 0,
-            params: undefined
+            params: undefined,
+            players: []
         }
     }
 
     componentDidMount() {
-        this.load_user();
-        this.load_params();
+        this.loadUser();
+        this.loadParams();
+        this.loadPlayers();
     }
 
-    async load_user() {
+    async loadUser() {
         this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/user/me' )
         this.setState( { user: u.data, loading: this.state.loading-1 } );
     }
 
-    async load_params() {
+    async loadParams() {
         this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/param/all' );
         let params = {};
         u.forEach( item => params[ item.key ] = ( isNaN(item.value) ? item.value : parseFloat(item.value) ) );
         this.setState( { params: params, loading: this.state.loading-1 } );
     }
+    
+    async loadPlayers() {
+        this.setState( { loading: this.state.loading+1 } );
+        let u = await $.get( base_url + '/api/player/all' );
+        this.setState( { players: u, loading: this.state.loading-1 } );
+    }
 
     main_routing() {
         return (
             <Switch>
                 <Route path="/login" component={Redirect} to="/auth/login_google" />
-                <Route path="/chart" component={Chart} />
+                <Route path="/chart"><Chart players={ this.state.players } /></Route>
                 <Route path="/sign-in" component={SignIn} />
+                <Route path="/add-match"><AddMatch players={ this.state.players } /></Route> {/* todo protect to logged users */}
                 <Redirect from="*" to="/chart" />
             </Switch>
         )

@@ -10,21 +10,9 @@ class Chart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
-            players: [],
             selected_tab: 2,
             sleepers: false
         }
-    }
-
-    componentDidMount() {
-        this.loadPlayers();
-    }
-
-    async loadPlayers() {
-        this.setState( { loading: true } );
-        let u = await $.get( base_url + '/api/player/all' );
-        this.setState( { players: u, loading: false } );
     }
 
     swipe_tab(event, newValue) {
@@ -73,18 +61,15 @@ class Chart extends React.Component {
                             <Tab label="Totale" value={2} />
                         </Tabs>
                         <Collapse in={ this.state.selected_tab == 0 }>
-                            <ChartList players={ this.state.players } sleepers={ this.state.sleepers } type='A' />
+                            <ChartList players={ this.props.players } sleepers={ this.state.sleepers } type='A' />
                         </Collapse>
                         <Collapse in={ this.state.selected_tab == 1 }>
-                            <ChartList players={ this.state.players } sleepers={ this.state.sleepers } type='D' />
+                            <ChartList players={ this.props.players } sleepers={ this.state.sleepers } type='D' />
                         </Collapse>
                         <Collapse in={ this.state.selected_tab == 2 } >
-                            <ChartList players={ this.state.players } sleepers={ this.state.sleepers } type='T' />
+                            <ChartList players={ this.props.players } sleepers={ this.state.sleepers } type='T' />
                         </Collapse>
                 </CenteredCard>
-                <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading }>
-                    <CircularProgress />
-                </Backdrop>
             </Container>
         )
     }
