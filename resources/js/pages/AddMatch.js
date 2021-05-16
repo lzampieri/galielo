@@ -27,7 +27,7 @@ class AddMatch extends React.Component {
     render() {
         return(
             <Container>
-                <CenteredCard title="Aggiungi partita">
+                <CenteredCard title="Aggiungi partita" subtitle="Definisci le squadre vincente (verde) e perdente (rossa)">
                     <AddMatchStepper players={ this.props.players } />
                 </CenteredCard>                
             </Container>
