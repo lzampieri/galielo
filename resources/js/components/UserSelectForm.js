@@ -28,8 +28,8 @@ class UserSelectForm extends React.Component {
             _token: csrfmiddlewaretoken
         } );
         if( result.success ) {
-            this.setState({ redirectHome: true });
             this.props.onDone();
+            this.setState({ redirectHome: true });
         } else {
             this.setState({ errorMessage: result.errorInfo[2] });
         }

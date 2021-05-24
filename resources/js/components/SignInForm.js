@@ -27,6 +27,7 @@ class SignInForm extends React.Component {
     async save(values, setStatus) {
         let result = await $.post( base_url + '/api/player', values );
         if( result.success ) {
+            this.props.onDone();
             this.setState({ redirectHome: true });
         } else {
             setStatus({ error: result.errorInfo[2] });
@@ -68,7 +69,7 @@ class SignInForm extends React.Component {
                         <CircularProgress color="inherit" />
                     </Backdrop>
                     { this.state.redirectHome ? (
-                        <Redirect to="/" />
+                        <Redirect to="/force-refresh-user" />
                     ) : "" }
                 </Form>
                 )}

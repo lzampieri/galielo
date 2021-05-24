@@ -24,9 +24,13 @@ class MainPage extends Component {
     }
 
     componentDidMount() {
-        this.loadUser();
         this.loadParams();
+        this.refreshChart();
+    }
+
+    refreshChart() {
         this.loadPlayers();
+        this.loadUser();
     }
 
     async loadUser() {
@@ -53,8 +57,10 @@ class MainPage extends Component {
         return (
             <Switch>
                 <Route path="/login" component={Redirect} to="/auth/login_google" />
-                <Route path="/chart"><Chart players={ this.state.players } /></Route>
-                <Route path="/sign-in" component={SignIn} />
+                <Route path="/chart"><Chart players={ this.state.players } logged={ this.state.user !== undefined }/></Route>
+                <Route path="/sign-in">
+                    <SignIn onDone={ this.refreshChart.bind(this) } />
+                </Route>
                 <Route path="/add-match"><AddMatch players={ this.state.players } /></Route> {/* todo protect to logged users */}
                 <Redirect from="*" to="/chart" />
             </Switch>
@@ -65,9 +71,11 @@ class MainPage extends Component {
         return(
             <Switch>
                 <Route path="/associate">
-                    <Association onDone={ this.load_user.bind(this) } />
+                    <Association onDone={ this.refreshChart.bind(this) } />
                 </Route>
-                <Route path="/sign-in" component={SignIn} />
+                <Route path="/sign-in">
+                    <SignIn onDone={ this.refreshChart.bind(this) } />
+                </Route>
                 <Redirect from="*" to="/associate" />
             </Switch>
         )

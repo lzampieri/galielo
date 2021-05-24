@@ -42,6 +42,21 @@ class Chart extends React.Component {
                                 variant="outlined">
                                 Registrati
                             </Button>
+                            { this.props.logged ? (    
+                                <Button
+                                    to="add-match"
+                                    component={Link}
+                                    variant="outlined">
+                                    Aggiungi partita
+                                </Button>
+                            ) :  (    
+                                <Button
+                                    to="login"
+                                    href={ base_url + "/auth/login_google" }
+                                    variant="outlined">
+                                    Login
+                                </Button>
+                            )}
                         </Grid>
                     </Grid>
                 </Box>

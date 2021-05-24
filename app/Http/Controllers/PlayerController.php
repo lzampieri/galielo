@@ -9,15 +9,22 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isNull;
+
 class PlayerController extends Controller
 {
     public function create(Request $request) {
         try {      
-            Player::create( [
+            $player = Player::create( [
                 'name' => $request->input('name'),
                 'apoints' => 1400,
                 'dpoints' => 1400
             ]);
+            if( Auth::user() ) {
+                if( isNull( Auth::user()->player() ) ) {
+                    Auth::user()->player()->save( $player );
+                }
+            }
             return response()->json([ 'success' => true ]);
         } catch (QueryException $e) {
             return response()->json([

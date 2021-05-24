@@ -14,7 +14,7 @@ class SignIn extends React.Component {
                 title="Registrazioni"
                 subtitle="Registrati per poter entrare in classifica"
                 >
-                <SignInForm />
+                <SignInForm onDone={ this.props.onDone.bind(this) } />
             </CenteredCard>
         )
     }
