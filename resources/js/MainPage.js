@@ -31,8 +31,8 @@ class MainPage extends Component {
     }
 
     refreshChart() {
-        this.loadPlayers();
         this.loadUser();
+        this.loadPlayers();
         this.loadGames();
     }
 
@@ -44,7 +44,7 @@ class MainPage extends Component {
 
     async loadGames() {
         this.setState( { loading: this.state.loading+1 } );
-        let u = await $.get( base_url + '/api/game/all' )
+        let u = await $.get( base_url + '/api/game/all' );
         this.setState( { games: u.data, loading: this.state.loading-1 } );
     }
 
