@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Player;
-use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use function PHPUnit\Framework\isNull;
 
 class PlayerController extends Controller
 {
@@ -20,9 +17,11 @@ class PlayerController extends Controller
                 'apoints' => 1400,
                 'dpoints' => 1400
             ]);
-            if( Auth::user() ) {
-                if( isNull( Auth::user()->player() ) ) {
+            LogController::player_create( $player );
+            if( Auth::check() ) {
+                if( ! (Auth::user()->player()->exists() ) ) {
                     Auth::user()->player()->save( $player );
+                    LogController::player_associate( $player );
                 }
             }
             return response()->json([ 'success' => true ]);
@@ -43,6 +42,7 @@ class PlayerController extends Controller
             $player = Player::find( $request->input('player_id') );
             $user = Auth::user();
             $user->player()->save( $player );
+            LogController::player_associate( $player );
             return response()->json([
                 'success' => true
             ]);

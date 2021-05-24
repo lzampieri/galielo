@@ -38,4 +38,8 @@ class User extends Authenticatable
     public function player() {
         return $this->hasOne( Player::class );
     }
+
+    public function logs() {
+        return $this->hasMany( Log::class );
+    }
 }

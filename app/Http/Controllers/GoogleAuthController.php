@@ -23,6 +23,7 @@ class GoogleAuthController extends Controller
         $user = Socialite::driver('google')->user();
         $theUser = User::firstOrCreate( ['email' => $user->getEmail() ] );
         Auth::login($theUser);
+        LogController::user_login( $theUser );
         return redirect( route( 'react' ) );
     }
 
