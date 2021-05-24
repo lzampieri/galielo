@@ -190,8 +190,19 @@ class AddMatchStepper extends React.Component {
         )
     }
 
-    saveData() {
+    async saveData() {
         this.setState({ loading: true });
+        let values = {
+            _token: csrfmiddlewaretoken,
+            att1: this.state.selectedSqGreen[0].id,
+            dif1: this.state.selectedSqGreen[1].id,
+            att2: this.state.selectedSqRed  [0].id,
+            dif2: this.state.selectedSqRed  [1].id,
+            points: this.state.redPoints
+        }
+        console.log(values);
+        let result = await $.post( base_url + '/api/game', values );
+        console.log( result );
     }
 
     render() {

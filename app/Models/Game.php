@@ -24,19 +24,19 @@ class Game extends Model
     ];
 
     public function att1() {
-        return $this->hasOne( User::class, 'att1' );
+        return $this->belongsTo( Player::class, 'att1_id' );
     }
 
     public function dif1() {
-        return $this->hasOne( User::class, 'dif1' );
+        return $this->belongsTo( Player::class, 'dif1_id' );
     }
     
     public function att2() {
-        return $this->hasOne( User::class, 'att2' );
+        return $this->belongsTo( Player::class, 'att2_id' );
     }
     
     public function dif2() {
-        return $this->hasOne( User::class, 'dif2' );
+        return $this->belongsTo( Player::class, 'dif2_id' );
     }
     
 }

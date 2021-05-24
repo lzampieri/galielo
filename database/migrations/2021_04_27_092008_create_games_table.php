@@ -16,10 +16,10 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('att1')->constrained('players');
-            $table->foreignId('dif1')->constrained('players');
-            $table->foreignId('att2')->constrained('players');
-            $table->foreignId('dif2')->constrained('players');
+            $table->foreignId('att1_id')->constrained('players');
+            $table->foreignId('dif1_id')->constrained('players');
+            $table->foreignId('att2_id')->constrained('players');
+            $table->foreignId('dif2_id')->constrained('players');
             $table->integer('deltaa1');
             $table->integer('deltad1');
             $table->integer('deltaa2');

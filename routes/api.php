@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Public stuff
+
 // Params
 Route::get('/param/all', function() {
     return Param::select('key','value')->get();
@@ -32,6 +35,14 @@ Route::get('/user/me', function() {
 // Players
 Route::post('/player', [PlayerController::class, 'create'] );
 Route::get('/player/unassociated', [PlayerController::class, 'unassociated'] );
-Route::post('/player/associate', [PlayerController::class, 'associate'] );
 Route::get('/player/all', [PlayerController::class, 'all'] );
 
+
+// Only logged stuff
+Route::middleware('auth:sanctum')->group( function() {
+    // Players
+    Route::post('/player/associate', [PlayerController::class, 'associate'] );
+    
+    // Games
+    Route::post('/game', [GameController::class, 'create'] );
+});
