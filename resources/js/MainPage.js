@@ -32,7 +32,7 @@ class MainPage extends Component {
 
     refreshChart() {
         this.loadPlayers();
-        this.loadGames();
+        this.loadUser();
         this.loadGames();
     }
 
