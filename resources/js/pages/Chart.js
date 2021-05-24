@@ -44,7 +44,7 @@ class Chart extends React.Component {
                             </Button>
                             { this.props.logged ? (    
                                 <Button
-                                    to="add-match"
+                                    to="add-game"
                                     component={Link}
                                     variant="outlined">
                                     Aggiungi partita

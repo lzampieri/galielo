@@ -32,7 +32,7 @@ class TopBar extends React.Component {
         }
         this.links = [
             [ 'Classifica', 'chart'],
-            [ 'Partite', 'match'],
+            [ 'Partite', 'games'],
             [ 'Ccup', 'ccup'],
             [ 'Tweets', 'tweets']
         ]

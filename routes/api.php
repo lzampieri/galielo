@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
 use App\Models\Param;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +36,8 @@ Route::post('/player', [PlayerController::class, 'create'] );
 Route::get('/player/unassociated', [PlayerController::class, 'unassociated'] );
 Route::get('/player/all', [PlayerController::class, 'all'] );
 
+// Games
+Route::get('/game/all', [GameController::class, 'all'] );
 
 // Only logged stuff
 Route::middleware('auth:sanctum')->group( function() {

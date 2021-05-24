@@ -1,13 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
-class SignInForm extends React.Component {
+class Example extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            location: props.match.params.thepar
-        }
     }
 
     render() {
@@ -26,4 +23,4 @@ class SignInForm extends React.Component {
     }
 }
 
-export default withRouter(SignInForm);
+export default withRouter(Example);

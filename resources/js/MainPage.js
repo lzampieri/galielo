@@ -5,9 +5,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, IndexRoute, NavLink, Redirect } from 'react-router-dom';
 import Example from './components/Example';
 import TopBar from './navigation/TopBar';
-import AddMatch from './pages/AddMatch';
+import AddGame from './pages/AddGame';
 import Association from './pages/Association';
 import Chart from './pages/Chart';
+import Games from './pages/Games';
 import SignIn from './pages/SignIn';
 import theme from './theme';
 
@@ -19,7 +20,8 @@ class MainPage extends Component {
             user: undefined,
             loading: 0,
             params: undefined,
-            players: []
+            players: [],
+            games: []
         }
     }
 
@@ -30,13 +32,20 @@ class MainPage extends Component {
 
     refreshChart() {
         this.loadPlayers();
-        this.loadUser();
+        this.loadGames();
+        this.loadGames();
     }
 
     async loadUser() {
         this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/user/me' )
         this.setState( { user: u.data, loading: this.state.loading-1 } );
+    }
+
+    async loadGames() {
+        this.setState( { loading: this.state.loading+1 } );
+        let u = await $.get( base_url + '/api/game/all' )
+        this.setState( { games: u.data, loading: this.state.loading-1 } );
     }
 
     async loadParams() {
@@ -57,11 +66,18 @@ class MainPage extends Component {
         return (
             <Switch>
                 <Route path="/login" component={Redirect} to="/auth/login_google" />
-                <Route path="/chart"><Chart players={ this.state.players } logged={ this.state.user !== undefined }/></Route>
+                <Route path="/chart">
+                    <Chart players={ this.state.players } logged={ this.state.user !== undefined }/>
+                </Route>
+                <Route path="/games">
+                    <Games games={ this.state.games }/>
+                </Route>
                 <Route path="/sign-in">
                     <SignIn onDone={ this.refreshChart.bind(this) } />
                 </Route>
-                <Route path="/add-match"><AddMatch players={ this.state.players } /></Route> {/* todo protect to logged users */}
+                <Route path="/add-game">
+                    <AddGame players={ this.state.players } onDone={ this.refreshChart.bind(this) } />
+                </Route> {/* todo protect to logged users */}
                 <Redirect from="*" to="/chart" />
             </Switch>
         )

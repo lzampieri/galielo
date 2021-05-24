@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\GameResource;
 use App\Models\Game;
 use App\Models\Player;
 use Illuminate\Database\QueryException;
@@ -75,12 +76,19 @@ class GameController extends Controller
             $game -> save();
 
             LogController::game_create( $game );
-
+            
+            $response = (new GameResource( $game ))->toArray($request);
+            $response[ 'success' ] = true;
+            return response()->json( $response );
         } catch (QueryException $e) {
             return response()->json([
                 'success' => false,
                 'errorInfo' => $e->errorInfo
             ]);
         }
+    }
+
+    public function all() {
+        return GameResource::collection( Game::where( 'hidden', false )->get() );
     }
 }
