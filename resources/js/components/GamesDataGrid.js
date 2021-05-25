@@ -21,7 +21,7 @@ const columns = [
         headerName: 'Perdenti',
         flex: 1,
     },
-    {
+    { 
         field: 'points',
         headerName: 'Punteggio',
         flex: 0.3,
