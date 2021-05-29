@@ -1,4 +1,5 @@
 import { createMuiTheme } from "@material-ui/core";
+import { itIT } from '@material-ui/data-grid';
 
 const theme = createMuiTheme({
     palette: {
@@ -9,7 +10,7 @@ const theme = createMuiTheme({
         secondary: {
             main: '#2c54bc'
         },
-    },
+    }
 });
 
 export default theme;

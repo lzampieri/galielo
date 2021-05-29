@@ -12,7 +12,7 @@ class CenteredCard extends React.Component {
             <Container>
                 <Box py={3} my={3}>
                     <Grid container justify="center">
-                        <Grid item xs={12} sm={6} component={Card} variant="outlined">
+                        <Grid item xs={12} sm={this.props.sm||6} component={Card} variant="outlined">
                             <CardHeader
                                 title={this.props.title}
                                 subheader={this.props.subtitle}
