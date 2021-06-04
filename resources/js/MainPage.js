@@ -1,9 +1,10 @@
-import { Backdrop, CircularProgress, CssBaseline } from '@material-ui/core';
+import { CircularProgress, CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, IndexRoute, NavLink, Redirect } from 'react-router-dom';
 import Example from './components/Example';
+import MyBackDrop from './components/MyBackDrop';
 import TopBar from './navigation/TopBar';
 import AddGame from './pages/AddGame';
 import Association from './pages/Association';
@@ -18,48 +19,48 @@ class MainPage extends Component {
         super(props);
         this.state = {
             user: undefined,
-            loading: 0,
+            loading: true,
             params: undefined,
             players: [],
             games: []
         }
     }
 
-    componentDidMount() {
-        this.loadParams();
+    async componentDidMount() {
+        await this.loadParams();
         this.refreshChart();
     }
 
-    refreshChart() {
-        this.loadUser();
-        this.loadPlayers();
-        this.loadGames();
+    async refreshChart() {
+        this.setState( { loading: true } );
+        await Promise.all([
+            this.loadUser(),
+            this.loadPlayers(),
+            this.loadGames()
+        ]);
+        this.setState( { loading: false } );
     }
 
     async loadUser() {
-        this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/user/me' )
-        this.setState( { user: u.data, loading: this.state.loading-1 } );
+        this.setState( { user: u.data } );
     }
 
     async loadGames() {
-        this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/game/all' );
-        this.setState( { games: u.data, loading: this.state.loading-1 } );
+        this.setState( { games: u.data } );
     }
 
     async loadParams() {
-        this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/param/all' );
         let params = {};
         u.forEach( item => params[ item.key ] = ( isNaN(item.value) ? item.value : parseFloat(item.value) ) );
-        this.setState( { params: params, loading: this.state.loading-1 } );
+        this.setState( { params: params } );
     }
     
     async loadPlayers() {
-        this.setState( { loading: this.state.loading+1 } );
         let u = await $.get( base_url + '/api/player/all' );
-        this.setState( { players: u, loading: this.state.loading-1 } );
+        this.setState( { players: u.data } );
     }
 
     main_routing() {
@@ -109,9 +110,7 @@ class MainPage extends Component {
                     this.force_association() :
                     this.main_routing()
                 }
-                <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading > 0 }>
-                    <CircularProgress />
-                </Backdrop>
+                <MyBackDrop open={ this.state.loading } />
             </BrowserRouter>
             </ThemeProvider>
         );

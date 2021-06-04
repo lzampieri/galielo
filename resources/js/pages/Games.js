@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography, Button, CircularProgress, Backdrop, Tabs, Tab, Collapse, Switch, ButtonBase } from '@material-ui/core';
+import { Box, Container, Grid, Typography, Button, CircularProgress, Tabs, Tab, Collapse, Switch, ButtonBase } from '@material-ui/core';
 import React from 'react';
 import { CSVLink } from 'react-csv';
 import GamesDataGrid from '../components/GamesDataGrid';

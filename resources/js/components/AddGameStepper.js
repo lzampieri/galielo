@@ -1,8 +1,9 @@
-import { Backdrop, Box, Button, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Slider, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
+import { Box, Button, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Slider, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
 import { AccountCircle, SwapVert } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { withStyles } from '@material-ui/styles';
 import React from 'react';
+import MyBackDrop from './MyBackDrop';
 
 const styles = (theme) => { return {
     greenSquad: {
@@ -336,9 +337,7 @@ class AddGameStepper extends React.Component {
                         </Button>
                     </StepContent>
                 </Step>
-                <Backdrop style={{ zIndex: 1500 }} open={ this.state.loading > 0 }>
-                    <CircularProgress />
-                </Backdrop>
+                <MyBackDrop open={ this.state.loading } />
             </Stepper>
         )
     }

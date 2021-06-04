@@ -1,9 +1,10 @@
-import { Backdrop, Box, Button, CircularProgress } from '@material-ui/core';
+import { Box, Button, CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import React from 'react';
 import { Redirect } from 'react-router';
+import MyBackDrop from './MyBackDrop';
 
 class SignInForm extends React.Component {
 
@@ -65,9 +66,7 @@ class SignInForm extends React.Component {
                             onClick={submitForm}
                         > Registrati! </Button>
                     </Box>
-                    <Backdrop open={isSubmitting} style={{ zIndex: 1500 }}>
-                        <CircularProgress color="inherit" />
-                    </Backdrop>
+                    <MyBackDrop open={ isSubmitting } />
                     { this.state.redirectHome ? (
                         <Redirect to="/force-refresh-user" />
                     ) : "" }

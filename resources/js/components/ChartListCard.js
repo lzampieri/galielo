@@ -39,7 +39,7 @@ class ChartListCard extends React.Component {
                         <ListItem button>
                             <ListItemText
                                 primary="Attacco"
-                                secondary="Su 10 partite" />
+                                secondary={ "Su " + ( this.props.p.asAtt1 + this.props.p.asAtt2 ) + " partite"} />
                             <ListItemIcon>
                                 {this.props.p.apoints}
                             </ListItemIcon>
@@ -47,7 +47,7 @@ class ChartListCard extends React.Component {
                         <ListItem>
                             <ListItemText
                                 primary="Difesa"
-                                secondary="Su 12 partite" />
+                                secondary={ "Su " + ( this.props.p.asDif1 + this.props.p.asDif2 ) + " partite"} />
                             <ListItemIcon>
                                 {this.props.p.dpoints}
                             </ListItemIcon>
@@ -55,7 +55,7 @@ class ChartListCard extends React.Component {
                         <ListItem>
                             <ListItemText
                                 primary="Totale"
-                                secondary="Su 22 partite" />
+                                secondary={ "Su " + ( this.props.p.asAtt1 + this.props.p.asAtt2 + this.props.p.asDif1 + this.props.p.asDif2 ) + " partite"} />
                             <ListItemIcon>
                                 { (this.props.p.apoints + this.props.p.dpoints) / 2. }
                             </ListItemIcon>

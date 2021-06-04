@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PlayerResource;
 use App\Models\Player;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -55,6 +56,6 @@ class PlayerController extends Controller
     }
 
     public function all() {
-        return Player::with( 'user' )->get();
+        return PlayerResource::collection( Player::all() );
     }
 }

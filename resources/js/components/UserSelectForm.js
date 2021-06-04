@@ -1,8 +1,9 @@
-import { Backdrop, Box, Button, CircularProgress, List, ListItem, ListItemIcon } from '@material-ui/core';
+import { Box, Button, CircularProgress, List, ListItem, ListItemIcon } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import React from 'react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import MyBackDrop from './MyBackDrop';
 
 class UserSelectForm extends React.Component {
 
@@ -66,9 +67,7 @@ class UserSelectForm extends React.Component {
                 { this.state.redirectHome ? (
                         <Redirect to="/" />
                     ) : "" }
-                <Backdrop open={this.state.isLoading} style={{ zIndex: 1500 }}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
+                <MyBackDrop open={ this.state.isLoading } />
             </Box>
         )
     }
