@@ -1,5 +1,7 @@
+import { CircularProgress } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import React from 'react';
+import MyBackDrop from './MyBackDrop';
 
 function getPoints(params) {
     return `10 - ${params.getValue(params.id, 'pt2') || 0}`;
@@ -25,26 +27,29 @@ const columns = [
         field: 'date',
         headerName: 'Data',
         flex: 0.5,
-        valueFormatter: getData
+        valueFormatter: getData,
+        sortable: false
     },
     {
         field: 'Vincitori',
         headerName: 'Vincitori',
         flex: 1,
-        valueGetter: getSq1
+        valueGetter: getSq1,
+        sortable: false
     },
     {
         field: 'Perdenti',
         headerName: 'Perdenti',
         flex: 1,
-        valueGetter: getSq2
+        valueGetter: getSq2,
+        sortable: false
     },
     {
         field: 'points',
         headerName: 'Punti',
         flex: 0.3,
-        sortable: false,
-        valueGetter: getPoints
+        valueGetter: getPoints,
+        sortable: false
     }
 ];
 
@@ -52,22 +57,47 @@ class GamesDataGrid extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            pageSize: 0,
+            rowCount: 0,
+            page: 0,
+            games: [],
+            loading: true
+        }
+    }
+
+    componentDidMount() {
+        this.downloadPage();
+    }
+
+    componentDidUpdate(lastProps, lastState) {
+        if( lastState.page != this.state.page )
+            this.downloadPage();
+    }
+
+    handlePageChange(params) {
+        this.setState({ page: params.page });
+    }
+
+    async downloadPage() {
+        this.setState({ loading: true });
+        let res = await $.get( base_url + '/api/game/some?page=' + ( this.state.page + 1 ) );
+        console.log( base_url + '/api/game/some?page=' + ( this.state.page + 1 ) );
+        this.setState({
+            loading: false,
+            games: res.data,
+            rowCount: res.meta.total,
+            pageSize: parseInt(res.meta.per_page)
+        })
     }
 
     render() {
         return(
             <DataGrid
                 autoHeight
-                rows={ this.props.games }
+                rows={ this.state.games }
                 columns={ columns }
-                pageSize={ 25 }
                 disableColumnMenu
-                sortModel={[
-                    {
-                    field: 'date',
-                    sort: 'desc',
-                    },
-                ]}
                 localeText={{
                     noRowsLabel: 'Ancora nessuna partita registrata',
                     toolbarDensityLabel: 'Size',
@@ -75,6 +105,14 @@ class GamesDataGrid extends React.Component {
                     toolbarDensityStandard: 'Medium',
                     toolbarDensityComfortable: 'Large',
                 }}
+
+                pagination
+                pageSize={ this.state.pageSize }
+                rowCount={ this.state.rowCount }
+                onPageChange={ this.handlePageChange.bind(this) }
+                loading={ this.state.loading }
+                paginationMode="server"
+                rowsPerPageOptions={[]}
                 />
         )
     }

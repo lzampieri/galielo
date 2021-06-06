@@ -14,17 +14,12 @@ class ChartListCard extends React.Component {
         return parsed_date.toLocaleDateString('it-IT', { month: '2-digit', year: 'numeric', day: '2-digit' });
     }
 
-    nameAndVerified(p) {
-        if( p.user_id )
-            return ( <span> {p.name} <VerifiedUser style={{ fontSize: 15 }} /> </span>)
-        else return p.name;
-    }
     render() {
         return(
             <Card elevation={5} >
                 <CardHeader
                     avatar={ <AccountCircle /> }
-                    title={ this.nameAndVerified(this.props.p) }
+                    title={ ( <span> { this.props.p.name } { this.props.p.user && <VerifiedUser style={{ fontSize: 15 }} /> } </span> ) }
                     subheader={ "Iscritto dal " + this.getDate(this.props.p.created_at) } />
                 <CardContent>
                     { this.props.p.user && this.props.p.user.slogan && (

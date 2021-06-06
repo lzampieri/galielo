@@ -20,7 +20,7 @@ class PlayerResource extends JsonResource
             'apoints' => $this->apoints,
             'dpoints' => $this->dpoints,
             'created_at' => $this->created_at,
-            'user' => ($this->user ? $this->user->id : -1),
+            'user' => ($this->user ? new UserResource($this->user) : NULL),
             'asAtt1' => $this->asAtt1->count(),
             'asDif1' => $this->asDif1->count(),
             'asAtt2' => $this->asAtt2->count(),

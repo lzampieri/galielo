@@ -14,9 +14,9 @@ class Games extends React.Component {
         return(
             <Container>
                 <CenteredCard title="Partite" sm={10}>
-                    <GamesDataGrid games={ this.props.games }/>
+                    <GamesDataGrid />
                     <Box pt={3}>
-                    <Typography variant="body1">Al momento ci sono { this.props.games.length } partite inserite nel sistema. L'elenco completo si può scaricare come <CSVLink
+                    {/* <Typography variant="body1">Al momento ci sono { this.props.games.length } partite inserite nel sistema. L'elenco completo si può scaricare come <CSVLink
                             data = { this.props.games }
                             headers = { [
                                 { label: "id", key: "id" },
@@ -35,7 +35,7 @@ class Games extends React.Component {
                             filename= { "galielo_games_" + (new Date()).toISOString() + ".csv" }
                             style={{ color: "white" }}
                             >csv</CSVLink>
-                        </Typography>
+                        </Typography> */}
                     </Box>
                 </CenteredCard>
             </Container>

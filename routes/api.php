@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ParamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Resources\UserResource;
 use App\Models\Param;
@@ -21,9 +22,7 @@ use Illuminate\Support\Facades\Route;
 // Public stuff
 
 // Params
-Route::get('/param/all', function() {
-    return Param::select('key','value')->get();
-});
+Route::get('/param/all', [ParamController::class, 'all']);
 
 // Users
 Route::get('/user/me', function() {
@@ -38,6 +37,7 @@ Route::get('/player/all', [PlayerController::class, 'all'] );
 
 // Games
 Route::get('/game/all', [GameController::class, 'all'] );
+Route::get('/game/some', [GameController::class, 'some'] );
 
 // Only logged stuff
 Route::middleware('auth:sanctum')->group( function() {

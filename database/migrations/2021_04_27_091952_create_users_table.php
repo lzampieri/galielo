@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 90);
             $table->string('slogan', 100)->nullable();
             $table->string('bio', 1000)->nullable();
+            $table->boolean('isadmin')->default(false);
         });
     }
 

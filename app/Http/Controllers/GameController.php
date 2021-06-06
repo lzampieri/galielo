@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
 use App\Models\Game;
+use App\Models\Param;
 use App\Models\Player;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -89,6 +90,10 @@ class GameController extends Controller
     }
 
     public function all() {
-        return GameResource::collection( Game::where( 'hidden', false )->get() );
+        return GameResource::collection( Game::where( 'hidden', false )->get( ) );
+    }
+    
+    public function some() {
+        return GameResource::collection( Game::where( 'hidden', false )->orderBy('ID','desc')->paginate( Param::find('games_pages_length')->value ) );
     }
 }

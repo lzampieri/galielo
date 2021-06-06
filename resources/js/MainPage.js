@@ -22,7 +22,6 @@ class MainPage extends Component {
             loading: true,
             params: undefined,
             players: [],
-            games: []
         }
     }
 
@@ -36,7 +35,6 @@ class MainPage extends Component {
         await Promise.all([
             this.loadUser(),
             this.loadPlayers(),
-            this.loadGames()
         ]);
         this.setState( { loading: false } );
     }
@@ -44,11 +42,6 @@ class MainPage extends Component {
     async loadUser() {
         let u = await $.get( base_url + '/api/user/me' )
         this.setState( { user: u.data } );
-    }
-
-    async loadGames() {
-        let u = await $.get( base_url + '/api/game/all' );
-        this.setState( { games: u.data } );
     }
 
     async loadParams() {
@@ -71,7 +64,7 @@ class MainPage extends Component {
                     <Chart players={ this.state.players } logged={ this.state.user !== undefined }/>
                 </Route>
                 <Route path="/games">
-                    <Games games={ this.state.games }/>
+                    <Games />
                 </Route>
                 <Route path="/sign-in">
                     <SignIn onDone={ this.refreshChart.bind(this) } />
