@@ -4,8 +4,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, IndexRoute, NavLink, Redirect } from 'react-router-dom';
 import Example from './components/Example';
+import Footer from './components/Footer';
 import MyBackDrop from './components/MyBackDrop';
+import GlobalCss from './GlobalCss';
 import TopBar from './navigation/TopBar';
+import About from './pages/About';
 import AddGame from './pages/AddGame';
 import Association from './pages/Association';
 import Chart from './pages/Chart';
@@ -20,7 +23,7 @@ class MainPage extends Component {
         this.state = {
             user: undefined,
             loading: true,
-            params: undefined,
+            params: [],
             players: [],
         }
     }
@@ -72,6 +75,9 @@ class MainPage extends Component {
                 <Route path="/add-game">
                     <AddGame players={ this.state.players } onDone={ this.refreshChart.bind(this) } />
                 </Route> {/* todo protect to logged users */}
+                <Route path="/about">
+                    <About params={ this.state.params } />
+                </Route>
                 <Redirect from="*" to="/chart" />
             </Switch>
         )
@@ -97,12 +103,14 @@ class MainPage extends Component {
             <ThemeProvider theme={theme}>
             <BrowserRouter basename={base_path} >
                 <CssBaseline />
+                <GlobalCss />
                 <TopBar basePath = {base_path} user = {this.state.user} />
                 {/* If the user is logged but no register, redirect to association page */}
                 { ( this.state.user && !(this.state.user.name) ) ?
                     this.force_association() :
                     this.main_routing()
                 }
+                <Footer />
                 <MyBackDrop open={ this.state.loading } />
             </BrowserRouter>
             </ThemeProvider>

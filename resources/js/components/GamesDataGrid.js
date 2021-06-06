@@ -1,7 +1,5 @@
-import { CircularProgress } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import React from 'react';
-import MyBackDrop from './MyBackDrop';
 
 function getPoints(params) {
     return `10 - ${params.getValue(params.id, 'pt2') || 0}`;

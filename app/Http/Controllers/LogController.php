@@ -21,6 +21,22 @@ class LogController extends Controller
             Auth::user()->logs()->save( $istance );
     }
 
+    public function human_readable() {
+        $logs = Log::with('user')->orderBy('id','desc')->get();
+        $table = "<table cellspacing=0 cellpadding=7><thead><tr><th>ID</th><th>Creation time</th><th>Action</th><th>User ID</th><th>User mail</th></thead><tbody>";
+        $pari = true;
+        foreach( $logs as $log ) {
+            $table .= "<tr" . ( $pari ? " style=\"background-color: #00000030;\" " : "") ."><td>" . $log['id'] . "</td><td>" . $log['created_at'] . "</td><td>" . $log['action'] . "</td><td>" . $log['user_id'] . "</td><td>" . $log['user']['email'] . "</td></tr>";
+            $pari = !$pari;
+        }
+        $table .= "</tbody></table>";
+        return $table;
+    }
+
+    public function all() {
+        return Log::with('user')->orderBy('id','desc')->get();
+    }
+
     public static function player_create(Player $plt) {
         LogController::create_and_associate("Player | created " . $plt->name . " (" . $plt->id . ")" );
     }
