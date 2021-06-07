@@ -1,9 +1,30 @@
 import { Box, Container, Grid, Typography, Button, CircularProgress, Backdrop, Tabs, Tab, Collapse, Switch } from '@material-ui/core';
 import { TabContext, TabPanel } from '@material-ui/lab';
+import { withStyles } from '@material-ui/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ChartList from '../components/ChartList';
 import CenteredCard from './CenteredCard';
+
+const style = (theme) => { return {
+    word: {
+        fontWeight: 'bolder',
+        fontSize: theme.typography.h4.fontSize
+    },
+    type: {
+        fontWeight: 'bolder',
+        color: theme.palette.text.disabled
+    },
+    origin: {
+        color: theme.palette.text.disabled
+    },
+    origin_word: {
+        fontStyle: 'italic'
+    },
+    def: {
+        color: theme.palette.text.secondary
+    }
+}};
 
 class Chart extends React.Component {
 
@@ -23,6 +44,20 @@ class Chart extends React.Component {
         this.setState( { selected_tab: index } );
     }
 
+    header_cit() {
+        const { classes } = this.props;
+        return (
+            <React.Fragment>
+            <Typography variant="subtitle1">
+                <span className={ classes.word }>rankare </span>
+                <span className={ classes.type }>v.tr. </span>
+                <span className={ classes.origin }>[dall'inglese <span className={ classes.origin_word }>rank</span>, classificare, ovvero  dal protogermanico <span className={ classes.origin_word }>hringaz</span>, anello] (aus. <span className={ classes.origin_word }>avere</span>)</span>
+                <span className={ classes.def }> &mdash; concedere dignità ad un incontro (partita) inserendolo in apposito database, atto a gestire una classifica dei giocatori.</span>
+            </Typography>
+            </React.Fragment>
+        )
+    }
+
     render() {
         return(
             <Container>
@@ -32,9 +67,7 @@ class Chart extends React.Component {
                             <img src="storage/logo_large.png" width="100%" />
                         </Grid>
                         <Grid item xs={10} sm={4}>
-                            <Typography variant="h5">
-                                Perché nessuno ranka come un galileiano.
-                            </Typography>
+                            { this.header_cit() }
                             <br/>
                             <Button
                                 to="sign-in"
@@ -90,4 +123,4 @@ class Chart extends React.Component {
     }
 }
 
-export default Chart;
+export default withStyles(style)(Chart);
