@@ -97,13 +97,13 @@ if( array_key_exists("add", $_POST)) {
     $vd2 = -ceil($fp * $fr * $coef4);
 
     // Save update data
-    query("UPDATE giocatori SET PuntiA = ". $eloa1 + $va1 ." WHERE ID = ".$att1);
+    query("UPDATE giocatori SET PuntiA = ". ($eloa1 + $va1) ." WHERE ID = ". $att1);
     log_to_database("Player $att1 PuntiA FROM $eloa1 TO ". ($eloa1 + $va1));
-    query("UPDATE giocatori SET PuntiA = ". $eloa2 + $va2 ." WHERE ID = ".$att2);
+    query("UPDATE giocatori SET PuntiA = ". ($eloa2 + $va2) ." WHERE ID = ". $att2);
     log_to_database("Player $att2 PuntiA FROM $eloa2 TO ". ($eloa2 + $va2));
-    query("UPDATE giocatori SET PuntiD = ". $elod1 + $vd1 ." WHERE ID = ".$dif1);
+    query("UPDATE giocatori SET PuntiD = ". ($elod1 + $vd1) ." WHERE ID = ". $dif1);
     log_to_database("Player $dif1 PuntiD FROM $elod1 TO ". ($elod1 + $vd1));
-    query("UPDATE giocatori SET PuntiD = ". $elod2 + $vd2 ." WHERE ID = ".$dif2);
+    query("UPDATE giocatori SET PuntiD = ". ($elod2 + $vd2) ." WHERE ID = ". $dif2);
     log_to_database("Player $dif2 PuntiD FROM $elod2 TO ". ($elod2 + $vd2));
 
     // Save match

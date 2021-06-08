@@ -145,7 +145,7 @@
         $('#spinner').show();
 
         var request = "../api/tweet.php";
-        if( last_id > -1 ) request += "?below="+last_id;
+        if( last_id > -1 ) request += "?below=" + string(last_id);
         $.get(request, function(data) {
             // Parse result
             tweets = JSON.parse(data);

@@ -57,7 +57,7 @@ if( array_key_exists('add',$_POST) ) {
 } else {
     // Check if below
     if( array_key_exists('below',$_GET) )
-        $query = "SELECT * FROM galitweet WHERE Visible = 1 AND ID < ".$_GET['below']." ORDER BY ID DESC LIMIT 50";
+        $query = "SELECT * FROM galitweet WHERE Visible = 1 AND ID < ". $_GET['below'] ." ORDER BY ID DESC LIMIT 50";
     else
         $query = "SELECT * FROM galitweet WHERE Visible = 1 ORDER BY ID DESC LIMIT 50";
     // Get tweets details
