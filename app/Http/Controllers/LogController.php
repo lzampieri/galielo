@@ -23,7 +23,8 @@ class LogController extends Controller
 
     public function human_readable() {
         $logs = Log::with('user')->orderBy('id','desc')->get();
-        $table = "<table cellspacing=0 cellpadding=7><thead><tr><th>ID</th><th>Creation time</th><th>Action</th><th>User ID</th><th>User mail</th></thead><tbody>";
+        $table = "<a href=\"systemlog\">System log</a><br/>";
+        $table .= "<table cellspacing=0 cellpadding=7><thead><tr><th>ID</th><th>Creation time</th><th>Action</th><th>User ID</th><th>User mail</th></thead><tbody>";
         $pari = true;
         foreach( $logs as $log ) {
             $table .= "<tr" . ( $pari ? " style=\"background-color: #00000030;\" " : "") ."><td>" . $log['id'] . "</td><td>" . $log['created_at'] . "</td><td>" . $log['action'] . "</td><td>" . $log['user_id'] . "</td><td>" . $log['user']['email'] . "</td></tr>";
@@ -51,10 +52,6 @@ class LogController extends Controller
 
     public static function player_changeDpoints(Player $plt, int $old_points) {
         LogController::create_and_associate("Player | change Dpoints from " . $old_points . " to " . $plt->dpoints . "(" . $plt->name . ", " . $plt->id . ")" );
-    }
-    
-    public static function user_login() {
-        LogController::create_and_associate("User | login" );
     }
     
     public static function game_create(Game $game) {

@@ -18,8 +18,12 @@ Route::get('/auth/callback_google', [ GoogleAuthController::class, 'callback' ] 
 Route::get('/auth/logout_google', [ GoogleAuthController::class, 'logout' ] )->name('logout-google');
 
 // Log routing
-Route::get('/log/human_readable', [ LogController::class, 'human_readable'])->middleware(['auth.admin']);
-Route::get('/log/all', [ LogController::class, 'all'])->middleware(['auth.admin']);
+Route::redirect('/log',url('log/human_readable'));
+Route::middleware('auth.admin')->group( function() {
+    Route::get('/log/human_readable', [ LogController::class, 'human_readable']);
+    Route::get('/log/all', [ LogController::class, 'all']);
+    Route::get('/log/systemlog', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+});
 
 // todo Remove
 Route::get('/auth/add_param/{key}/{value}', function ($key, $value) {

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log as SystemLog;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
@@ -19,11 +20,11 @@ class GoogleAuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function callback() {
+    public function callback(Request $request) {
         $user = Socialite::driver('google')->user();
         $theUser = User::firstOrCreate( ['email' => $user->getEmail() ] );
         Auth::login($theUser);
-        LogController::user_login( $theUser );
+        SystemLog::channel('users_log')->debug( "[" . request()->ip() ."] Login " . $theUser->email . " (" . $theUser->id . ")" );
         return redirect( route( 'react' ) );
     }
 
