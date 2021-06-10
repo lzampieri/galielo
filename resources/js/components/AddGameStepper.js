@@ -1,9 +1,10 @@
 import { Box, Button, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Slider, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
-import { AccountCircle, SwapVert } from '@material-ui/icons';
+import { AccountCircle, Hotel, SwapVert } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { withStyles } from '@material-ui/styles';
 import React from 'react';
 import MyBackDrop from './MyBackDrop';
+import ParamsContext from '../ParamsContext';
 
 const styles = (theme) => { return {
     greenSquad: {
@@ -25,11 +26,39 @@ class AddGameStepper extends React.Component {
             redPoints: 0,
             loading: false,
             error: undefined,
-            result: undefined
+            result: undefined,
+            players: []
         }
     }
 
     componentDidMount() {
+        this.sortPlayers();
+    }
+
+    componentDidUpdate(prevProps) {
+        if( this.props.players !== prevProps.players ) {
+            this.sortPlayers();
+        }
+    }
+
+    awake(p) {
+        return ( p.asAtt1R + p.asDif1R + p.asAtt2R + p.asDif2R >= this.context.active_threshold );
+    }
+
+    sort_func(a,b) {
+        if(  this.awake(a) && !this.awake(b) ) return -1;
+        if( !this.awake(a) &&  this.awake(b) ) return 1;
+        if(  a.name        >   b.name   ) return 1;
+        if(  a.name        <   b.name   ) return -1;
+        return 0;
+    }
+
+    sortPlayers() {
+        let to_sort = [...this.props.players]; // Array is fully copied, to have a editable version
+        to_sort.sort( this.sort_func.bind(this) );
+        this.setState( {
+            players: to_sort
+        });
     }
 
     handlePlayerSelection( p ) {
@@ -55,7 +84,7 @@ class AddGameStepper extends React.Component {
         const { classes } = this.props;
         return (
             <List>
-                { this.props.players.map( p => (
+                { this.state.players.map( p => (
                     <ListItem
                         button
                         className={ this.state.selectedSqGreen.includes( p ) ? classes.greenSquad : (
@@ -64,7 +93,7 @@ class AddGameStepper extends React.Component {
                         onClick={ () => this.handlePlayerSelection( p ) }
                         >
                         <ListItemIcon>
-                            <AccountCircle />
+                            { this.awake(p) ? <AccountCircle /> : <Hotel /> }
                         </ListItemIcon>
                         <ListItemText primary={ p.name } />
                     </ListItem>
@@ -263,6 +292,17 @@ class AddGameStepper extends React.Component {
                     <StepLabel>Seleziona giocatori</StepLabel>
                     <StepContent>
                         <Typography variant="body2">Un click per inserire nella squadra verde, due click per quella rossa.</Typography>
+                        <Button
+                            disabled = { true }
+                            variant="outlined">
+                            Indietro
+                        </Button>
+                        <Button
+                            disabled = { this.state.selectedSqGreen.length == 2 && this.state.selectedSqRed.length == 2 ? false : true }
+                            onClick = { () => this.setState( { currentStep: 1 } ) }
+                            variant="outlined">
+                            Avanti
+                        </Button>
                         { this.playersList() }
                         <Button
                             disabled = { true }
@@ -342,5 +382,7 @@ class AddGameStepper extends React.Component {
         )
     }
 }
+
+AddGameStepper.contextType = ParamsContext;
 
 export default withStyles(styles)(AddGameStepper);
