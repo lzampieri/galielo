@@ -31,10 +31,10 @@ class ChartListCard extends React.Component {
 
                     )}
                     <List dense>
-                        <ListItem button>
+                        <ListItem>
                             <ListItemText
                                 primary="Attacco"
-                                secondary={ "Su " + ( this.props.p.asAtt1 + this.props.p.asAtt2 ) + " partite"} />
+                                secondary={ "Su " + ( this.props.p.asAtt1 + this.props.p.asAtt2 ) + " partite (" + ( this.props.p.asAtt1R + this.props.p.asAtt2R ) + " recenti)"} />
                             <ListItemIcon>
                                 {this.props.p.apoints}
                             </ListItemIcon>
@@ -42,7 +42,7 @@ class ChartListCard extends React.Component {
                         <ListItem>
                             <ListItemText
                                 primary="Difesa"
-                                secondary={ "Su " + ( this.props.p.asDif1 + this.props.p.asDif2 ) + " partite"} />
+                                secondary={ "Su " + ( this.props.p.asDif1 + this.props.p.asDif2 ) + " partite (" + ( this.props.p.asDif1R + this.props.p.asDif2R ) + " recenti)"} />
                             <ListItemIcon>
                                 {this.props.p.dpoints}
                             </ListItemIcon>
@@ -50,7 +50,7 @@ class ChartListCard extends React.Component {
                         <ListItem>
                             <ListItemText
                                 primary="Totale"
-                                secondary={ "Su " + ( this.props.p.asAtt1 + this.props.p.asAtt2 + this.props.p.asDif1 + this.props.p.asDif2 ) + " partite"} />
+                                secondary={ "Su " + ( this.props.p.asAtt1 + this.props.p.asAtt2 + this.props.p.asDif1 + this.props.p.asDif2 ) + " partite (" + ( this.props.p.asAtt1R + this.props.p.asAtt2R + this.props.p.asDif1R + this.props.p.asDif2R ) + " recenti)"} />
                             <ListItemIcon>
                                 { (this.props.p.apoints + this.props.p.dpoints) / 2. }
                             </ListItemIcon>

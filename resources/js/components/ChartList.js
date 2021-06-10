@@ -1,8 +1,9 @@
-import { List, ListItem } from '@material-ui/core';
+import { List, Box, Collapse } from '@material-ui/core';
 import React from 'react';
 import ChartListItem from './ChartListItem';
+import ParamsContext from '../ParamsContext';
 
-class ChartList extends React.Component {
+class ChartList extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -33,13 +34,24 @@ class ChartList extends React.Component {
         });
     }
 
+    visible(p) {
+        let type = this.props.type;
+        return this.props.sleepers || ( ( p.asAtt1R + p.asAtt2R ) * ( 1 - ( type == 'D' )) + ( p.asDif1R + p.asDif2R ) * ( 1 - ( type == 'A' )) ) >= this.context.active_threshold;
+    }
+
     render() {
         return(
-            <List style={{ width: "100%" }}>
-                { this.state.sorted.map( p => <ChartListItem p = {p} key = {p.id} type = {this.props.type} sleeper = {this.props.sleepers} /> ) }
-            </List>
+            <Box style={{ width: "100%" }}>
+                { this.state.sorted.map( p => (
+                    <Collapse in={ this.visible(p) } key = {p.id}>
+                        <ChartListItem p = {p} type = {this.props.type} />
+                    </Collapse> 
+                ) ) }
+            </Box>
         )
     }
 }
+
+ChartList.contextType = ParamsContext;
 
 export default ChartList;

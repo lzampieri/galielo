@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/styles';
 import React from 'react';
 import { CSVDownload, CSVLink } from 'react-csv';
 import MyBackDrop from '../components/MyBackDrop';
+import ParamsContext from '../ParamsContext';
 import CenteredCard from './CenteredCard';
 
 const style = (theme) => { return {
@@ -37,6 +38,7 @@ class About extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const params = this.context;
         return(
             <Container>
                 <Box py={3}>
@@ -108,7 +110,7 @@ class About extends React.Component {
                                     /public/api/player/all<br/>
                                     <span>Lista di tutte le partite</span><br/>
                                     /public/api/game/all<br/>
-                                    <span>Lista di tutte le partite, divise in pagine a gruppi di { this.props.params.games_pages_length }</span><br/>
+                                    <span>Lista di tutte le partite, divise in pagine a gruppi di { params.games_pages_length }</span><br/>
                                     /public/api/game/some?page=0<br/>
                                     <span>Parametri del sito</span><br/>
                                     /public/api/param/all<br/>
@@ -132,5 +134,7 @@ class About extends React.Component {
         )
     }
 }
+
+About.contextType = ParamsContext;
 
 export default withStyles(style)(About);

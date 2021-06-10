@@ -15,6 +15,7 @@ import Chart from './pages/Chart';
 import Games from './pages/Games';
 import SignIn from './pages/SignIn';
 import theme from './theme';
+import ParamsContext from './ParamsContext';
 
 class MainPage extends Component {
 
@@ -64,7 +65,7 @@ class MainPage extends Component {
             <Switch>
                 <Route path="/login" component={Redirect} to="/auth/login_google" />
                 <Route path="/chart">
-                    <Chart players={ this.state.players } logged={ this.state.user !== undefined }/>
+                    <Chart players={ this.state.players } logged={ this.state.user !== undefined } />
                 </Route>
                 <Route path="/games">
                     <Games />
@@ -76,7 +77,7 @@ class MainPage extends Component {
                     <AddGame players={ this.state.players } onDone={ this.refreshChart.bind(this) } />
                 </Route> {/* todo protect to logged users */}
                 <Route path="/about">
-                    <About params={ this.state.params } />
+                    <About />
                 </Route>
                 <Redirect from="*" to="/chart" />
             </Switch>
@@ -101,6 +102,7 @@ class MainPage extends Component {
         var base_path = base_url.replace( /[^/:]*:\/\/[^/]*\//, '');
         return(
             <ThemeProvider theme={theme}>
+            <ParamsContext.Provider value={this.state.params}>
             <BrowserRouter basename={base_path} >
                 <CssBaseline />
                 <GlobalCss />
@@ -113,6 +115,7 @@ class MainPage extends Component {
                 <Footer />
                 <MyBackDrop open={ this.state.loading } />
             </BrowserRouter>
+            </ParamsContext.Provider>
             </ThemeProvider>
         );
 
