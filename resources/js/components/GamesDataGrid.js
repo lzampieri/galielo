@@ -80,7 +80,6 @@ class GamesDataGrid extends React.Component {
     async downloadPage() {
         this.setState({ loading: true });
         let res = await $.get( base_url + '/api/game/some?page=' + ( this.state.page + 1 ) );
-        console.log( base_url + '/api/game/some?page=' + ( this.state.page + 1 ) );
         this.setState({
             loading: false,
             games: res.data,
