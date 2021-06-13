@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Typography, Button, CircularProgress, Tabs, Tab, Collapse, Switch, ButtonBase } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GamesDataGrid from '../components/GamesDataGrid';
+import GamesDataList from '../components/GamesDataList';
 import CenteredCard from './CenteredCard';
 
 class Games extends React.Component {
@@ -26,7 +26,7 @@ class Games extends React.Component {
                                 "Effettua il login per inserire una partita"
                             )}
                     </Grid>
-                    <GamesDataGrid />
+                    <GamesDataList />
                     <Box pt={3}>
                     </Box>
                 </CenteredCard>
