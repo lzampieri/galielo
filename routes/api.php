@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ParamController;
+use App\Http\Controllers\TableController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Resources\UserResource;
 use App\Models\Param;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 // Params
 Route::get('/param/all', [ParamController::class, 'all']);
+Route::get('/table/all', [TableController::class, 'all']);
 
 // Users
 Route::get('/user/me', function() {

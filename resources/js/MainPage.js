@@ -50,8 +50,11 @@ class MainPage extends Component {
 
     async loadParams() {
         let u = await $.get( base_url + '/api/param/all' );
+        let t = await $.get( base_url + '/api/table/all' );
         let params = {};
         u.forEach( item => params[ item.key ] = ( isNaN(item.value) ? item.value : parseFloat(item.value) ) );
+        params[ 'tables' ] = [];
+        t.forEach( item => params[ 'tables' ][ item.id ] = item.name );
         this.setState( { params: params } );
     }
     

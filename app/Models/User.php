@@ -18,29 +18,15 @@ class User extends Authenticatable
         'isadmin'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
     public function player() {
         return $this->hasOne( Player::class );
     }
 
     public function logs() {
         return $this->hasMany( Log::class );
+    }
+    
+    public function inserted_games() {
+        return $this->hasMany( Game::class, 'inserted_by' );
     }
 }

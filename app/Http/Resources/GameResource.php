@@ -17,6 +17,7 @@ class GameResource extends JsonResource
         return [
             'id' => $this->id,
             'date' => $this->created_at,
+            'inserted_by' => $this->inserted_by,
             'att1_id' => $this->att1_id,
             'att1' => $this->att1->name,
             'dif1_id' => $this->dif1_id,
@@ -31,6 +32,7 @@ class GameResource extends JsonResource
             'deltad2' => $this->deltad2,
             'pt1' => $this->pt1,
             'pt2' => $this->pt2,
+            'table' => $this->table->name,
             'hidden' => $this->hidden
         ];
     }

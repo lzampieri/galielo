@@ -16,6 +16,7 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('inserted_by')->constrained('users');
             $table->foreignId('att1_id')->constrained('players');
             $table->foreignId('dif1_id')->constrained('players');
             $table->foreignId('att2_id')->constrained('players');
@@ -26,6 +27,7 @@ class CreateGamesTable extends Migration
             $table->integer('deltad2');
             $table->integer('pt1');
             $table->integer('pt2');
+            $table->foreignId('table_id')->constrained();
             $table->boolean('hidden');
         });
     }

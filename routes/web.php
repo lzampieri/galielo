@@ -5,6 +5,7 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\LogController;
 use App\Http\Resources\UserResource;
 use App\Models\Param;
+use App\Models\Table;
 use Illuminate\Support\Facades\Auth;
 
 // Almost all routing is managed by React
@@ -28,4 +29,7 @@ Route::middleware('auth.admin')->group( function() {
 // todo Remove
 Route::get('/auth/add_param/{key}/{value}', function ($key, $value) {
     return Param::firstOrCreate( [ 'key' => $key, 'value' => $value ] );
+});// todo Remove
+Route::get('/auth/add_table/{value}', function ($value) {
+    return Table::firstOrCreate( [ 'name' => $value ] );
 });

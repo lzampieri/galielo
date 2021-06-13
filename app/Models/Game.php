@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
+use App\Models\Table;
 
 class Game extends Model
 {
@@ -39,4 +40,11 @@ class Game extends Model
         return $this->belongsTo( Player::class, 'dif2_id' );
     }
     
+    public function inserted_by() {
+        return $this->belongsTo( User::class, 'inserted_by' );
+    }
+    
+    public function table() {
+        return $this->belongsTo( Table::class );
+    }
 }

@@ -1,5 +1,6 @@
 import { DataGrid } from '@material-ui/data-grid';
 import React from 'react';
+import ParamsContext from '../ParamsContext';
 
 function getPoints(params) {
     return `10 - ${params.getValue(params.id, 'pt2') || 0}`;
@@ -7,7 +8,9 @@ function getPoints(params) {
 
 function getData(params) {
     let date = new Date(params.value);
-    return date.toLocaleString('it-IT', { month: '2-digit', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    let date_string = date.toLocaleString('it-IT', { month: '2-digit', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    let table = params.getValue(params.id, 'table');
+    return date_string + ", " + table;
 }
 
 function getSq1(params) {
@@ -23,7 +26,7 @@ function getSq2(params) {
 const columns = [
     {
         field: 'date',
-        headerName: 'Data',
+        headerName: 'Data e luogo',
         flex: 0.5,
         valueFormatter: getData,
         sortable: false
@@ -114,5 +117,7 @@ class GamesDataGrid extends React.Component {
         )
     }
 }
+
+GamesDataGrid.contextType = ParamsContext;
 
 export default GamesDataGrid;
