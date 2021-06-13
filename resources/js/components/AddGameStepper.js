@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Slider, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
-import { AccountCircle, Hotel, SwapVert } from '@material-ui/icons';
+import { AccountCircle, Hotel, SwapVert, BorderOuter } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { withStyles } from '@material-ui/styles';
 import React from 'react';
@@ -23,6 +23,7 @@ class AddGameStepper extends React.Component {
             currentStep: 0,
             selectedSqGreen: [],
             selectedSqRed:   [],
+            selectedTable: 1,
             redPoints: 0,
             loading: false,
             error: undefined,
@@ -188,6 +189,33 @@ class AddGameStepper extends React.Component {
         )
     }
 
+    handleTableSelection(id) {
+        this.setState({ selectedTable: id });
+    }
+
+    tablesList() {
+        const { classes } = this.props;
+        return (
+            <List>
+            {
+                this.context.tables && this.context.tables.map( ( t, i ) => (
+                    t && (
+                        <ListItem className={ i == this.state.selectedTable ? classes.greenSquad : "" } button
+                            onClick={() => this.setState( {
+                                selectedTable: i
+                            } ) } key={ i } >
+                            <ListItemIcon>
+                                <BorderOuter />
+                            </ListItemIcon>
+                            <ListItemText primary={ t } />
+                        </ListItem>
+                    )
+                ))
+            }
+            </List>
+        )
+    }
+
     confirmList() {
         const { classes } = this.props;
         return (
@@ -219,6 +247,12 @@ class AddGameStepper extends React.Component {
                     </ListItemIcon>
                     <ListItemText primary={ this.state.selectedSqRed[1] && this.state.selectedSqRed[1].name } secondary="Difensore" />
                 </ListItem>
+                <ListItem>
+                    <ListItemIcon>
+                        <BorderOuter />
+                    </ListItemIcon>
+                    <ListItemText primary={ this.context.tables && this.context.tables[ this.state.selectedTable ] } />
+                </ListItem>
             </List>
         )
     }
@@ -244,7 +278,7 @@ class AddGameStepper extends React.Component {
                     <Typography variant="h4">+{ this.state.result.deltad1 }</Typography>
                 </ListItem>
                 <ListItem>
-                    <ListItemText/>
+                    <ListItemText primary={ this.context.tables && this.context.tables[ this.state.selectedTable ] } />
                     <Typography variant="h4">10 - { this.state.result.pt2 }</Typography>
                 </ListItem>
                 <ListItem className={classes.redSquad}>
@@ -273,10 +307,11 @@ class AddGameStepper extends React.Component {
             dif1: this.state.selectedSqGreen[1].id,
             att2: this.state.selectedSqRed  [0].id,
             dif2: this.state.selectedSqRed  [1].id,
+            table: this.state.selectedTable,
             points: this.state.redPoints
         }
         let result = await $.post( base_url + '/api/game', values );
-        this.setState({ loading: false, currentStep: 4 });
+        this.setState({ loading: false, currentStep: 5 });
         if( result.success ) {
             await this.props.onDone();
             this.setState({ result: result });
@@ -350,12 +385,29 @@ class AddGameStepper extends React.Component {
                         </Button>
                     </StepContent>
                 </Step>
+                <Step key="select_table">
+                    <StepLabel>Seleziona biliardino</StepLabel>
+                    <StepContent>
+                        { this.tablesList() }
+                        <Button
+                            onClick = { () => this.setState( { currentStep: 2 } ) }
+                            variant="outlined">
+                            Indietro
+                        </Button>
+                        <Button
+                            onClick = { () => this.setState( { currentStep: 4 } ) }
+                            disabled = { this.state.redPoints == 10 }
+                            variant="outlined">
+                            Avanti
+                        </Button>
+                    </StepContent>
+                </Step>
                 <Step key="confirm">
                     <StepLabel>Conferma</StepLabel>
                     <StepContent>
                         { this.confirmList() }
                         <Button
-                            onClick = { () => this.setState( { currentStep: 2 } ) }
+                            onClick = { () => this.setState( { currentStep: 3 } ) }
                             variant="outlined">
                             Indietro
                         </Button>

@@ -7,8 +7,10 @@ use App\Http\Resources\GameResource;
 use App\Models\Game;
 use App\Models\Param;
 use App\Models\Player;
+use App\Models\Table;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
@@ -20,6 +22,7 @@ class GameController extends Controller
             $att2 = Player::findOrFail( $request->input('att2') );
             $dif2 = Player::findOrFail( $request->input('dif2') );
             $pt2  = $request->input('points');
+            $table= Table::findOrFail( $request->input('table', 1) );
             
             // Compute variations
             $eloa1 = $att1->apoints;
@@ -69,10 +72,12 @@ class GameController extends Controller
                 'pt2' => $pt2,
                 'hidden' => false
             ]);
-            $game -> att1() -> associate( $att1 );
-            $game -> dif1() -> associate( $dif1 );
-            $game -> att2() -> associate( $att2 );
-            $game -> dif2() -> associate( $dif2 );
+            $game -> att1 () -> associate( $att1 );
+            $game -> dif1 () -> associate( $dif1 );
+            $game -> att2 () -> associate( $att2 );
+            $game -> dif2 () -> associate( $dif2 );
+            $game -> table() -> associate( $table);
+            $game -> author() -> associate( Auth::user() );
 
             $game -> save();
 

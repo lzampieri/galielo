@@ -40,7 +40,7 @@ class Game extends Model
         return $this->belongsTo( Player::class, 'dif2_id' );
     }
     
-    public function inserted_by() {
+    public function author() {
         return $this->belongsTo( User::class, 'inserted_by' );
     }
     

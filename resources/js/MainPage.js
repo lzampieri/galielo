@@ -71,7 +71,7 @@ class MainPage extends Component {
                     <Chart players={ this.state.players } logged={ this.state.user !== undefined } />
                 </Route>
                 <Route path="/games">
-                    <Games />
+                    <Games logged={ this.state.user !== undefined } />
                 </Route>
                 <Route path="/sign-in">
                     <SignIn onDone={ this.refreshChart.bind(this) } />
