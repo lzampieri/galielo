@@ -33,6 +33,7 @@
         "cross-env": "^7.0.3",
         "formik": "^2.2.6",
         "formik-material-ui": "^3.0.1",
+        "mdi-material-ui": "^6.22.1",
         "react-csv": "^2.0.3",
         "react-router-dom": "^5.2.0",
         "react-virtualized-auto-sizer": "^1.0.5",

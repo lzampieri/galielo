@@ -1,8 +1,10 @@
 import { List, ListItem, ListItemIcon, ListItemText, Collapse, Card, CardHeader, Grid } from '@material-ui/core';
-import { AccountCircle, Hotel } from '@material-ui/icons';
+import { AccountCircle } from '@material-ui/icons';
 import React from 'react';
 import ParamsContext from '../ParamsContext';
 import ChartListCard from './ChartListCard';
+import { Bed, Blender, ChessQueen} from 'mdi-material-ui';
+import GalieloPlayer from './GalieloPlayer';
 
 class ChartListItem extends React.PureComponent {
 
@@ -13,6 +15,22 @@ class ChartListItem extends React.PureComponent {
         }
     }
 
+    getAvatar( p, points, type, context ) {
+        // Check if sleeper
+        if ( 
+            ( ( p.asAtt1R + p.asAtt2R ) * ( 1 - ( type == 'D' )) + 
+            ( p.asDif1R + p.asDif2R ) * ( 1 - ( type == 'A' )) ) <
+            context.active_threshold )
+            return <Bed />
+        if (
+            points >= context.crown_threshold
+        ) return <ChessQueen />;
+        if (
+            points <= context.blender_threshold
+        ) return <Blender />;
+        return <GalieloPlayer />;
+    }    
+
     render() {
         let p = this.props.p;
         let type = this.props.type;
@@ -20,13 +38,12 @@ class ChartListItem extends React.PureComponent {
                        type == "D" ? p.dpoints :
                        ( p.apoints + p.dpoints ) / 2
         ));
-        let sleeping = ( ( p.asAtt1R + p.asAtt2R ) * ( 1 - ( type == 'D' )) + ( p.asDif1R + p.asDif2R ) * ( 1 - ( type == 'A' )) ) < this.context.active_threshold;
         return(
             <React.Fragment>
                 <ListItem
                     button onClick={ () => { this.setState( { collapse_open : !this.state.collapse_open} ) } }>
                     <ListItemIcon>
-                        { sleeping ? <Hotel /> : <AccountCircle />}
+                        { this.getAvatar( p, points, type, this.context ) }
                     </ListItemIcon>
                     <ListItemText primary={ p.name } />
                     { points }

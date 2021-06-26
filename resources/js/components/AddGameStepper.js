@@ -1,10 +1,11 @@
 import { Box, Button, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Slider, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
-import { AccountCircle, Hotel, SwapVert, BorderOuter } from '@material-ui/icons';
+import { AccountCircle, SwapVert, BorderOuter } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { withStyles } from '@material-ui/styles';
 import React from 'react';
 import MyBackDrop from './MyBackDrop';
 import ParamsContext from '../ParamsContext';
+import { Bed } from 'mdi-material-ui';
 
 const styles = (theme) => { return {
     greenSquad: {
@@ -94,7 +95,7 @@ class AddGameStepper extends React.Component {
                         onClick={ () => this.handlePlayerSelection( p ) }
                         >
                         <ListItemIcon>
-                            { this.awake(p) ? <AccountCircle /> : <Hotel /> }
+                            { this.awake(p) ? <AccountCircle /> : <Bed /> }
                         </ListItemIcon>
                         <ListItemText primary={ p.name } />
                     </ListItem>

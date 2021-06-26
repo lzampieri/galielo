@@ -3,15 +3,19 @@ import ParamsContext from '../ParamsContext';
 import GamesDataListItem from './GamesDataListItem';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
+import { useMediaQuery, useTheme } from '@material-ui/core';
+import withMediaQuery from './withMediaQuery';
+
+const mediaQuery = theme => theme.breakpoints.down('sm');
 
 class GamesDataList extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            totalRowCount: 1000
+            totalRowCount: 1000,
+            games: []
         }
-        this.games= [];
         this.lastPageLoaded= 0;
         this.loading= false;
     }
@@ -26,24 +30,24 @@ class GamesDataList extends React.PureComponent {
     }
 
     async downloadPagesUntil(finalIndex) {
-        while( finalIndex >= this.games.length )
+        while( finalIndex >= this.state.games.length )
             await this.downloadPage();
     }
 
     async downloadPage() {
         let res = await $.get( base_url + '/api/game/some?page=' + ( this.lastPageLoaded + 1 ) );
         this.setState({
-            totalRowCount: res.meta.total
+            totalRowCount: res.meta.total,
+            games: this.state.games.concat( res.data )
         })
-        this.games = this.games.concat( res.data );
         this.lastPageLoaded += 1;
-        console.log("Downloaded page " + this.lastPageLoaded + ", total of " + this.games.length);
     }
 
     render() {
+        const mobile = this.props.mediaQuery;
         return(
             <InfiniteLoader
-                isItemLoaded={ index => ( index < this.games.length ) }
+                isItemLoaded={ index => ( index < this.state.games.length ) }
                 itemCount={ this.state.totalRowCount }
                 loadMoreItems={ this.loadMoreItems.bind(this) }
                 >
@@ -54,14 +58,15 @@ class GamesDataList extends React.PureComponent {
                         itemCount={ this.state.totalRowCount }
                         onItemsRendered={ onItemsRendered }
                         ref={ref}
-                        itemSize={ 46 }
+                        itemSize={ mobile ? 210 : 70 }
                         >
                         {({ index, style }) => (
                             <GamesDataListItem
-                                style={ style }
+                                upstyle={ style }
                                 key={ index }
                                 index={ index }
-                                game={ this.games[index] } />
+                                game={ this.state.games[index] }
+                                mobile={ mobile } />
                         )}
                     </FixedSizeList>
                 )}
@@ -72,4 +77,4 @@ class GamesDataList extends React.PureComponent {
 
 GamesDataList.contextType = ParamsContext;
 
-export default GamesDataList;
+export default withMediaQuery(mediaQuery)(GamesDataList);
