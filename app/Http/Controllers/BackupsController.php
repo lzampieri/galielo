@@ -29,6 +29,8 @@ class BackupsController extends Controller
 
         Storage::put( "backups/" . $tables['backup_info']['filename'] , json_encode( $tables ) );
 
+        LogController::backup_create( $tables['backup_info']['filename'] );
+
         return "OK";
     }
 }

@@ -57,4 +57,8 @@ class LogController extends Controller
     public static function game_create(Game $game) {
         LogController::create_and_associate("Game | create game (" . $game->id . ")" );
     }
+    
+    public static function backup_create(string $filename) {
+        LogController::create_and_associate("Backup | created backup " . $filename );
+    }
 }
