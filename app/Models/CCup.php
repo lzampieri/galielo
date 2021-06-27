@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Game;
 
-class CCup extends Model
+class Ccup extends Model
 {
 
     /**
@@ -15,15 +15,15 @@ class CCup extends Model
      * @var array
      */
     protected $fillable = [
-        'hidden'
+        
     ];
 
-    public function att() {
-        return $this->hasOne( User::class, 'att' );
+    public function pl1() {
+        return $this->hasOne( User::class, 'pl1' );
     }
 
-    public function dif() {
-        return $this->hasOne( User::class, 'dif' );
+    public function pl2() {
+        return $this->hasOne( User::class, 'pl2' );
     }
     
     public function game1() {

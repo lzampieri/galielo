@@ -69,8 +69,7 @@ class GameController extends Controller
                 'deltaa2' => $va2,
                 'deltad2' => $vd2,
                 'pt1' => 10,
-                'pt2' => $pt2,
-                'hidden' => false
+                'pt2' => $pt2
             ]);
             $game -> att1 () -> associate( $att1 );
             $game -> dif1 () -> associate( $dif1 );
@@ -83,6 +82,9 @@ class GameController extends Controller
 
             LogController::game_create( $game );
             
+            // Check if Ccup must be assigned
+
+
             $response = (new GameResource( $game ))->toArray($request);
             $response[ 'success' ] = true;
             return response()->json( $response );
@@ -95,10 +97,14 @@ class GameController extends Controller
     }
 
     public function all() {
-        return GameResource::collection( Game::where( 'hidden', false )->get( ) );
+        return GameResource::collection( Game::all() );
     }
     
     public function some() {
-        return GameResource::collection( Game::where( 'hidden', false )->orderBy('ID','desc')->paginate( Param::find('games_pages_length')->value ) );
+        return GameResource::collection( Game::orderBy('ID','desc')->paginate( Param::find('games_pages_length')->value ) );
+    }
+
+    public function testCcup() {
+        return CCupController::checkAndCreate( Game::latest()->first() );
     }
 }

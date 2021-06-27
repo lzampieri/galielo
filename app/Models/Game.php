@@ -20,8 +20,7 @@ class Game extends Model
         'deltaa2',
         'deltad2',
         'pt1',
-        'pt2',
-        'hidden'
+        'pt2'
     ];
 
     public function att1() {

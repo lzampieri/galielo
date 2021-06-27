@@ -28,7 +28,6 @@ class CreateGamesTable extends Migration
             $table->integer('pt1');
             $table->integer('pt2');
             $table->foreignId('table_id')->constrained();
-            $table->boolean('hidden');
         });
     }
 

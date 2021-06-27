@@ -16,11 +16,10 @@ class CreateCcupsTable extends Migration
         Schema::create('ccups', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('att')->constrained('players');
-            $table->foreignId('dif')->constrained('players');
+            $table->foreignId('pl1_id')->constrained('players');
+            $table->foreignId('pl2_id')->constrained('players');
             $table->foreignId('game1')->constrained('games');
             $table->foreignId('game2')->constrained('games');
-            $table->boolean('hidden');
         });
     }
 

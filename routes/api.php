@@ -41,6 +41,7 @@ Route::get('/player/all', [PlayerController::class, 'all'] );
 // Games
 Route::get('/game/all', [GameController::class, 'all'] );
 Route::get('/game/some', [GameController::class, 'some'] )->withoutMiddleware(['throttle:api']);
+Route::get('/game/test', [GameController::class, 'testCcup'] );
 
 // Only logged stuff
 Route::middleware('auth:sanctum')->group( function() {
