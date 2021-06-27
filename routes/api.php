@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackupsController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ParamController;
 use App\Http\Controllers\TableController;
@@ -49,3 +50,6 @@ Route::middleware('auth:sanctum')->group( function() {
     // Games
     Route::post('/game', [GameController::class, 'create'] );
 });
+
+// Backup
+Route::get('/backup/create', [BackupsController::class, 'create'] );
