@@ -23,7 +23,7 @@ class GoogleAuthController extends Controller
     public function callback(Request $request) {
         $user = Socialite::driver('google')->user();
         $theUser = User::firstOrCreate( ['email' => $user->getEmail() ] );
-        Auth::login($theUser);
+        Auth::login($theUser, true);
         SystemLog::channel('users_log')->debug( "[" . request()->ip() ."] Login " . $theUser->email . " (" . $theUser->id . ")" );
         return redirect( route( 'react' ) );
     }
