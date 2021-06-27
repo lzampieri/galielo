@@ -83,10 +83,11 @@ class GameController extends Controller
             LogController::game_create( $game );
             
             // Check if Ccup must be assigned
-
+            $ccup = CcupController::checkAndCreate( $game );
 
             $response = (new GameResource( $game ))->toArray($request);
             $response[ 'success' ] = true;
+            $response[ 'ccup' ] = $ccup;
             return response()->json( $response );
         } catch (QueryException $e) {
             return response()->json([
@@ -105,6 +106,6 @@ class GameController extends Controller
     }
 
     public function testCcup() {
-        return CCupController::checkAndCreate( Game::latest()->first() );
+        return CcupController::checkAndCreate( Game::latest('ID')->first() ) ? "Yes" : "No";
     }
 }

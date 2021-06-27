@@ -19,19 +19,19 @@ class Ccup extends Model
     ];
 
     public function pl1() {
-        return $this->hasOne( User::class, 'pl1' );
+        return $this->belongsTo( User::class, 'pl1_id' );
     }
 
     public function pl2() {
-        return $this->hasOne( User::class, 'pl2' );
+        return $this->belongsTo( User::class, 'pl2_id' );
     }
     
     public function game1() {
-        return $this->hasOne( Game::class, 'game1' );
+        return $this->belongsTo( Game::class, 'game1_id' );
     }
     
     public function game2() {
-        return $this->hasOne( Game::class, 'game2' );
+        return $this->belongsTo( Game::class, 'game2_id' );
     }
     
 }

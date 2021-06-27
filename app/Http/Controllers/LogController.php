@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ccup;
 use App\Models\Game;
 use App\Models\Log;
 use App\Models\Player;
@@ -56,6 +57,10 @@ class LogController extends Controller
     
     public static function game_create(Game $game) {
         LogController::create_and_associate("Game | create game (" . $game->id . ")" );
+    }
+
+    public static function ccup_create(Ccup $ccup) {
+        LogController::create_and_associate("Ccup | Ccup reassigned (" . $ccup->id . ")" );
     }
     
     public static function backup_create(string $filename) {

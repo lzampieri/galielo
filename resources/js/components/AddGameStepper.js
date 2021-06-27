@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/styles';
 import React from 'react';
 import MyBackDrop from './MyBackDrop';
 import ParamsContext from '../ParamsContext';
-import { Bed } from 'mdi-material-ui';
+import { Bed, GlassMugVariant } from 'mdi-material-ui';
 
 const styles = (theme) => { return {
     greenSquad: {
@@ -264,6 +264,14 @@ class AddGameStepper extends React.Component {
             return (<Alert severity="error">{this.state.error || "Impossibile recuperare i dati della partita"}</Alert>);
         return (
             <List>
+                { this.state.result.ccup && (
+                    <ListItem className={classes.greenSquad}>
+                        <ListItemIcon>
+                            <GlassMugVariant />
+                        </ListItemIcon>
+                        <ListItemText primary="Nuovi detentori della Coppa dei Campioni" />
+                    </ListItem>
+                )}
                 <ListItem className={classes.greenSquad}>
                     <ListItemIcon>
                         <AccountCircle />
@@ -424,7 +432,7 @@ class AddGameStepper extends React.Component {
                     <StepContent>
                         { this.savedList() }
                         <Button
-                            onClick = { () => this.setState({ currentStep: 0, selectedSqGreen: [], selectedSqRed: [] }) }
+                            onClick = { () => this.setState({ currentStep: 0, selectedSqGreen: [], selectedSqRed: [], result: undefined }) }
                             variant="outlined">
                             Aggiungi un'altra
                         </Button>

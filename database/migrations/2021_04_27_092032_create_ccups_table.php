@@ -18,8 +18,8 @@ class CreateCcupsTable extends Migration
             $table->timestamps();
             $table->foreignId('pl1_id')->constrained('players');
             $table->foreignId('pl2_id')->constrained('players');
-            $table->foreignId('game1')->constrained('games');
-            $table->foreignId('game2')->constrained('games');
+            $table->foreignId('game1_id')->constrained('games');
+            $table->foreignId('game2_id')->constrained('games');
         });
     }
 
