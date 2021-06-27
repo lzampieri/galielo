@@ -105,7 +105,4 @@ class GameController extends Controller
         return GameResource::collection( Game::orderBy('ID','desc')->paginate( Param::find('games_pages_length')->value ) );
     }
 
-    public function testCcup() {
-        return CcupController::checkAndCreate( Game::latest('ID')->first() ) ? "Yes" : "No";
-    }
 }

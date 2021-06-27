@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BackupsController;
+use App\Http\Controllers\CcupController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ParamController;
 use App\Http\Controllers\TableController;
@@ -41,7 +42,9 @@ Route::get('/player/all', [PlayerController::class, 'all'] );
 // Games
 Route::get('/game/all', [GameController::class, 'all'] );
 Route::get('/game/some', [GameController::class, 'some'] )->withoutMiddleware(['throttle:api']);
-Route::get('/game/test', [GameController::class, 'testCcup'] );
+
+// Ccup
+Route::get('/ccup/all', [CcupController::class, 'all'] );
 
 // Only logged stuff
 Route::middleware('auth:sanctum')->group( function() {

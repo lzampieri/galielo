@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CcupResource;
 use App\Models\Ccup;
 use App\Models\Game;
 use App\Models\Player;
@@ -63,6 +64,10 @@ class CcupController extends Controller
         LogController::ccup_create( $ccup );
 
         return true;
+    }
+
+    public function all() {
+        return CcupResource::collection( Ccup::all() );
     }
 
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User;
+use App\Models\Player;
 use App\Models\Game;
 
 class Ccup extends Model
@@ -19,11 +19,11 @@ class Ccup extends Model
     ];
 
     public function pl1() {
-        return $this->belongsTo( User::class, 'pl1_id' );
+        return $this->belongsTo( Player::class, 'pl1_id' );
     }
 
     public function pl2() {
-        return $this->belongsTo( User::class, 'pl2_id' );
+        return $this->belongsTo( Player::class, 'pl2_id' );
     }
     
     public function game1() {

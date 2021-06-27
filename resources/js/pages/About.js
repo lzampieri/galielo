@@ -118,6 +118,16 @@ class About extends React.Component {
                             </Box>
                     </CenteredCard>
                     <CenteredCard
+                        title="Contatti"
+                        subtitle="Per informazioni, suggerimenti, segnalazione di errori o altro." >
+                            <Button
+                                href={ "mailto:galielo@altervista.org" }
+                                variant="outlined"
+                                >
+                                Scrivici!
+                            </Button>
+                    </CenteredCard>
+                    <CenteredCard
                         title="Log azioni"
                         subtitle="Da qui si può accedere alla lista delle azioni eseguite sul sito." >
                             <Box textAlign="center">

@@ -13,6 +13,7 @@ import AddGame from './pages/AddGame';
 import Association from './pages/Association';
 import Chart from './pages/Chart';
 import Games from './pages/Games';
+import Cups from './pages/Cups';
 import SignIn from './pages/SignIn';
 import theme from './theme';
 import ParamsContext from './ParamsContext';
@@ -72,6 +73,9 @@ class MainPage extends Component {
                 </Route>
                 <Route path="/games">
                     <Games logged={ this.state.user !== undefined } />
+                </Route>
+                <Route path="/cups">
+                    <Cups players={ this.state.players }/>
                 </Route>
                 <Route path="/sign-in">
                     <SignIn onDone={ this.refreshChart.bind(this) } />
