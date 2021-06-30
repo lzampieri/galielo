@@ -1,5 +1,5 @@
-import { Box, Button, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Slider, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
-import { AccountCircle, SwapVert, BorderOuter } from '@material-ui/icons';
+import { Box, Button, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Slider, Step, StepContent, StepLabel, Stepper, Typography, Fab, Zoom } from '@material-ui/core';
+import { AccountCircle, SwapVert, BorderOuter, NavigateNext, Save } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { withStyles } from '@material-ui/styles';
 import React from 'react';
@@ -14,6 +14,11 @@ const styles = (theme) => { return {
     redSquad: {
         backgroundColor: 'red !important',
     },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+    }
 }};
 
 class AddGameStepper extends React.Component {
@@ -329,117 +334,118 @@ class AddGameStepper extends React.Component {
         }
     }
 
+    checkIfCanAdvance() {
+        if( this.state.currentStep == 0 && this.state.selectedSqGreen.length == 2 && this.state.selectedSqRed.length == 2 )
+            return true;
+        if( this.state.currentStep == 2 && this.state.redPoints != 10 )
+            return true;
+        if( [1, 3, 4].includes( this.state.currentStep ) )
+            return true;
+        return false;
+    }
+
+    advance() {
+        if( [0, 1, 2, 3].includes( this.state.currentStep) )
+            this.setState( { currentStep: this.state.currentStep + 1 } );
+        if( this.state.currentStep == 4 )
+            this.saveData();
+    }
+
+    checkIfCanGoBack() {
+        if( [1, 2, 3, 4].includes( this.state.currentStep ) )
+            return true;
+        return false;
+    }
+
+    back() {
+        if( [1, 2, 3, 4].includes( this.state.currentStep) )
+            this.setState( { currentStep: this.state.currentStep - 1 } );
+    }
+
+    backAndForthButtons() {
+        return (
+            <React.Fragment>
+                <Button
+                    disabled = { !this.checkIfCanGoBack() }
+                    onClick = { this.back.bind(this) }
+                    variant="outlined">
+                    Indietro
+                </Button>
+                <Button
+                    disabled = { !this.checkIfCanAdvance() }
+                    onClick = { this.advance.bind(this) }
+                    variant="outlined">
+                    Avanti
+                </Button>
+            </React.Fragment>
+        )
+    }
+
     render() {
+        const { classes } = this.props;
         return(
-            <Stepper activeStep={ this.state.currentStep } orientation="vertical">
-                <Step key="select_players">
-                    <StepLabel>Seleziona giocatori</StepLabel>
-                    <StepContent>
-                        <Typography variant="body2">Un click per inserire nella squadra verde, due click per quella rossa.</Typography>
-                        <Button
-                            disabled = { true }
-                            variant="outlined">
-                            Indietro
-                        </Button>
-                        <Button
-                            disabled = { this.state.selectedSqGreen.length == 2 && this.state.selectedSqRed.length == 2 ? false : true }
-                            onClick = { () => this.setState( { currentStep: 1 } ) }
-                            variant="outlined">
-                            Avanti
-                        </Button>
-                        { this.playersList() }
-                        <Button
-                            disabled = { true }
-                            variant="outlined">
-                            Indietro
-                        </Button>
-                        <Button
-                            disabled = { this.state.selectedSqGreen.length == 2 && this.state.selectedSqRed.length == 2 ? false : true }
-                            onClick = { () => this.setState( { currentStep: 1 } ) }
-                            variant="outlined">
-                            Avanti
-                        </Button>
-                    </StepContent>
-                </Step>
-                <Step key="select_roles">
-                    <StepLabel>Seleziona ruoli</StepLabel>
-                    <StepContent>
-                        { this.rolesList() }
-                        <Button
-                            onClick = { () => this.setState( { currentStep: 0 } ) }
-                            variant="outlined">
-                            Indietro
-                        </Button>
-                        <Button
-                            onClick = { () => this.setState( { currentStep: 2 } ) }
-                            variant="outlined">
-                            Avanti
-                        </Button>
-                    </StepContent>
-                </Step>
-                <Step key="select_points">
-                    <StepLabel>Seleziona punteggi</StepLabel>
-                    <StepContent>
-                        { this.points() }
-                        <Button
-                            onClick = { () => this.setState( { currentStep: 1 } ) }
-                            variant="outlined">
-                            Indietro
-                        </Button>
-                        <Button
-                            onClick = { () => this.setState( { currentStep: 3 } ) }
-                            disabled = { this.state.redPoints == 10 }
-                            variant="outlined">
-                            Avanti
-                        </Button>
-                    </StepContent>
-                </Step>
-                <Step key="select_table">
-                    <StepLabel>Seleziona biliardino</StepLabel>
-                    <StepContent>
-                        { this.tablesList() }
-                        <Button
-                            onClick = { () => this.setState( { currentStep: 2 } ) }
-                            variant="outlined">
-                            Indietro
-                        </Button>
-                        <Button
-                            onClick = { () => this.setState( { currentStep: 4 } ) }
-                            disabled = { this.state.redPoints == 10 }
-                            variant="outlined">
-                            Avanti
-                        </Button>
-                    </StepContent>
-                </Step>
-                <Step key="confirm">
-                    <StepLabel>Conferma</StepLabel>
-                    <StepContent>
-                        { this.confirmList() }
-                        <Button
-                            onClick = { () => this.setState( { currentStep: 3 } ) }
-                            variant="outlined">
-                            Indietro
-                        </Button>
-                        <Button
-                            onClick = { () => this.saveData() }
-                            variant="outlined">
-                            Salva
-                        </Button>
-                    </StepContent>
-                </Step>
-                <Step key="saved">
-                    <StepLabel>Salvato</StepLabel>
-                    <StepContent>
-                        { this.savedList() }
-                        <Button
-                            onClick = { () => this.setState({ currentStep: 0, selectedSqGreen: [], selectedSqRed: [], result: undefined }) }
-                            variant="outlined">
-                            Aggiungi un'altra
-                        </Button>
-                    </StepContent>
-                </Step>
+            <React.Fragment>
+                <Stepper activeStep={ this.state.currentStep } orientation="vertical">
+                    <Step key="select_players">  {/* Current Step: 0 */}
+                        <StepLabel>Seleziona giocatori</StepLabel>
+                        <StepContent>
+                            <Typography variant="body2">Un click per inserire nella squadra verde, due click per quella rossa.</Typography>
+                            { this.backAndForthButtons() }
+                            { this.playersList() }
+                            { this.backAndForthButtons() }
+                        </StepContent>
+                    </Step>
+                    <Step key="select_roles"> {/* Current Step: 1 */}
+                        <StepLabel>Seleziona ruoli</StepLabel>
+                        <StepContent>
+                            { this.rolesList() }
+                            { this.backAndForthButtons() }
+                        </StepContent>
+                    </Step>
+                    <Step key="select_points"> {/* Current Step: 2 */}
+                        <StepLabel>Seleziona punteggi</StepLabel>
+                        <StepContent>
+                            { this.points() }
+                            { this.backAndForthButtons() }
+                        </StepContent>
+                    </Step>
+                    <Step key="select_table"> {/* Current Step: 3 */}
+                        <StepLabel>Seleziona biliardino</StepLabel>
+                        <StepContent>
+                            { this.tablesList() }
+                            { this.backAndForthButtons() }
+                        </StepContent>
+                    </Step>
+                    <Step key="confirm"> {/* Current Step: 4 */}
+                        <StepLabel>Conferma</StepLabel>
+                        <StepContent>
+                            { this.confirmList() }
+                            { this.backAndForthButtons() }
+                        </StepContent>
+                    </Step>
+                    <Step key="saved"> {/* Current Step: 5 */}
+                        <StepLabel>Salvato</StepLabel>
+                        <StepContent>
+                            { this.savedList() }
+                            <Button
+                                onClick = { () => this.setState({ currentStep: 0, selectedSqGreen: [], selectedSqRed: [], result: undefined }) }
+                                variant="outlined">
+                                Aggiungi un'altra
+                            </Button>
+                        </StepContent>
+                    </Step>
+                </Stepper>
+                <Zoom
+                    in = { this.checkIfCanAdvance() }
+                    >
+                    <Fab color="primary" aria-label="avanti" className={ classes.fab }
+                        onClick = { this.advance.bind(this) }
+                        >
+                        { this.state.currentStep == 4 ? <Save /> : <NavigateNext /> }
+                    </Fab>
+                </Zoom>
                 <MyBackDrop open={ this.state.loading } />
-            </Stepper>
+            </React.Fragment>
         )
     }
 }
