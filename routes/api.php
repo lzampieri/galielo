@@ -38,6 +38,7 @@ Route::get('/user/me', function() {
 Route::post('/player', [PlayerController::class, 'create'] );
 Route::get('/player/unassociated', [PlayerController::class, 'unassociated'] );
 Route::get('/player/all', [PlayerController::class, 'all'] );
+Route::get('/player/{id}', [PlayerController::class, 'details'] )->where('id', '[0-9]+');
 
 // Games
 Route::get('/game/all', [GameController::class, 'all'] );

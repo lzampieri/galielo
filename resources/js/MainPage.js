@@ -17,6 +17,7 @@ import Cups from './pages/Cups';
 import SignIn from './pages/SignIn';
 import theme from './theme';
 import ParamsContext from './ParamsContext';
+import Player from './pages/Player';
 
 class MainPage extends Component {
 
@@ -70,6 +71,9 @@ class MainPage extends Component {
                 <Route path="/login" component={Redirect} to="/auth/login_google" />
                 <Route path="/chart">
                     <Chart players={ this.state.players } logged={ this.state.user !== undefined } />
+                </Route>
+                <Route path="/player/:id">
+                    <Player />
                 </Route>
                 <Route path="/games">
                     <Games logged={ this.state.user !== undefined } />

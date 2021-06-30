@@ -8,7 +8,10 @@ const sentences = [
     "Cercando un moralista bravo...",
     "Oliando le stecche...",
     "Passando sotto...",
-    "Cercando il quarto..."
+    "Cercando il quarto...",
+    "Controllando se era battuta...",
+    "Chiedendo le chiavi in portineria...",
+    "Sfidando i campioni..."
 ];
 const updateTime = 3000;
 
