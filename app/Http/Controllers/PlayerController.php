@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PlayerDetailedResource;
 use App\Http\Resources\PlayerResource;
 use App\Models\Player;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -63,7 +64,7 @@ class PlayerController extends Controller
     public function details(int $id) {
         try {
             $player = Player::findOrFail( $id );
-            return new PlayerResource( $player );
+            return new PlayerDetailedResource( $player );
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => true,
