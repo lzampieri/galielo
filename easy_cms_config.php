@@ -37,7 +37,7 @@ $tables = array(
         "Dif" => "Difensore*",
         "Hidden" => "Nascosto?"
     ),
-    "params" => array(
+    "elo_params" => array(
         "__name" => "Parametri di Gioco",
         "__unique" => "Name",
         "Name" => "Chiave*",

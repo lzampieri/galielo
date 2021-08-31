@@ -48,7 +48,7 @@ function php_to_db_escape($string) {
 
 function get_game_param($name) {
     if( count($GLOBALS['params']) == 0 ) {
-        $result = query("SELECT * FROM params");
+        $result = query("SELECT * FROM elo_params");
         while( $row = mysqli_fetch_assoc($result) ) {
             $GLOBALS['params'][ $row['Name'] ] = $row['Value'];
         }

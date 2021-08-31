@@ -119,10 +119,3 @@ HTML;
     </ul>
   </div>
 </nav>
-
-
-<div class="alert alert-success" role="alert">
-  Ciao! Se leggi questo messaggio, sei finito in una delle pagine del sito rinnovato. Spero che ti piaccia. Ora le pagine sono più veloci a caricare, ma una volta caricato devi attendere un attimo che si "riempia". <br/>
-  Se qualcosa non funziona, <a href="/?old">qui c'è ancora la vecchia versione</a>.<br/>
-  Buona giornata, Leo.
-</div>
