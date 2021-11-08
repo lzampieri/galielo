@@ -144,6 +144,10 @@
     Hey! Vuoi uno spoiler sul nuovo sito del galielo, in fase di sviluppo? <a href="http://lzampieri.altervista.org/galielo">Eccolo qui!</a>
 </div>
 
+<div class="alert alert-primary" role="info">
+    24h? <a href="../24h">24h!</a>
+</div>
+
 <div
  class="row justify-content-end mb-3">
     <a href="add_player.php"><button class="btn btn-success"><i class="fas fa-plus-circle"></i> Iscriviti</button></a>
