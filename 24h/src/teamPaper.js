@@ -1,7 +1,8 @@
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, CircularProgress, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import $ from 'jquery';
 import { withSnackbar } from "notistack";
+import GalieloPlayer from "./galieloPlayer";
 
 const bgcolors = ['primary.main', 'primary.main'];
 const colors = ['#BAA22B', '#A31EEB'];
@@ -21,7 +22,7 @@ class TeamPaper extends Component {
         this.setState({ loading: true });
         let data = await $.get( process.env.REACT_APP_API_URL + "add=" + this.props.teamId );
         if( JSON.parse( data ).success ) {
-            this.props.enqueueSnackbar('Gol salvato', {variant: 'success'});
+            this.props.enqueueSnackbar('Gol salvati', {variant: 'success'});
         } else {
             this.props.enqueueSnackbar('Errore non identificato', {variant: 'error'});
         }
@@ -48,10 +49,18 @@ class TeamPaper extends Component {
                         fontWeight: 600,
                         color: bgcolors[this.props.teamId] }} >
                         { this.props.points || "0" }
+                        <Typography variant="h4" sx={{ fontWeight: 600 }} component="span">0</Typography>
                     </Typography>
                     <Button variant="outlined" sx={{ color: colors[this.props.teamId] }} onClick={ () => this.setState({ dialog_open: true })}>
                         Gol!
                     </Button>
+                    <Collapse in={this.props.displayTeams}>
+                        <Box>
+                            { this.props.members && this.props.members.map( m =>
+                                (<Chip sx={{ m: 0.5 }} icon={<GalieloPlayer />} label={m} key={m} />)
+                            )}
+                        </Box>
+                    </Collapse>
                     <Dialog
                         open={ this.state.dialog_open || this.state.loading }
                         onClose={ () => this.setState({ dialog_open: false }) }
@@ -60,7 +69,7 @@ class TeamPaper extends Component {
                             {"Confermi?"}
                         </DialogTitle>
                         <DialogContent>
-                            Vuoi confermare un Gol per la squadra {names[this.props.teamId]}?
+                            Vuoi confermare <b>10</b> gol per la squadra {names[this.props.teamId]}?
                         </DialogContent>
                         <DialogActions>
                             <CircularProgress sx={{ display: this.state.loading ? 'block' : 'none' }} />

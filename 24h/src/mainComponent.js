@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import Clock from './clock';
 import TeamPaper from './teamPaper';
@@ -13,12 +13,16 @@ class MainComponent extends Component {
             team1: 0,
             team2: 0,
             success: false,
-            interval: -1
+            interval: -1,
+            team_show: false,
+            teams: {}
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.updateData();
+        let teams = await $.get( process.env.PUBLIC_URL + '/teams.json' );
+        this.setState({ teams: teams });
     }
 
     componentWillUnmount() {
@@ -46,10 +50,20 @@ class MainComponent extends Component {
                 <Clock />
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
-                    <TeamPaper teamId={0} points={this.state.team0} update={ this.updateData.bind(this) }/>
+                    <TeamPaper
+                        teamId={0}
+                        points={this.state.team0}
+                        members={this.state.teams.team0}
+                        displayTeams={this.state.team_show}
+                        update={ this.updateData.bind(this) }/>
                     </Grid> 
                     <Grid item xs={6}>
-                    <TeamPaper teamId={1} points={this.state.team1} update={ this.updateData.bind(this) }/>
+                    <TeamPaper
+                        teamId={1}
+                        points={this.state.team1}
+                        members={this.state.teams.team1}
+                        displayTeams={this.state.team_show}
+                        update={ this.updateData.bind(this) }/>
                     </Grid>
                 </Grid>
                 <Typography variant="body2">Stato server: 
@@ -59,6 +73,10 @@ class MainComponent extends Component {
                         <Typography sx={{color: "red"}} component="span"> offline</Typography>
                         }
                 </Typography>
+                <Stack direction="row" spacing={2}>
+                    <Button component="a" href="https://youtu.be/6f7Wf-5hXP0" variant="outlined">Diretta streaming</Button>
+                    <Button onClick={() => this.setState({ team_show: !this.state.team_show })} variant="outlined">Mostra squadre</Button>
+                </Stack>
             </Container>
         );
     }
