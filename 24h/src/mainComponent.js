@@ -3,6 +3,7 @@ import { Component } from "react";
 import Clock from './clock';
 import TeamPaper from './teamPaper';
 import $ from 'jquery';
+import DetailedData from "./detailedData";
 
 
 class MainComponent extends Component {
@@ -74,9 +75,10 @@ class MainComponent extends Component {
                         }
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                    <Button component="a" href="https://youtu.be/6f7Wf-5hXP0" variant="outlined">Diretta streaming</Button>
+                    <Button component="a" href="https://youtube.com/channel/UCBd2eriB0ctCHz-blV1fe4w" variant="outlined">Diretta streaming</Button>
                     <Button onClick={() => this.setState({ team_show: !this.state.team_show })} variant="outlined">Mostra squadre</Button>
                 </Stack>
+                <DetailedData />
             </Container>
         );
     }

@@ -32,6 +32,20 @@ if( array_key_exists("get", $_GET) ) {
     exit();
 }
 
+if( array_key_exists("details", $_GET) ) {
+    $result = $conn -> query(" SELECT * FROM 24h WHERE valid = 1");
+    if( $result ) {
+        $data = array();
+        while( $row = $result->fetch_assoc() ) {
+            $data[] = $row;
+        };
+        echo json_encode( array( "success" => true, "data" => $data ) );
+    } else {
+        echo "{\"success\": false, \"error\": \"" . $conn -> error . "\"}";
+    }
+    exit();
+}
+
 if( array_key_exists("add", $_GET) ) {
     $result = $conn -> query(" INSERT INTO 24h (team) VALUES (" . $_GET["add"] . ")" );
     if( $result ) {
@@ -51,3 +65,5 @@ if( array_key_exists("reset", $_GET) ) {
     }
     exit();
 }
+
+echo "{\"success\": false, \"error\": \"Query not recognized\"}";
