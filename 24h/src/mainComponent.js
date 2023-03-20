@@ -16,12 +16,15 @@ class MainComponent extends Component {
             success: false,
             interval: -1,
             team_show: false,
-            teams: {}
+            teams: {},
+            params: { '24h_team1_name': '...', '24h_team2_name': '...' }
         }
     }
 
     async componentDidMount() {
         this.updateData();
+        let params = JSON.parse( await $.get( process.env.REACT_APP_API_URL + 'params' ) );
+        this.setState({ params: params });
         let teams = await $.get( process.env.PUBLIC_URL + '/teams.json' );
         this.setState({ teams: teams });
     }
@@ -56,6 +59,7 @@ class MainComponent extends Component {
                         points={this.state.team0}
                         members={this.state.teams.team0}
                         displayTeams={this.state.team_show}
+                        name={this.state.params['24h_team1_name']}
                         update={ this.updateData.bind(this) }/>
                     </Grid> 
                     <Grid item xs={6}>
@@ -64,6 +68,7 @@ class MainComponent extends Component {
                         points={this.state.team1}
                         members={this.state.teams.team1}
                         displayTeams={this.state.team_show}
+                        name={this.state.params['24h_team2_name']}
                         update={ this.updateData.bind(this) }/>
                     </Grid>
                 </Grid>
@@ -75,10 +80,10 @@ class MainComponent extends Component {
                         }
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                    <Button component="a" href="https://youtube.com/channel/UCBd2eriB0ctCHz-blV1fe4w" variant="outlined">Diretta streaming</Button>
+                    <Button component="a" href={ this.state.params['24h_streaming_link'] } variant="outlined">Diretta streaming</Button>
                     <Button onClick={() => this.setState({ team_show: !this.state.team_show })} variant="outlined">Mostra squadre</Button>
                 </Stack>
-                <DetailedData />
+                <DetailedData params={this.state.params} />
             </Container>
         );
     }

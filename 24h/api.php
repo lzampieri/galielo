@@ -66,4 +66,18 @@ if( array_key_exists("reset", $_GET) ) {
     exit();
 }
 
+if( array_key_exists("params", $_GET) ) {
+    $result = $conn -> query("SELECT * FROM elo_params WHERE Name LIKE '24h%'");
+    if( $result ) {
+        $data = array();
+        while( $row = $result->fetch_assoc() ) {
+            $data[ $row['Name'] ] = $row['Value'];
+        };
+        echo json_encode( $data );
+    } else {
+        echo "{\"success\": false, \"error\": \"" . $conn -> error . "\"}";
+    }
+    exit();
+}
+
 echo "{\"success\": false, \"error\": \"Query not recognized\"}";

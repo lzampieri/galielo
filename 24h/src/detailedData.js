@@ -20,7 +20,6 @@ class DetailedData extends Component {
     async updateData() {
         this.setState({ loading: true });
         let new_data = JSON.parse( await $.get( process.env.REACT_APP_API_URL + "details" ) );
-        console.log(new_data);
         if( new_data.success ) {
             let team0 = 0, team1 = 1;
             for( var record of new_data.data ) {
@@ -29,8 +28,8 @@ class DetailedData extends Component {
                 record.pt0 = team0;
                 record.pt1 = team1;
                 record.pt_diff = team0 - team1;
+                record.date = new Date( record.timestamp );
             }
-            console.log( new_data );
             this.setState({ loading: false, downloaded: true, data: new_data.data });
             this.props.enqueueSnackbar('Dati scaricati', {variant: 'success'});
         } else {
@@ -70,18 +69,18 @@ class DetailedData extends Component {
                     <DialogContent>
                         <Chart data={ this.state.data }>
                             <SplineSeries
-                                name="e"
+                                name={ this.props.params['24h_team1_name'] }
                                 valueField="pt0"
-                                argumentField="timestamp"
+                                argumentField="date"
                             />
                             <SplineSeries
-                                name="π"
+                                name={ this.props.params['24h_team2_name'] }
                                 valueField="pt1"
-                                argumentField="timestamp"
+                                argumentField="date"
                             />
-                            <ArgumentAxis 
-                                showLabels={ false } 
-                                showTicks ={ false }
+                            <ArgumentAxis
+                                tickFormat = { () => ( s ) => { let d = new Date(s); return d.getHours() + ":" + d.getMinutes(); } }
+                                // To color this axis, please see global css in index.html
                                 />
                             <ValueAxis
                                 />
@@ -97,12 +96,12 @@ class DetailedData extends Component {
                     onClose={ () => this.setState({ graph_diff_open: false }) }
                     fullScreen >
                     <DialogTitle>
-                        {"Grafico delle differenze ( e - π )"}
+                        {"Grafico delle differenze ( " + this.props.params['24h_team1_name'] + " - " + this.props.params['24h_team2_name'] + ")"}
                     </DialogTitle>
                     <DialogContent>
                         <Chart data={ this.state.data }>
                             <SplineSeries
-                                name="e-π"
+                                name={ this.props.params['24h_team1_name'] + " - " + this.props.params['24h_team2_name'] }
                                 valueField="pt_diff"
                                 argumentField="timestamp"
                             />

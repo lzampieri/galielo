@@ -6,7 +6,6 @@ import GalieloPlayer from "./galieloPlayer";
 
 const bgcolors = ['primary.main', 'primary.main'];
 const colors = ['#BAA22B', '#A31EEB'];
-const names = ['e', 'π'];
 
 class TeamPaper extends Component {
 
@@ -39,9 +38,12 @@ class TeamPaper extends Component {
                     <Paper elevation={3} sx={{
                         padding: 3,
                         backgroundColor: bgcolors[this.props.teamId],
-                        color: colors[this.props.teamId] }}>
+                        color: colors[this.props.teamId],
+                        maxWidth: '100%',
+                        overflow: 'hidden'
+                        }}>
                         <Typography variant="h2" sx={{ fontWeight: 600 }} >
-                            {names[this.props.teamId]}
+                            { this.props.name }
                         </Typography>
                     </Paper>
                     <Typography variant="h2" sx={{
@@ -69,7 +71,7 @@ class TeamPaper extends Component {
                             {"Confermi?"}
                         </DialogTitle>
                         <DialogContent>
-                            Vuoi confermare <b>10</b> gol per la squadra {names[this.props.teamId]}?
+                            Vuoi confermare <b>10</b> gol per la squadra { this.props.name }?
                         </DialogContent>
                         <DialogActions>
                             <CircularProgress sx={{ display: this.state.loading ? 'block' : 'none' }} />
