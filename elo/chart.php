@@ -140,9 +140,9 @@
 
 </script>
 
-<div class="alert alert-primary" role="alert">
+<!-- <div class="alert alert-primary" role="alert">
     Hey! Vuoi uno spoiler sul nuovo sito del galielo, in fase di sviluppo? <a href="http://lzampieri.altervista.org/galielo">Eccolo qui!</a>
-</div>
+</div> -->
 
 <div class="alert alert-primary" role="info">
     24h? <a href="../24h">24h!</a>
